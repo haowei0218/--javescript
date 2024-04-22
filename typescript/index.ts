@@ -30,7 +30,7 @@ let unusable: void = undefined;
 let u: undefined = undefined;
 let n: null = null;
 
-let test2: number | undefined = undefined;
+let test23: number | undefined = undefined;
 let num: number | undefined = u;
 
 //類型推論：若在定義的時候沒有賦予值 不管之後有沒有賦予值 都會被推斷成any類型
@@ -237,6 +237,9 @@ function reverse(x: number | string): number | string | void {
     return x.split("").reverse().join();
   }
 }
+
+/**宣告元組： */
+let tuple: [number, string, boolean] = [1, "hello", true];
 
 /*類型斷言：可以用來手動指定一個值的類型*/
 /*語法：1.值 as 類型   2. <類型>值*/

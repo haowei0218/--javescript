@@ -37,6 +37,39 @@ function RanDomCashAssets(Count = Number) {
 function AddInformation() {
   RanDomCashAssets(1);
   Content();
+  const List = CashList.map((item) => {
+    const Btn = document.querySelector(`.${item.Name}`);
+    console.log(Btn);
+
+    //點擊編輯按鈕 顯示輸入框
+    Btn.addEventListener("click", () => {
+      const EditNameBtn = document.querySelector(`.edit_name${item.Name}`);
+      const enterBtn = document.querySelector(`.enter_name${item.Name}`);
+      console.log(EditNameBtn);
+      EditNameBtn.classList.remove("hidden");
+      enterBtn.classList.remove("hidden");
+
+      function getEditName() {
+        return EditNameBtn.value;
+      }
+
+      //輸入更新的資料後 點擊更新 將新的資料更新上去
+      enterBtn.addEventListener("click", () => {
+        const UpdateName = getEditName();
+        const Result = item.Name;
+        const NewName = UpdateName;
+
+        console.log(UpdateName);
+        console.log(Result);
+        console.log(CashList);
+        const NewList = CashList.map((item) => {
+          item.Name = NewName;
+        });
+        console.log(NewList);
+        Content();
+      });
+    });
+  });
 }
 //新增按鈕
 AddBtn.addEventListener("click", AddInformation);
@@ -59,12 +92,16 @@ DeleteBtn.addEventListener("click", DeleteInformation);
 function Content() {
   const content = CashList.map((item) => {
     return `
-    <ul class="items">
+    <ul class="items" id="${item.Id}">
         <li class="item">${item.Id}</li>
         <li class="item">${item.Name}</li>
         <li class="item">${item.Currency}</li>
         <li class="item">${item.Balance}</li>
+        <input type="text" class="edit_name${item.Name} hidden">
+        <button class="enter_name${item.Name} hidden">enter</button>
+        <button class="${item.Name}">Edit</button>
     </ul>
+   
     `;
   }).join(" ");
 
@@ -128,3 +165,5 @@ function DeleteALL() {
 }
 
 DeleteAllBtn.addEventListener("click", DeleteALL);
+
+/**編輯功能*/
