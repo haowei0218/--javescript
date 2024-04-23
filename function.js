@@ -1,8 +1,10 @@
+/**
+ *
+ * @param {string[]};
+ */
 let CashList = [];
-const TestList = [];
-const ImgList = ["./image/1.png", "./image/2.png", "./image/3.png"];
+let NameData = [];
 const Container = document.querySelector(".container");
-const ChangeBtn = document.querySelector(".img_change");
 const AddBtn = document.querySelector(".add");
 const DeleteBtn = document.querySelector(".delete");
 const EnterBtn = document.querySelector(".aaa");
@@ -10,8 +12,14 @@ const EnterInputBox = document.getElementById("itemNumber");
 const SearchBox = document.querySelector(".search");
 const SearchBtn = document.querySelector(".search-btn");
 const DeleteAllBtn = document.querySelector(".delete-all");
+const ReloadBtn = document.querySelector(".reloadpage");
 
-//隨機數字
+/**隨機數字*/
+/**
+ *
+ * @param {number} RandomValue
+ * @returns {number}
+ */
 function RandomNumber(RandomValue) {
   const number = Math.random();
   const TestRandom = number * RandomValue;
@@ -20,61 +28,36 @@ function RandomNumber(RandomValue) {
 }
 
 //隨機產生多組資料
+/**
+ *
+ * @param {Number} Count
+ * @type {string}
+ */
 function RanDomCashAssets(Count = Number) {
   for (let i = 0; i < Count; i++) {
-    const Id = Number(RandomNumber(1000));
+    const Id = String(RandomNumber(1000));
     const Name = "test" + RandomNumber(1000000);
     const Currency = "USD";
+    const Class = "Class" + RandomNumber(1000);
     const Balance = RandomNumber(100000);
-    const AssetsData = { Id, Name, Currency, Balance };
+    const AssetsData = { Id, Name, Class, Currency, Balance };
     CashList.push(AssetsData);
     console.log(CashList);
   }
   console.log(CashList);
 }
 
-//新增資料按鈕
+/**新增資料按鈕*/
 function AddInformation() {
   RanDomCashAssets(1);
   Content();
-  const List = CashList.map((item) => {
-    const Btn = document.querySelector(`.${item.Name}`);
-    console.log(Btn);
-
-    //點擊編輯按鈕 顯示輸入框
-    Btn.addEventListener("click", () => {
-      const EditNameBtn = document.querySelector(`.edit_name${item.Name}`);
-      const enterBtn = document.querySelector(`.enter_name${item.Name}`);
-      console.log(EditNameBtn);
-      EditNameBtn.classList.remove("hidden");
-      enterBtn.classList.remove("hidden");
-
-      function getEditName() {
-        return EditNameBtn.value;
-      }
-
-      //輸入更新的資料後 點擊更新 將新的資料更新上去
-      enterBtn.addEventListener("click", () => {
-        const UpdateName = getEditName();
-        const Result = item.Name;
-        const NewName = UpdateName;
-
-        console.log(UpdateName);
-        console.log(Result);
-        console.log(CashList);
-        const NewList = CashList.map((item) => {
-          item.Name = NewName;
-        });
-        console.log(NewList);
-        Content();
-      });
-    });
-  });
+  EditName();
+  EditId();
 }
-//新增按鈕
+/**新增按鈕*/
 AddBtn.addEventListener("click", AddInformation);
 
-//刪除資料
+/**刪除資料*/
 function DeleteInformation() {
   const ListLength = CashList.length;
   if (ListLength > 0) {
@@ -85,21 +68,28 @@ function DeleteInformation() {
     alert("Can not delete");
   }
 }
-//刪除按鈕
+/**刪除按鈕*/
 DeleteBtn.addEventListener("click", DeleteInformation);
 
-//在頁面上顯示資訊
+/**在頁面上顯示資訊*/
+/**
+ * @type {function(any):void}
+ * @return {string}
+ */
 function Content() {
   const content = CashList.map((item) => {
     return `
     <ul class="items" id="${item.Id}">
         <li class="item">${item.Id}</li>
         <li class="item">${item.Name}</li>
+        <li class="item">${item.Class}</li>
         <li class="item">${item.Currency}</li>
         <li class="item">${item.Balance}</li>
-        <input type="text" class="edit_name${item.Name} hidden">
+        <input type="text" class="edit_name${item.Name} hidden" placeholder="輸入名字">
         <button class="enter_name${item.Name} hidden">enter</button>
-        <button class="${item.Name}">Edit</button>
+        <input type="text" class="edit_id${item.Id} hidden" placeholder="輸入Id">
+        <button class="enter_id${item.Id} hidden">enter</button>
+        <button class="${item.Class}">Edit</button>
     </ul>
    
     `;
@@ -108,22 +98,33 @@ function Content() {
   Container.innerHTML = content;
 }
 
-//在輸入匡輸入一個數字 然後根據輸入的數字產生出資料
+/**在輸入匡輸入一個數字 然後根據輸入的數字產生出資料*/
 function getInfo() {
   const Value = EnterInputBox.value;
   RanDomCashAssets(Value);
   Content();
 }
-//輸入按鈕
+/**輸入按鈕*/
 EnterBtn.addEventListener("click", getInfo);
 
-//搜尋資料功能
+/**搜尋資料功能 */
+/**
+ * @type {function(any):void}
+ * @param {void}
+ * @return {void}
+ */
 function Search() {
-  const Value = Number(SearchBox.value);
+  const Value = String(SearchBox.value);
   for (let item = 0; item < CashList.length; item++) {
-    //處理不匹配
-    if (CashList[item].Id !== Value) {
-      console.log(CashList[item], "Not match");
+    /**處理不匹配 */
+    if (
+      CashList[item].Id != Value &&
+      CashList[item].Class != Value &&
+      CashList[item].Name != Value &&
+      CashList[item].Balance != Value
+    ) {
+      console.log(`${CashList[item].Id}, Not match`);
+
       continue;
     }
   }
@@ -137,33 +138,149 @@ function Search() {
     alert("enter the id");
   }
 
-  //處理篩選資料
-  const result = CashList.filter((item) => item.Id === Value)
+  /**
+   * result 將陣列內的資料進行篩選
+   * FinalResult 篩選出的資料顯示在頁面上
+   */
+  const result = CashList.filter(
+    (item) =>
+      item.Id === Value ||
+      item.Class === Value ||
+      item.Currency === Value ||
+      item.Balance === Value
+  );
+  const FinalResult = result
     .map((item) => {
-      console.log(item);
       return `
     <ul class="items">
     <li class="item">${item.Id}</li>
     <li class="item">${item.Name}</li>
+    <li class="item">${item.Class}</li>
     <li class="item">${item.Currency}</li>
     <li class="item">${item.Balance}</li>
 </ul>
 `;
     })
     .join("");
-  Container.innerHTML = result;
-
-  //console.log(result);
+  Container.innerHTML = FinalResult;
+  //ClearListData();
+  //CashList.push(result); //將篩選出的資料  放入空的陣列內
+  console.log(CashList);
 }
 
 SearchBtn.addEventListener("click", Search);
 
+/**
+ * 刪除全部的資料
+ */
 function DeleteALL() {
-  CashList = [];
+  ClearListData();
   Content();
   console.log(CashList);
+}
+function ClearListData() {
+  return (CashList = []);
 }
 
 DeleteAllBtn.addEventListener("click", DeleteALL);
 
-/**編輯功能*/
+/**重新整理功能*/
+
+ReloadBtn.addEventListener("click", Content);
+
+/**編輯功能:名字 */
+/**
+ * @type {function(any):void}
+ * @return {void}
+ */
+function EditName() {
+  CashList.forEach((item) => {
+    const Btn = document.querySelector(`.${item.Class}`);
+    console.log(Btn);
+    const FilterClassName = Btn.className;
+
+    /**點擊編輯按鈕 顯示輸入框*/
+    Btn.addEventListener("click", () => {
+      console.log(Btn);
+      const EditNameBtn = document.querySelector(`.edit_name${item.Name}`);
+      const enterBtn = document.querySelector(`.enter_name${item.Name}`);
+      const EditIdBtn = document.querySelector(`.edit_id${item.Id}`);
+      const enterIdBtn = document.querySelector(`.enter_id${item.Id}`);
+      console.log(EditNameBtn);
+      EditNameBtn.classList.remove("hidden");
+      enterBtn.classList.remove("hidden");
+      function getEditName() {
+        return EditNameBtn.value;
+      }
+
+      function getEditid() {
+        return EditIdBtn.value;
+      }
+
+      /**輸入更新的資料後 點擊更新 將新的資料更新上去*/
+      enterBtn.addEventListener("click", () => {
+        const UpdateName = getEditName();
+        const NewName = UpdateName;
+        item.Name = NewName;
+        console.log(CashList);
+        Content();
+      });
+    });
+  });
+}
+/**
+ * 編輯功能：ID
+ * @type {function(any):void}
+ * @return {void}
+ */
+function EditId() {
+  CashList.forEach((item) => {
+    const Btn = document.querySelector(`.${item.Class}`);
+    console.log(Btn);
+    const FilterClassName = Btn.className;
+
+    /**點擊編輯按鈕 顯示輸入框*/
+    Btn.addEventListener("click", () => {
+      console.log(Btn);
+      const EditNameBtn = document.querySelector(`.edit_name${item.Name}`);
+      const enterBtn = document.querySelector(`.enter_name${item.Name}`);
+      const EditIdBtn = document.querySelector(`.edit_id${item.Id}`);
+      const enterIdBtn = document.querySelector(`.enter_id${item.Id}`);
+      console.log(EditIdBtn);
+      console.log(enterIdBtn);
+      EditIdBtn.classList.remove("hidden");
+      enterIdBtn.classList.remove("hidden");
+
+      function getEditId() {
+        return EditIdBtn.value;
+      }
+
+      /**輸入更新的資料後 點擊更新 將新的資料更新上去*/
+      enterIdBtn.addEventListener("click", () => {
+        const UpdateId = getEditId();
+        const FilterId = NameData.findIndex(
+          (dataItem) => UpdateId === item.Id
+        ); /**判斷更新的名字有無重複 */
+        if (FilterId == -1) {
+          NameData.push(UpdateId); /**將新增的名字放入陣列中 */
+          const NewId = UpdateId;
+          item.Id = NewId;
+          console.log(CashList);
+          Content();
+        } else {
+          alert("this is same name please try again");
+        }
+      });
+    });
+  });
+}
+
+/**讓網頁每一秒執行一次函數*/
+/**函數會循環陣列 並把每筆資料的編輯按鈕加上事件監聽器*/
+setInterval(EditName, 1500);
+setInterval(EditId, 1500);
+
+/**
+ * bugfix:當兩筆資料更新的名字一樣時 兩筆資料在網頁上會被視為同一筆資料
+ *
+ */
