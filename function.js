@@ -259,7 +259,7 @@ function EditId() {
       enterIdBtn.addEventListener("click", () => {
         const UpdateId = getEditId();
         const FilterId = NameData.findIndex(
-          (dataItem) => UpdateId === item.Id
+          (dataItem) => UpdateId === dataItem.Id
         ); /**判斷更新的名字有無重複 */
         if (FilterId == -1) {
           NameData.push(UpdateId); /**將新增的名字放入陣列中 */

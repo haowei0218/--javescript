@@ -6,6 +6,8 @@
  * 類型是一個標籤 描述了一個值的屬性和方法
  */
 
+import { truncate } from "fs";
+
 /**typescript 基礎類型*/
 let valu: string = "white";
 let valu1: number = 20;
@@ -124,75 +126,6 @@ number22 = "eight"; //這行被推斷成string 訪問length不會報錯
 console.log(number22.length);
 number22 = 8;
 //console.log(number22.length); 這行會報錯
-
-//接口：interface具體行動需要由類(classs)去實現
-interface Person {
-  //定義接口
-  name: string;
-  age: number;
-}
-
-//定義變量tom 類型是Person 如此就約束了tom的形狀必須和接口一致 多或少一些屬性都不行
-let tom: Person = {
-  name: "tom",
-  age: 25,
-};
-
-/*可選屬性：不要完全匹配成一個形狀 可以用可選屬性 */
-/*可以允許屬性不存在 但仍然不允許添加未定義的屬性*/
-interface Personal {
-  name: string;
-  age?: number; //age?為可選屬性
-}
-let amy: Personal = {
-  name: "amy",
-};
-
-/*任意屬性：希望一個接口允許有任意的屬性*/
-/*若定義了任意屬性 那確定屬性以及可選屬性都必須是任意屬性的類型的子集*/
-interface Personal1 {
-  name: string;
-  age?: number;
-  [propName: string]: any; //定義了任意屬性取string類型的值
-}
-
-let whtie: Personal1 = {
-  name: "white",
-  age: 24,
-};
-
-interface Personal2 {
-  name: string;
-  //age?: number; 這行會報錯 因為number類型不屬於下方任意屬性類型的子集
-  [lastName: string]: string;
-}
-
-/*若接口中有多個類型的屬性 則可以再任意屬性中使用聯合類型*/
-interface Personal3 {
-  name: string;
-  age?: number;
-  [propName: string]: string | number;
-}
-
-let Tom: Personal3 = {
-  name: "Tom lin",
-  age: 88,
-  gender: "male",
-};
-
-/*只讀屬性：對象中的一些字段只能在創建的時候被賦值 可以用readonly定義只讀屬性 */
-interface Personal4 {
-  readonly id: number;
-  name: string;
-  age?: number;
-}
-
-let Ken: Personal4 = {
-  id: 68483,
-  name: "Ken",
-  age: 45,
-};
-//Ken.id = 898; 這行會報錯 已readonly定義的id初始化後又被賦予值了
 
 /* 陣列類型
  * 一旦定義了一個特定類型的陣列 typescript將禁止向陣列添加不兼容的數據類型
@@ -660,4 +593,523 @@ function sum2(a: number, b: number, c: number): number;
 function sum2(a: number, b: number, c?: number): number {
   if (c) return a + b + c;
   return a + b;
+}
+
+/**
+ * 類 class：是定義物件 設計物件的設計圖 是描述
+ * 物件：是類別產生的實體 是實際上的執行者
+ * 用於創建構造函數和原型繼承
+ *
+ */
+
+class Person {
+  ssn;
+  firstName;
+  lastName;
+
+  /**構造函數被明確定義並放置在類的內部 */
+  /**typescript類為類的屬性和方法添加了類型註解 */
+  constructor(ssn: string, firstName: string, lastName: string) {
+    this.ssn = ssn;
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  getFullName(): string {
+    return `${this.firstName}${this.lastName}`;
+  }
+}
+
+/**
+ * 使用Person類 與 使用Person構造函數相同
+ * 從Person類創建的物件person 稱為實例 而這過程稱為實例化
+ */
+let person = new Person("101-12-204", "john", "duc");
+console.log(person.getFullName);
+
+/**
+ * 修飾符：改變了一個類的屬性和方法的可見性
+ * typescript在編譯時從邏輯上控制訪問 而不是在運行時
+ * 1. private 私有的
+ * 2. protected 保護的
+ * 3. public 公共的
+ */
+
+/**
+ * private修飾符將可見性限制為僅在同一類中
+ * 將private添加到屬性或方法時
+ * 限制類的成員只能在類內部訪問
+ * 任何嘗試在類外部訪問私有屬性或方法都會導致編譯錯誤
+ */
+
+class PersonPrivate {
+  private ssn: string;
+  private firstName: string;
+  private lastName: string;
+
+  constructor(ssn: string, firstName: string, lastName: string) {
+    this.ssn = ssn;
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  getFullName(): string {
+    return `${this.firstName}${this.lastName}`;
+  }
+}
+/*let person2 = new PersonPrivate("153-07-3130", "John", "Doe");
+console.log(person2.ssn); // compile error*/
+
+/**
+ * public 修飾符允許類的屬性和方法從所有位置被訪問
+ * 若沒有為屬性和方法指定任何訪問修飾符
+ * 默認為公共修飾符
+ */
+class PersonPublic {
+  public Id: number;
+  public currency: string;
+  public classname: string;
+
+  constructor(Id: number, currency: string, classname: string) {
+    this.Id = Id;
+    this.currency = currency;
+    this.classname = classname;
+  }
+
+  getFullInfo(): string {
+    return `Id:${this.Id},currency:${this.currency},class:${this.classname}`;
+  }
+}
+
+let TestPublic = new PersonPublic(1, "usd", "class1");
+console.log(TestPublic);
+
+/**
+ * protected修飾符
+ * 允許一個類的屬性和方法在同一個類和子類中被訪問
+ * 當一個類(子類)繼承另一個類(父類) 他就是父類的一個子類
+ * 無法從其他地方訪問受保護的屬性或方法
+ */
+
+class PersonProtected {
+  protected ssn: string;
+
+  constructor(ssn: string) {
+    this.ssn = ssn;
+  }
+  getFullName() {
+    return `${this.ssn}`;
+  }
+}
+
+/**
+ * readonly:允許標記一個類的屬性為不可變
+ * 只有在兩個地方才能對只讀屬性進行賦予值
+ * 在屬性聲明中
+ * 在同一個類的構造函數中
+ */
+
+class PersonReadOnly {
+  readonly birthDate: Date; //把一個屬性標記為不可變
+
+  constructor(birthDate: Date) {
+    this.birthDate = birthDate;
+  }
+}
+
+/**
+ * setters and getters 允許控制類的屬性訪問
+ * 一個getter方法返回屬性的值
+ * 一個setter方法更新該屬性的值
+ */
+
+/**
+ * 範例：inputAge可以是任何數字
+ * 確保年齡的有效性 在賦值前必須檢查
+ * 但是要在每個地方使用此檢查會很繁瑣
+ * 避免重複檢查 可以使用setters and getters
+ * 改成下方範例方法
+ */
+class SetAndGet {
+  public age: number;
+  public firstName: string;
+  public lastName: string;
+}
+
+let testSet = new SetAndGet();
+let inputAge: number;
+if (inputAge > 0 && inputAge < 200) {
+  testSet.age = inputAge;
+}
+
+/*
+ * 1. 將age, firstName ,lastName屬性的訪問修飾符從public改為private
+ * 2. 將屬性age改為＿age
+ * 3. 為_age屬性創建getter and setter方法 在setter方法中 在將其分配給＿age屬性前 檢查年齡的有效性
+ */
+class SetAndGetPerson {
+  private _age: number;
+  private _firstName: string;
+  private _lastName: string;
+
+  public get age() {
+    return this._age;
+  }
+
+  public set age(theAge: number) {
+    if (theAge <= 0 || theAge >= 200) {
+      throw new Error("the age is invalid");
+    }
+    this._age = theAge;
+  }
+
+  public getFullName(): string {
+    return `${this._firstName}${this._lastName}`;
+  }
+}
+
+let TestSet = new SetAndGetPerson();
+TestSet.age = 10; //訪問age的setter方法
+TestSet.age = 0;
+
+/**
+ * 繼承：一個類可以重用另一個類的屬性和方法
+ * 繼承屬性和方法的類被稱為子類 而其屬性和方法被繼承的類被稱為父類
+ */
+
+class Personal {
+  constructor(private firstName: string, private lastName: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  getFullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  describe(): string {
+    return `This is ${this.firstName} ${this.lastName}`;
+  }
+}
+
+/**
+ * Personal類有一個初始化 firstName and lastName屬性的構造函數
+ * 需要在Son類的構造函數中通過調用其父類的構造函數來初始化這些屬性
+ * 在子類的構造函數中調用父類的構造函數 可以用super.methodInParentClass()語法
+ */
+class Son extends Personal {
+  constructor(firstName: string, lastName: string, private jobTitle: string) {
+    super(firstName, lastName);
+  }
+
+  describe(): string {
+    return super.describe() + `I'm a ${this.jobTitle}`;
+  } //使用了super.methodInParentClass()語法調用了父類Personal的describe()方法
+}
+
+let son = new Son("josn", "doe", "developer");
+console.log(son.getFullName()); //因為Son繼承了Personal類的屬性和方法 可以在Son對象上調用getFullName() and describe()
+console.log(son.describe());
+
+/**
+ * 方法重寫:若是希望Son類有自己版本的describe方法 可以在Son定義它
+ */
+
+/**
+ * 靜態屬性：是在一個類的所有實例中共享的
+ * 聲明一個靜態屬性 使用static關鍵字
+ * 訪問靜態屬性：className.porpertyName語法
+ */
+
+/**
+ * 範例：
+ * headcount是一個靜態屬性 當一個新的對象被創建 該值會增加1
+ */
+class Employeee {
+  static headcount: number = 0; //靜態屬性
+
+  constructor(
+    private firstName: string,
+    private lastName: string,
+    private jobtitle: string
+  ) {
+    Employeee.headcount++;
+  }
+}
+
+let john = new Employeee("john", "doe", "front-end");
+let janelin = new Employeee("janelin", "lin", "UI");
+
+/**
+ * 靜態方法：在類的實例間共享的
+ * 聲明一個靜態方法 在方法名稱前使用static關鍵字
+ */
+
+class Student {
+  private static headcount: number = 0;
+
+  constructor(
+    private firstName: string,
+    private lastName: string,
+    private Id: number
+  ) {
+    Student.headcount++;
+  }
+
+  public static getHeadcount() {
+    return Student.headcount;
+  }
+}
+
+/**
+ * 抽象類：用於定義派生類擴展的通用行為 與普通類不同 抽象類不能直接實例化
+ * 聲明一個抽象類 使用abstract關鍵字
+ * 抽象方法不包含實現 僅定義了方法 而沒有實作 因此不能生成物件
+ * 抽象方法必須在派生類中實現
+ */
+
+abstract class EmployeeProperty {
+  constructor(private firstName: string, private lastName: string) {}
+
+  abstract getSalary(): number;
+  get FullName(): string {
+    return `${this.firstName}${this.lastName}`;
+  }
+
+  compensationStatement(): string {
+    return `${this.FullName} makes ${this.getSalary} a month`;
+  }
+}
+/**
+ * 在EmployeeProperty類中
+ * 構造函數聲明了firstName and lastName屬性
+ * getSalary()方法是一個抽象方法 派生類將根據EmployeePropert的類型來實現邏輯
+ * 由於抽象類不能被實例化 因此要定義一個FullEmployee子類繼承 下方範例
+ */
+
+class FullEmployeee extends EmployeeProperty {
+  constructor(firstName: string, lastName: string, private salary: number) {
+    super(firstName, lastName);
+  }
+  getSalary(): number {
+    return this.salary;
+  }
+}
+
+/**下方同樣是繼承父類EmployeeProperty的子類Contractor */
+class Contractor extends EmployeeProperty {
+  constructor(
+    firstName: string,
+    lastName: string,
+    private rate: number,
+    private hours: number
+  ) {
+    super(firstName, lastName);
+  }
+  getSalary(): number {
+    return this.rate * this.hours;
+  }
+}
+
+/**
+ * 接口：interface具體行動需要由類(classs)去實現
+ * 定義了代碼中的契約 還為類型檢查提供了明確的名稱
+ * 接口具有可選屬性與只讀屬性
+ * 接口可以用作函數類型
+ * 定義了接口後 可以把它作為一個類型使用 而且可以用接口名稱來注釋函數參數
+ * 接口通常用作類類型 在不相關的類之間建立合同
+ */
+
+/**範例
+ * getName1()函數將接受任何有兩個字符串屬性的參數
+ * 但是不一定要正好有兩個字符串屬性
+ * 由於john對象有兩個字符串屬性firstName and lastName一樣可以把它傳入函數內
+ */
+function getName1(person1: person1) {
+  return `${person1.firstName}${person1.lastName}`;
+}
+interface person1 {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  age: number;
+}
+
+let john1: person1 = {
+  firstName: "john",
+  lastName: "due",
+  middleName: "k",
+  age: 24,
+};
+console.log(getName1(john1));
+
+//定義變量tom 類型是Person 如此就約束了tom的形狀必須和接口一致 多或少一些屬性都不行
+interface Person2 {
+  //定義接口
+  name: string;
+  age: number;
+}
+let tomuu: Person2 = {
+  name: "tom",
+  age: 25,
+};
+
+/**
+ * 可選屬性：一個接口可以有可選屬性
+ * 要聲明一個可選屬性 需要在聲明屬性名稱的末尾使用問號
+ */
+interface Per {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+}
+
+function FullName(person: Per) {
+  if (person.middleName) {
+    return `${person.firstName} ${person.lastName} ${person.middleName}`;
+  }
+  return `${person.firstName} ${person.lastName}`;
+}
+
+/*任意屬性：希望一個接口允許有任意的屬性*/
+/*若定義了任意屬性 那確定屬性以及可選屬性都必須是任意屬性的類型的子集*/
+interface Personal1 {
+  name: string;
+  age?: number;
+  [propName: string]: any; //定義了任意屬性取string類型的值
+}
+
+let whtie: Personal1 = {
+  name: "white",
+  age: 24,
+};
+
+interface Personal2 {
+  name: string;
+  //age?: number; 這行會報錯 因為number類型不屬於下方任意屬性類型的子集
+  [lastName: string]: string;
+}
+
+/*若接口中有多個類型的屬性 則可以再任意屬性中使用聯合類型*/
+interface Personal3 {
+  name: string;
+  age?: number;
+  [propName: string]: string | number;
+}
+
+let Tom: Personal3 = {
+  name: "Tom lin",
+  age: 88,
+  gender: "male",
+};
+
+/*只讀屬性：對象中的一些字段只能在創建的時候被賦值 可以用readonly定義只讀屬性 */
+interface Personal4 {
+  readonly id: number;
+  name: string;
+  age?: number;
+}
+
+let Ken: Personal4 = {
+  id: 68483,
+  name: "Ken",
+  age: 45,
+};
+//Ken.id = 898; 這行會報錯 已readonly定義的id初始化後又被賦予值了
+
+/*
+ * 函數類型：接口允許描述函數類型
+ * 要描述一個函數類型 要將接口分配給包含參數列表和返回類型
+ */
+/**範例 */
+interface StringFormat {
+  (string: string, isUpper: boolean): string;
+}
+
+/**聲明一個變量的類型為StringFormat：代表這個變量可以引用符合StringFormat接口所描述的參數 */
+let format: StringFormat;
+format = function (str: string, isUpper: boolean) {
+  /**聲明一個函數類型的變量 */
+  return isUpper ? str.toLocaleUpperCase() : str.toLocaleLowerCase();
+  /**如果isUpper參數的值為：true 則執行str.toLocaleUpperCase false則執行str.tocaleLowerCase */
+};
+
+console.log(format("hi", true));
+
+/**類類型：定義無關類之間的契約 */
+/**範例：以下Json接口可以由任何無關的類實現 */
+
+interface Json {
+  toJson(): string;
+}
+
+class Per12 implements Json {
+  //實現Json接口的類
+  constructor(private firstName: string, private lastName: string) {}
+  toJson(): string {
+    return JSON.stringify(this);
+  }
+}
+
+/**擴展接口 */
+/**定義一個Mailable接口 包含兩個名為send() and queue()方法*/
+interface Mailable {
+  send(email: string): boolean;
+  queue(email: string): boolean;
+}
+
+/**使用extends關鍵字擴展接口 */
+/**接口FutureMailable擴展了接口Mailable 所以有了Mailable接口的方法*/
+interface FutureMailable extends Mailable {
+  later(email: string, after: number): boolean;
+}
+
+class Mail implements FutureMailable {
+  later(email: string, after: number): boolean {
+    console.log(`send email to ${email} in ${after} ms.`);
+    return true;
+  }
+  send(email: string): boolean {
+    console.log(`sent email to ${email}`);
+    return true;
+  }
+  queue(email: string): boolean {
+    console.log(`queue an email to ${email}`);
+    return true;
+  }
+}
+
+/**擴展多個接口 一個接口可以擴展多個接口 形成所有接口的組合 */
+interface B {
+  b(): void;
+}
+interface C {
+  c(): void;
+}
+
+interface D extends B, C {
+  d(): void;
+}
+
+/*
+ * 擴展類的接口
+ * typescript允許一個接口擴展一個類
+ * 在這種情況下 接口繼承了該類的屬性和方法
+ * 接口可以繼承類的私有和受保護的成員
+ * 這意味著 當一個接口擴展了一個具有私有或受保護的成員的類時 該接口只能由該類或該接口所擴展的類的子類來實現
+ */
+/**範例 */
+class Control {
+  private state: boolean;
+}
+
+interface StatefulControl extends Control {
+  enable(): void;
+}
+/**由該類的子類來實現接口 */
+class Button extends Control implements StatefulControl {
+  enable() {}
+}
+class TextBox extends Control implements StatefulControl {
+  enable() {}
 }

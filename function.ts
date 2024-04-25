@@ -1,4 +1,4 @@
-let CashList: string[] | number[];
+let CashList = [];
 let NameData: string[];
 let Container: HTMLElement | null = document.querySelector(".container");
 let AddBtn: HTMLElement | null = document.querySelector(".add");
@@ -10,15 +10,38 @@ let SearchBtn: HTMLElement | null = document.querySelector(".search-btn");
 let DeleteAllBtn: HTMLElement | null = document.querySelector(".delete-all");
 let ReloadBtn: HTMLElement | null = document.querySelector(".reloadpage");
 
+let Data: object;
+Data = {
+  Id: Random(1000),
+  Name: "test" + Random(100000),
+  Currency: "USD",
+  Class: "Class" + Random(100000),
+  Balance: Random(10000000),
+};
+/**
+ * @param {number}randomvalue
+ * @returns {number}
+ */
 function Random(randomvalue: number): number {
-  let number: number = Math.random();
-  let Random: number = number * randomvalue;
-  let Result: number = Math.ceil(Random);
+  let number: number | string = Math.random();
+  let Random: number | string = number * randomvalue;
+  let Result: number | string = Math.ceil(Random);
   return Result;
 }
+/**
+ *
+ * @param {number}count
+ */
 
-function RandomData(count: number) {
+function RandomData(count: number): void {
   for (let i = 0; i < count; i++) {
-    let Id: String | number = Random(1000);
+    let Id: number | string = Random(1000);
+    let Name: number | string = "test" + Random(100000);
+    let Currency: number | string = "USD";
+    let Class: number | string = "Class" + Random(100000);
+    let Balance: number | string = Random(10000000);
+    let AssetsData: object;
+    AssetsData = { Id, Name, Currency, Class, Balance };
+    CashList.push(AssetsData);
   }
 }
