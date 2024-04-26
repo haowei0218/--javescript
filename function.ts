@@ -1,47 +1,156 @@
+const Container: HTMLElement = document.querySelector(".container");
+const AddBtn: HTMLElement = document.querySelector(".add");
+const DeleteBtn: HTMLElement = document.querySelector(".delete");
+const EnterBtn: HTMLElement = document.querySelector(".aaa");
+const EnterInputBox = document.getElementById("itemNumber") as HTMLElement;
+const SearchBox: HTMLElement = document.querySelector(".search");
+const SearchBtn: HTMLElement = document.querySelector(".search-btn");
+const DeleteAllBtn: HTMLElement = document.querySelector(".delete-all");
+const ReloadBtn: HTMLElement = document.querySelector(".reloadpage");
 let CashList = [];
-let NameData: string[];
-let Container: HTMLElement | null = document.querySelector(".container");
-let AddBtn: HTMLElement | null = document.querySelector(".add");
-let DeleteBtn: HTMLElement | null = document.querySelector(".delete");
-let EnterBtn: HTMLElement | null = document.querySelector(".aaa");
-let EnterInputBox: HTMLElement | null = document.getElementById("itemNumber");
-let SearchBox: HTMLElement | null = document.querySelector(".search");
-let SearchBtn: HTMLElement | null = document.querySelector(".search-btn");
-let DeleteAllBtn: HTMLElement | null = document.querySelector(".delete-all");
-let ReloadBtn: HTMLElement | null = document.querySelector(".reloadpage");
 
-let Data: object;
-Data = {
-  Id: Random(1000),
-  Name: "test" + Random(100000),
-  Currency: "USD",
-  Class: "Class" + Random(100000),
-  Balance: Random(10000000),
-};
-/**
- * @param {number}randomvalue
- * @returns {number}
- */
-function Random(randomvalue: number): number {
-  let number: number | string = Math.random();
-  let Random: number | string = number * randomvalue;
-  let Result: number | string = Math.ceil(Random);
-  return Result;
+function RandomNumber(value) {
+  const number: number = Math.random();
+  const testRandom: number = number * value;
+  const CeilNumber: number = Math.ceil(testRandom);
+  const finalResult: number = CeilNumber;
+  return finalResult;
 }
-/**
- *
- * @param {number}count
- */
 
-function RandomData(count: number): void {
+let Random: string = String(RandomNumber(1000));
+
+/**定義資產接口 */
+interface AllAssets {
+  id: string;
+  name: string;
+  balance: string;
+  currency: string;
+  Class: string;
+}
+
+let CashAssets: AllAssets = {
+  id: Random,
+  name: "test" + Random,
+  balance: Random,
+  currency: "USD",
+  Class: "className" + Random,
+};
+
+/**產生資料 */
+function AddAssets(assets: AllAssets, count: number | any): void {
   for (let i = 0; i < count; i++) {
-    let Id: number | string = Random(1000);
-    let Name: number | string = "test" + Random(100000);
-    let Currency: number | string = "USD";
-    let Class: number | string = "Class" + Random(100000);
-    let Balance: number | string = Random(10000000);
-    let AssetsData: object;
-    AssetsData = { Id, Name, Currency, Class, Balance };
-    CashList.push(AssetsData);
+    const Id = assets.id;
+    const Name = assets.name;
+    const Balance = assets.balance;
+    const Currency = assets.currency;
+    const Class = assets.Class;
+    let Testassets = { Id, Name, Balance, Currency, Class };
+    CashList.push(Testassets);
+  }
+}
+function CreateAssets() {
+  AddAssets(CashAssets, 1);
+  Content();
+}
+
+/**新增按鈕：產生資料 */
+AddBtn.addEventListener("click", function () {});
+
+/**刪除資料 */
+
+interface AssetsFunction {
+  (): void;
+}
+let Delete: AssetsFunction;
+Delete = function (): void {
+  const ListLength: number = CashList.length;
+  if (ListLength > 0) {
+    CashList.pop();
+    /**頁面隨之更新 */
+  } else {
+    console.log("Can not delete");
+  }
+};
+DeleteBtn.addEventListener("click", Delete);
+
+/**
+ * 在頁面上顯示資料
+ */
+function Content(): void {
+  const content = CashList.map((item) => {
+    return `
+    <ul class="items" id="${item.Id}">
+        <li class="item">${item.Id}</li>
+        <li class="item">${item.Name}</li>
+        <li class="item">${item.Class}</li>
+        <li class="item">${item.Currency}</li>
+        <li class="item">${item.Balance}</li>
+        <input type="text" class="edit_name${item.Name} hidden" placeholder="輸入名字">
+        <button class="enter_name${item.Name} hidden">enter</button>
+        <input type="text" class="edit_id${item.Id} hidden" placeholder="輸入Id">
+        <button class="enter_id${item.Id} hidden">enter</button>
+        <button class="${item.Class}">Edit</button>
+    </ul>
+         
+         `;
+  }).join(" ");
+  Container.innerHTML = content;
+}
+
+/**輸入匡輸入數字後 根據輸入的數字產生對應筆數的資料 */
+function getInfo(): void {
+  const Value = (EnterInputBox as HTMLInputElement).value;
+  AddAssets(CashAssets, Value);
+  Content();
+}
+EnterBtn.addEventListener("click", getInfo);
+
+/**搜尋功能*/
+function Search(): void {
+  const Result: string = (SearchBox as HTMLInputElement).value;
+  const filterList = CashList.filter((item) => {
+    return (
+      item.Id === Result &&
+      item.Class === Result &&
+      item.Currency === Result &&
+      item.Balance === Result
+    );
+  });
+  if (filterList.length == 0) {
+    console.log(`${Result} not match`);
+  } else {
+    const FinalResult = filterList
+      .map((item) => {
+        return `
+         <ul class="items">
+         <li class="item">${item.Id}</li>
+         <li class="item">${item.Name}</li>
+         <li class="item">${item.Class}</li>
+         <li class="item">${item.Currency}</li>
+         <li class="item">${item.Balance}</li>
+         </ul>      
+         `;
+      })
+      .join(" ");
+    Container.innerHTML = FinalResult;
+  }
+}
+SearchBtn.addEventListener("click", Search);
+
+/**刪除全部資料 */
+function DeleteAll() {
+  ClearListData();
+  Content();
+}
+function ClearListData(): any {
+  return (CashList = []);
+}
+DeleteAllBtn.addEventListener("click", DeleteAll);
+
+abstract class EditInfo {
+  public EditList = CashList;
+
+  public EditId(): void {
+    this.EditList.forEach((item) => {});
   }
 }
