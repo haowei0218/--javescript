@@ -13,6 +13,10 @@ const SearchBox = document.querySelector(".search");
 const SearchBtn = document.querySelector(".search-btn");
 const DeleteAllBtn = document.querySelector(".delete-all");
 const ReloadBtn = document.querySelector(".reloadpage");
+const CreateBtn = document.querySelector(".createAccount");
+const AccountContainer = document.querySelector(".Account_container");
+/**資料庫 */
+import { _supabase } from "./supabase with web/supabase";
 
 /**隨機數字*/
 /**
@@ -284,3 +288,49 @@ setInterval(EditId, 1500);
  * bugfix:當兩筆資料更新的名字一樣時 兩筆資料在網頁上會被視為同一筆資料
  *
  */
+
+/**
+ * 註冊帳號相關功能
+ */
+
+function CreateAccount() {
+  AccountContainer.innerHTML = `
+  <input type="text" id="accountName" placeholder="please enter name">
+  <input type="text" id="email" placeholder="please enter email">
+  <input type="text" id="password" placeholder="please enter password">
+  <button class="creaet">確認</button>
+  `;
+}
+
+CreateBtn.addEventListener("click", () => {
+  CreateAccount();
+});
+
+/**在資料庫新增資料 */
+const InsertBtn = document.querySelector(".insertData");
+const SelectBtn = document.querySelector(".selectData");
+const UpdateBtn = document.querySelector(".updateData");
+const DeleteDataBtn = document.querySelector(".deleteData");
+
+async function InsertData(name, email, password) {
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .insert([
+        {
+          account_name: name,
+          account_email: email,
+          account_password: password,
+        },
+      ])
+      .select();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+InsertBtn.addEventListener(
+  "click",
+  InsertData("testName1", "test1@gmail.com", "password1")
+);

@@ -1,0 +1,69 @@
+table {
+         border-collapse: collapse;
+}
+
+td,
+th {
+
+         padding: 10px 20px;
+         text-align: center;
+}
+
+
+.all-btn {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 20px;
+         margin-top: 20px;
+         cursor: pointer;
+}
+
+.table_container {
+         width: 800px;
+         height: 100%;
+         justify-content: center;
+         align-items: center;
+         border: 1px solid gray;
+         border-radius: 10px;
+
+
+}
+
+.data_container {
+         margin-top: 20px;
+         margin-left: 300px;
+         width: 1000px;
+         height: 100vh;
+}
+
+.data_table tr {
+         border: 1px solid gray;
+         border-radius: 10px;
+
+}
+
+.data_table {
+         width: 800px;
+}
+
+.title ul {
+         list-style: none;
+         display: flex;
+         gap: 100px;
+         justify-content: space-around;
+         padding-right: 300px;
+}
+
+.Plus {
+         border: 1px solid gray;
+         cursor: pointer;
+}
+
+.content {
+         width: 500px;
+         height: 100px;
+         margin: auto;
+         margin-top: 20px;
+
+}
