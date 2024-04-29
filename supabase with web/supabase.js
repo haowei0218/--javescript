@@ -24,7 +24,7 @@ function DataRandom(result) {
 }
 
 function Email() {
-  const email = String("test" + DataRandom(100000000));
+  const email = String("test" + DataRandom(100000000) + "@gmail.com");
   return email;
 }
 

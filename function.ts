@@ -150,7 +150,25 @@ DeleteAllBtn.addEventListener("click", DeleteAll);
 abstract class EditInfo {
   public EditList = CashList;
 
-  public EditId(): void {
-    this.EditList.forEach((item) => {});
+  public Edit(): void {
+    this.EditList.forEach((item) => {
+      const Btn: HTMLElement = document.querySelector(`.${item.Class}`);
+      Btn.addEventListener("click", () => {
+        const EditNameBtn: HTMLElement = document.querySelector(
+          `.edit_name${item.name}`
+        );
+        const EnterBtn: HTMLElement = document.querySelector(
+          `.enter_name${item.Name}`
+        );
+        const EditIdBtn: HTMLElement = document.querySelector(
+          `edit_id${item.Id}`
+        );
+        const EnterIdBtn: HTMLElement = document.querySelector(
+          `enter_id${item.Id}`
+        );
+        EditIdBtn.classList.remove("hidden");
+        EnterIdBtn.classList.remove("hidden");
+      });
+    });
   }
 }
