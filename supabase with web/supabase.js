@@ -12,6 +12,8 @@ const Container = document.querySelector(".container");
 const DataTable = document.querySelector(".data_table");
 const PlusBtn = document.querySelector(".Plus");
 const Content = document.querySelector(".content");
+const FilterBtn = document.querySelector(".filter");
+const FilterContent = document.querySelector(".filter_content");
 let DataList = [];
 
 /**產生資料 */
@@ -125,35 +127,98 @@ async function CreateInfo() {
     const result_name = Name.value;
     const result_email = Email.value;
     const result_password = Password.value;
-    try {
-      const { data, error } = await _supabase
-        .from("accountdata")
-        .insert([
-          {
-            account_name: result_name,
-            account_email: result_email,
-            account_password: result_password,
-          },
-        ])
-        .select();
 
-      const DataList = data
-        .map((item) => {
-          const { account_name, account_email, account_password } = item;
-          return `
-      <tr>
-           <td>${item.account_name}</td>
-           <td>${item.account_email}</td>
-           <td>${item.account_password}</td>
-      </tr>
-      `;
-        })
-        .join(" ");
-      DataTable.innerHTML = DataList;
-    } catch (error) {
-      console.log(error);
+    if (
+      /**檢查輸入值不可為空白 */
+      (result_name === "" || result_email === "" || result_password === "") &&
+      result_password.length < 9 &&
+      (await SameData(result_name, result_email, result_password)) === true
+    ) {
+      console.log(
+        `please check name:${result_name},email:${result_email},password:${result_password}`
+      );
+      console.log(`Create Data Rule
+        1. Name:value is not empty
+        2. email:input effective email address
+        3. password length > 9
+      `);
+    } else {
+      try {
+        const { data, error } = await _supabase
+          .from("accountdata")
+          .insert([
+            {
+              account_name: result_name,
+              account_email: result_email,
+              account_password: result_password,
+            },
+          ])
+          .select();
+
+        const DataList = data
+          .map((item) => {
+            const { account_name, account_email, account_password } = item;
+            return `
+                  <tr>
+                    <td>${item.account_name}</td>
+                    <td>${item.account_email}</td>
+                    <td>${item.account_password}</td>
+                  </tr>
+                `;
+          })
+          .join(" ");
+        DataTable.innerHTML = DataList;
+      } catch (error) {
+        console.log(error);
+        // 返回错误值或执行其他错误处理操作
+      }
     }
+
+    // 验证密码长度和是否重复
   });
+}
+
+/**檢查創建的資料的重複性 */
+async function SameData(value1, value2, value3) {
+  /**檢查name */
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .select("*")
+      .eq("account_name", `${value1}`);
+    if (data.length !== 0) {
+      console.log(`${value1} is exist`);
+      return true;
+    }
+  } catch (error) {
+    console.log(`${value1} is exist`);
+  }
+  /**檢查email */
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .select("*")
+      .eq("account_email", `${value2}`);
+    if (data.length !== 0) {
+      console.log(`${value2} is exist`);
+    }
+  } catch (error) {
+    console.log(`${value2} is exist`);
+  }
+  /**檢查password */
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .select("*")
+      .eq("account_password", `${value3}`);
+    if (data.length !== 0) {
+      console.log(`${value3} is exist`);
+    }
+  } catch (error) {
+    console.log(`${value1} is exist`);
+  }
+
+  return false;
 }
 
 PlusBtn.addEventListener("click", () => {
@@ -161,29 +226,140 @@ PlusBtn.addEventListener("click", () => {
   CreateInfo();
 });
 
+/**刪除功能 */
+
 function Delete() {
-  Content.innerHTML = `
-  <input type="text" id="value" placeholder="please enter value">
+  return (Content.innerHTML = `
+  <input type="text" id="result" placeholder="please enter value">
   <button class="delete">CHECK DELETE</button>
-  `;
+  `);
 }
 
 function CheckDeleleInfo() {
   Delete();
-  const Delete_Value = document.getElementById("value");
+  console.log(Delete());
+  const Delete_element = document.getElementById("result");
   const DeleteBtn = document.querySelector(".delete");
-  const FilterValue = Delete_Value.value;
 
   DeleteBtn.addEventListener("click", async () => {
-    console.log(FilterValue);
-    const { data, error } = await _supabase
-      .from("accountdata")
-      .delete()
-      .eq("account_name", FilterValue);
+    FilterData(Delete_element.value);
+    console.log(Delete_element.value);
+    TryDeleteAccount_email();
+    TryDeleteAccount_name(Delete_element.value);
   });
 }
 
 DeleteDataBtn.addEventListener("click", async () => {
   Delete();
   CheckDeleleInfo();
+});
+
+async function TryDeleteAccount_name(result) {
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .delete()
+      .eq("account_name", `${result}`);
+    console.log(data);
+    let List = data
+      .map((item) => {
+        const { account_name, account_email, account_password } = item;
+        return `
+          <tr>
+               <td>${item.account_name}</td>
+               <td>${item.account_email}</td>
+               <td>${item.account_password}</td>
+          </tr>
+          `;
+      })
+      .join(" ");
+    DataTable.innerHTML = List;
+  } catch (error) {
+    console.log(`${result} is not defined`, error);
+  }
+}
+
+async function TryDeleteAccount_email(result) {
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .delete()
+      .eq("account_email", `${result}`);
+  } catch (error) {
+    console.log(`${result} is not defined`, error);
+  }
+}
+
+/**搜尋功能 */
+async function FilterData(result) {
+  let Filter = FilterFunc();
+  try {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .select("*")
+      .eq("account_name", `${Filter}`);
+    console.log(data);
+    let List = data
+      .map((item) => {
+        const { account_name, account_email, account_password } = item;
+        return `
+        <tr>
+             <td>${item.account_name}</td>
+             <td>${item.account_email}</td>
+             <td>${item.account_password}</td>
+        </tr>
+        `;
+      })
+      .join(" ");
+    DataTable.innerHTML = List;
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function FilterFunc() {
+  displayfilter();
+  const filterbox = document.querySelector(".filter-box");
+  const filterBtn = document.querySelector(".filter-btn");
+  let filter_result = filterbox.value;
+
+  filterBtn.addEventListener("click", async () => {
+    console.log(filterbox.value);
+    try {
+      const { data, error } = await _supabase
+        .from("accountdata")
+        .select("*")
+        .eq("account_name", `${filterbox.value}`);
+      console.log(data);
+      let List = data
+        .map((item) => {
+          const { account_name, account_email, account_password } = item;
+          return `
+          <tr>
+               <td>${item.account_name}</td>
+               <td>${item.account_email}</td>
+               <td>${item.account_password}</td>
+          </tr>
+          `;
+        })
+        .join(" ");
+      DataTable.innerHTML = List;
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+function displayfilter() {
+  FilterContent.innerHTML = `
+  <input type="text" class="filter-box" placeholder="filter"> 
+  <button class="filter-btn">enter</button>`;
+}
+window.addEventListener("DOMContentLoaded", () => {
+  CreateInfo();
+});
+FilterBtn.addEventListener("click", () => {
+  displayfilter();
+  FilterFunc();
 });
