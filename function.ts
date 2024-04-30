@@ -2,12 +2,13 @@ const Container: HTMLElement = document.querySelector(".container");
 const AddBtn: HTMLElement = document.querySelector(".add");
 const DeleteBtn: HTMLElement = document.querySelector(".delete");
 const EnterBtn: HTMLElement = document.querySelector(".aaa");
-const EnterInputBox = document.getElementById("itemNumber") as HTMLElement;
+const EnterInputBox = document.getElementById("itemNumber") as HTMLInputElement;
 const SearchBox: HTMLElement = document.querySelector(".search");
 const SearchBtn: HTMLElement = document.querySelector(".search-btn");
 const DeleteAllBtn: HTMLElement = document.querySelector(".delete-all");
 const ReloadBtn: HTMLElement = document.querySelector(".reloadpage");
 let CashList = [];
+let NameData = [];
 
 function RandomNumber(value) {
   const number: number = Math.random();
@@ -168,6 +169,87 @@ abstract class EditInfo {
         );
         EditIdBtn.classList.remove("hidden");
         EnterIdBtn.classList.remove("hidden");
+      });
+    });
+  }
+}
+
+enum WebAction {
+  search,
+  insert,
+  delete,
+  update,
+}
+type Htmlelement = HTMLElement | HTMLInputElement;
+
+interface AllButton {
+  Add: Htmlelement;
+  Delete: Htmlelement;
+  Enter: Htmlelement;
+  Search: Htmlelement;
+  DeleteAll: Htmlelement;
+  Reload: Htmlelement;
+  Create: Htmlelement;
+}
+
+interface EditButton {
+  EditName: Htmlelement;
+  Enter: Htmlelement;
+  EditId?: Htmlelement;
+  EnterId?: Htmlelement;
+}
+
+interface InputBox {
+  EnterInput: Htmlelement;
+  SearchBox: Htmlelement;
+}
+
+let Editid: EditButton = {
+  EditName: document.querySelector(`.edit_name$`),
+  Enter: document.querySelector(`.enter_name`),
+  EditId: document.querySelector(`.edit_id`),
+  EnterId: document.querySelector(`.enter_id`),
+};
+
+abstract class EditId<T> {
+  Action: WebAction.insert;
+
+  EditId(btn: EditButton): void {
+    CashList.forEach((item) => {
+      let Btn: HTMLElement;
+      console.log(Btn);
+
+      Btn.addEventListener("click", () => {
+        const Name = btn.EditName;
+        const EnterName = btn.Enter;
+        const Id = btn.EditId;
+        const EnterId = btn.EnterId;
+
+        Name.classList.remove("hidden");
+        EnterName.classList.remove("hidden");
+
+        function getEditName(): number {
+          return;
+        }
+
+        function getEditId(): number {
+          return;
+        }
+
+        EnterBtn.addEventListener("click", () => {
+          const Update: number = getEditName();
+          const Filter: number = NameData.findIndex(
+            (dataItem) => Update === dataItem.Id
+          );
+          if (Filter == -1) {
+            NameData.push(Update);
+            const NewId: string | number = Update;
+            item.Id = NewId;
+            Content();
+          } else {
+            alert("this is same name please try again");
+          }
+        });
       });
     });
   }
