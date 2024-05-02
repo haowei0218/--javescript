@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@supabase/supabase-js": "^2.42.7"
+    "@supabase/supabase-js": "^2.42.7",
+    "mongoose": "^8.3.3",
+    "request": "^2.88.2"
   }
 }

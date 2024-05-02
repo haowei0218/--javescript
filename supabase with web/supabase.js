@@ -14,6 +14,8 @@ const PlusBtn = document.querySelector(".Plus");
 const Content = document.querySelector(".content");
 const FilterBtn = document.querySelector(".filter");
 const FilterContent = document.querySelector(".filter_content");
+const EditBtn = document.querySelector(".edit");
+const EditContent = document.querySelector(".edit_content");
 let DataList = [];
 
 /**產生資料 */
@@ -40,6 +42,22 @@ function Password() {
   return password;
 }
 
+function displayContent(database) {
+  const DisplayData = database
+    .map((item) => {
+      const { account_name, account_email, account_password } = item;
+      return `
+        <tr>
+             <td>${item.account_name}</td>
+             <td>${item.account_email}</td>
+             <td>${item.account_password}</td>
+        </tr>
+        `;
+    })
+    .join(" ");
+  DataTable.innerHTML = DisplayData;
+}
+
 /**新增資料 */
 async function InsertData() {
   const Data_email = Email();
@@ -57,19 +75,7 @@ async function InsertData() {
       ])
       .select();
     console.log(data);
-    const DataList = data
-      .map((item) => {
-        const { account_name, account_email, account_password } = item;
-        return `
-        <tr>
-             <td>${item.account_name}</td>
-             <td>${item.account_email}</td>
-             <td>${item.account_password}</td>
-        </tr>
-        `;
-      })
-      .join(" ");
-    DataTable.innerHTML = DataList;
+    displayContent(data);
   } catch (error) {
     console.log(error);
   }
@@ -84,19 +90,7 @@ async function SearchData() {
   try {
     const { data, error } = await _supabase.from("accountdata").select("*");
     console.log(data);
-    let DataContent = data
-      .map((item) => {
-        const { account_name, account_email, account_password } = item;
-        return `
-        <tr>
-             <td>${item.account_name}</td>
-             <td>${item.account_email}</td>
-             <td>${item.account_password}</td>
-        </tr>
-        `;
-      })
-      .join(" ");
-    DataTable.innerHTML = DataContent;
+    displayContent(data);
   } catch (error) {
     console.log(error);
   }
@@ -154,70 +148,33 @@ async function CreateInfo() {
             },
           ])
           .select();
-
-        const DataList = data
-          .map((item) => {
-            const { account_name, account_email, account_password } = item;
-            return `
-                  <tr>
-                    <td>${item.account_name}</td>
-                    <td>${item.account_email}</td>
-                    <td>${item.account_password}</td>
-                  </tr>
-                `;
-          })
-          .join(" ");
-        DataTable.innerHTML = DataList;
+        displayContent(data);
       } catch (error) {
         console.log(error);
         // 返回错误值或执行其他错误处理操作
       }
     }
-
-    // 验证密码长度和是否重复
   });
 }
 
 /**檢查創建的資料的重複性 */
 async function SameData(value1, value2, value3) {
   /**檢查name */
-  try {
-    const { data, error } = await _supabase
-      .from("accountdata")
-      .select("*")
-      .eq("account_name", `${value1}`);
-    if (data.length !== 0) {
-      console.log(`${value1} is exist`);
-      return true;
-    }
-  } catch (error) {
-    console.log(`${value1} is exist`);
-  }
-  /**檢查email */
-  try {
-    const { data, error } = await _supabase
-      .from("accountdata")
-      .select("*")
-      .eq("account_email", `${value2}`);
-    if (data.length !== 0) {
-      console.log(`${value2} is exist`);
-    }
-  } catch (error) {
-    console.log(`${value2} is exist`);
-  }
-  /**檢查password */
-  try {
-    const { data, error } = await _supabase
-      .from("accountdata")
-      .select("*")
-      .eq("account_password", `${value3}`);
-    if (data.length !== 0) {
-      console.log(`${value3} is exist`);
-    }
-  } catch (error) {
-    console.log(`${value1} is exist`);
-  }
 
+  async function CheckData(value, column) {
+    const { data, error } = await _supabase
+      .from("accountdata")
+      .select("*")
+      .eq(`${column}`, `${value}`);
+    return data;
+  }
+  if (CheckData(value1, account_name).length > 0) {
+    console.log(`${value1} is exist`);
+  } else if (CheckData(value2, account_email).length > 0) {
+    console.log(`${value2} is exist`);
+  } else {
+    console.log(`${value3} is exist`);
+  }
   return false;
 }
 
@@ -244,7 +201,7 @@ function CheckDeleleInfo() {
   DeleteBtn.addEventListener("click", async () => {
     FilterData(Delete_element.value);
     console.log(Delete_element.value);
-    TryDeleteAccount_email();
+    TryDeleteAccount_email(Delete_element.value);
     TryDeleteAccount_name(Delete_element.value);
   });
 }
@@ -261,19 +218,6 @@ async function TryDeleteAccount_name(result) {
       .delete()
       .eq("account_name", `${result}`);
     console.log(data);
-    let List = data
-      .map((item) => {
-        const { account_name, account_email, account_password } = item;
-        return `
-          <tr>
-               <td>${item.account_name}</td>
-               <td>${item.account_email}</td>
-               <td>${item.account_password}</td>
-          </tr>
-          `;
-      })
-      .join(" ");
-    DataTable.innerHTML = List;
   } catch (error) {
     console.log(`${result} is not defined`, error);
   }
@@ -299,19 +243,7 @@ async function FilterData(result) {
       .select("*")
       .eq("account_name", `${Filter}`);
     console.log(data);
-    let List = data
-      .map((item) => {
-        const { account_name, account_email, account_password } = item;
-        return `
-        <tr>
-             <td>${item.account_name}</td>
-             <td>${item.account_email}</td>
-             <td>${item.account_password}</td>
-        </tr>
-        `;
-      })
-      .join(" ");
-    DataTable.innerHTML = List;
+    displayContent(data);
     return true;
   } catch (error) {
     console.log(error);
@@ -332,19 +264,7 @@ async function FilterFunc() {
         .select("*")
         .eq("account_name", `${filterbox.value}`);
       console.log(data);
-      let List = data
-        .map((item) => {
-          const { account_name, account_email, account_password } = item;
-          return `
-          <tr>
-               <td>${item.account_name}</td>
-               <td>${item.account_email}</td>
-               <td>${item.account_password}</td>
-          </tr>
-          `;
-        })
-        .join(" ");
-      DataTable.innerHTML = List;
+      displayContent(data);
     } catch (error) {
       console.log(error);
     }
@@ -356,10 +276,67 @@ function displayfilter() {
   <input type="text" class="filter-box" placeholder="filter"> 
   <button class="filter-btn">enter</button>`;
 }
-window.addEventListener("DOMContentLoaded", () => {
-  CreateInfo();
-});
 FilterBtn.addEventListener("click", () => {
   displayfilter();
   FilterFunc();
 });
+
+/**編輯功能 */
+function displayEditBox() {
+  EditContent.innerHTML = `
+  <input type="text" class="input-box" placeholder="search the data">
+  <button class="edit-btn">Edit</button>
+  `;
+  const Inputbox = document.querySelector(".input-box");
+  const Btn = document.querySelector(".edit-btn");
+  Btn.addEventListener("click", async () => {
+    supaFilterApi(Inputbox.value);
+
+    EditContent.innerHTML = `
+       <input type="text" class="input-box_name" placeholder="enter the data">
+       <button class="edit-btn_name">Edit</button>
+      `;
+
+    const InputName = document.querySelector(".input-box_name");
+    const NameBtn = document.querySelector(".edit-btn_name");
+    NameBtn.addEventListener("click", async () => {
+      supaUpdateApi(`${Inputbox.value}`, `${InputName.value}`);
+    });
+  });
+}
+EditBtn.addEventListener("click", displayEditBox);
+
+async function Edit(element) {
+  const element_input = document.querySelector(`${element}`);
+  console.log(element_input);
+  if (element_input.value === null) {
+    console.log("please enter value");
+  } else {
+    supaFilterApi(element_input.value);
+  }
+}
+
+/**在supabase資料庫中的api */
+
+/**filter api */
+async function supaFilterApi(filterValue) {
+  let { data, error } = await _supabase
+    .from("accountdata")
+    .select("*")
+    .eq("account_name", `${filterValue}`);
+  console.log(data);
+  displayContent(data);
+  return data;
+}
+
+/**update api */
+
+async function supaUpdateApi(filterValue, updateData) {
+  const { data, error } = await _supabase
+    .from("accountdata")
+    .update({ account_name: `${updateData}` })
+    .eq("account_name", `${filterValue}`)
+    .select();
+  displayContent(data);
+  return data;
+}
