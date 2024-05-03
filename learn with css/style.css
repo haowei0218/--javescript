@@ -1,0 +1,240 @@
+/*
+動畫組成：transition and animation
+1. transition(實現簡單動畫):透過改變元素的css屬性 讓元素處於開始和結束兩種不同外觀狀態 再加上transition就能像補間動畫一樣 
+2. animation: 與transition原理相同 但在設定時間方面使用"關鍵影格 keyframes"來定義動畫流程 所以非單純只有開始和結束兩種不同狀態
+*/
+
+/*
+製作transition過度動畫 有幾個必要條件
+1. 改變外觀狀態的css屬性
+2. 過渡動畫的持續時間
+3. 觸發事件
+transiton過度動畫需要事件來觸發啟動 通堂搭配偽類使用
+常用於滑鼠事件(:hover, :active, :focus, click)
+定義元素要過度動畫的開始和結束外觀狀態 在指定動畫的持續時間
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+transition屬性：
+1. transition-property:過渡動畫的css屬性
+2. transition-duration:過渡動畫的持續時間
+3. transition-timing-function:時間曲線
+-linear(等速) -ease(急加速後減速-預設）-ease-in(加速) ease-out(減速) -ease-in-out(平緩的ease) -cubic-bezier(自定義） 
+4. transition-delay:過渡動畫延遲啟動時間
+*/
+
+/*範例：當滑鼠滑入到方塊上 方塊在0.5秒後開始以加速後減速方式 讓方塊花兩秒的時間 寬度從100px -> 500px*/
+.square {
+         width: 100px;
+         height: 100px;
+         background: blue;
+         display: block;
+         transition-property: width;
+         /*元素要改變width屬性*/
+         transition-duration: 2s;
+         /*動畫持續時間為2s*/
+         transition-timing-function: ease;
+         /*動畫速度曲線為急加速後減速*/
+         transition-delay: .5s;
+         /*延後0.5s才開始動畫*/
+}
+
+.square:hover {
+         width: 500px;
+         /*元素改變後的新值*/
+}
+
+
+/*範例：設定多個屬性 使用逗號隔開 下方為紅色方塊花兩秒的時間寬度從100 -> 200px ,高度在延遲0.5秒後才開始花一秒的時間從100px 變成 70px*/
+.square-1 {
+         width: 100px;
+         height: 100px;
+         background: red;
+         display: block;
+         transition: width 2s ease-in, height 1s ease 1s;
+}
+
+.square-1:hover {
+         width: 900px;
+         height: 70px;
+}
+
+/*範例:單向或雙向過渡動畫  若將transition屬性寫在"原本狀態"與寫在"觸發狀態(hover) 兩者是有差異的"*/
+/*寫在原本狀態是雙向都會有動畫 寫在觸發狀態則只會有單向動畫*/
+
+/*雙向*/
+.square-2 {
+         width: 100px;
+         height: 100px;
+         background: green;
+         display: block;
+         transition: width 2s;
+         /*將transition寫在原本狀態中*/
+}
+
+.square-2:hover {
+         width: 200px;
+
+}
+
+/*單向*/
+.square-3 {
+         width: 100px;
+         height: 100px;
+         background: yellow;
+         display: block;
+         /*將transition寫在原本狀態中*/
+}
+
+.square-3:hover {
+         width: 200px;
+         transition: width 2s;
+
+}
+
+/*雙向不同動畫*/
+.square-4 {
+         width: 100px;
+         height: 100px;
+         background: gray;
+         display: block;
+         transition: width 2s 1s, height 1s;
+         /*返回的動畫*/
+}
+
+.square-4:hover {
+         width: 200px;
+         height: 80px;
+         transition: width 1s, height 1s;
+         /*開始的動畫*/
+}
+
+
+
+/*製作animation動畫 
+1. 透過關鍵影格 “keyframe” 實踐css動畫
+2. 動畫的名稱和持續時間
+-----------------------------------------
+1. animation-name:自定義動畫名稱
+2. animation-duration:動畫持續時間
+3. animation-timing-function:時間曲線
+-linear(等速) -ease(急加速後減速-預設）-ease-in(加速) ease-out(減速) -ease-in-out(平緩的ease) -cubic-bezier(自定義） 
+
+4. animation-delay:延遲播放的時間
+5. animation-iteration-count:播放次數
+6. animation-direction:播放方向
+-normal(預設) -reverse(每次都是100%至0%) -alternate(播放兩次以上 0%至100% 再從100%至0%) -alternate-reverse(播放兩次以上 100%至0% 再從0%至100%)
+
+7. animation-fill-mode:控制動畫播放前後狀態
+-node(預設):回到未播放動畫前的狀態
+-forwards:停在結束狀態 希望動畫結束停在最後一格時使用
+-backwards:停在動畫第一幀狀態
+-both:根據animation-direction輪流應用forwards和backwards規則
+
+8. animation-play-state:播放或暫停
+-running(預設):播放
+-paused:暫停
+*/
+
+/*
+animation是運用設定"關鍵影格"來描述動畫元素的外觀 各個影格之間的外觀差異 會自動補足補間動畫平順的漸變
+關鍵影格於動畫中的時點以百分比方式呈現 0%代表動畫的起始 100%代表動畫的結束 分別用from and to 替代
+
+在每個不同時點設定不同外觀狀態 用0%~100%分別設定 
+若只是需要一個簡單且連續的動畫 則用from to 設定即可
+*/
+
+/*使用百分比 於不同時間點設定外觀狀態*/
+@keyframes animation-name {
+         0% {
+                  background-color: red;
+                  left: 0px;
+         }
+
+         25% {
+                  background-color: yellow;
+                  left: 50px;
+         }
+
+         50% {
+                  background-color: blue;
+                  left: 80px;
+         }
+
+         75% {
+                  background-color: green;
+                  left: 120px;
+         }
+
+         100% {
+                  background-color: red;
+                  left: 200px;
+         }
+}
+
+/*只有起始0% and 結束100% 也可以用別名from to*/
+@keyframes animation-name {
+         0% {
+                  background-color: red;
+                  left: 0px;
+         }
+
+         100% {
+                  background-color: red;
+                  left: 200px;
+         }
+}
+
+@keyframes animation-name {
+         from {
+                  background-color: red;
+                  left: 0px;
+         }
+
+         to {
+                  background-color: red;
+                  left: 200px;
+         }
+}
+
+/*animation基本用法*/
+.square-5 {
+         width: 100px;
+         height: 100px;
+         background-color: red;
+         display: block;
+         position: relative;
+         animation-name: ani-circle;
+         /*定義動畫名稱*/
+         animation-duration: 4s;
+         /*一次完整動畫時間為4秒*/
+         animation-iteration-count: infinite;
+         /*播放次數為無限次*/
+         animation-direction: alternate;
+         /*播放方向為先正向在反向*/
+}
+
+@keyframes ani-circle {
+         0% {
+                  background-color: red;
+                  left: 0px;
+         }
+
+         25% {
+                  background-color: yellow;
+                  left: 50px;
+         }
+
+         50% {
+                  background-color: blue;
+                  left: 80px;
+         }
+
+         75% {
+                  background-color: green;
+                  left: 120px;
+         }
+
+         100% {
+                  background-color: red;
+                  left: 200px;
+         }
+}

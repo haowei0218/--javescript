@@ -309,7 +309,7 @@ EditBtn.addEventListener("click", displayEditBox);
 async function Edit(element) {
   const element_input = document.querySelector(`${element}`);
   console.log(element_input);
-  if (element_input.value === null) {
+  if (element_input.value === " ") {
     console.log("please enter value");
   } else {
     supaFilterApi(element_input.value);
