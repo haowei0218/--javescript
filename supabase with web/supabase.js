@@ -63,21 +63,26 @@ async function InsertData() {
   const Data_email = Email();
   const Data_name = Name();
   const Data_password = Password();
-  try {
-    const { data, error } = await _supabase
-      .from("accountdata")
-      .insert([
-        {
-          account_name: Data_name,
-          account_email: Data_email,
-          account_password: Data_password,
-        },
-      ])
-      .select();
-    console.log(data);
-    displayContent(data);
-  } catch (error) {
-    console.log(error);
+  const result = SameData(Data_name, Data_email, Data_password);
+  if (result.length > 0) {
+    console.log(`${result} is exist`);
+  } else {
+    try {
+      const { data, error } = await _supabase
+        .from("accountdata")
+        .insert([
+          {
+            account_name: Data_name,
+            account_email: Data_email,
+            account_password: Data_password,
+          },
+        ])
+        .select();
+      console.log(data);
+      displayContent(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
@@ -124,10 +129,17 @@ async function CreateInfo() {
 
     if (
       /**檢查輸入值不可為空白 */
-      (result_name === "" || result_email === "" || result_password === "") &&
-      result_password.length < 9 &&
-      (await SameData(result_name, result_email, result_password)) === true
+      result_name === "" ||
+      result_email === "" ||
+      result_password === "" ||
+      result_password.length < 9 ||
+      (await SameData(
+        `${result_name}`,
+        `${result_email}`,
+        `${result_password}`
+      )) === true
     ) {
+      Name.style.border = "1px solid red";
       console.log(
         `please check name:${result_name},email:${result_email},password:${result_password}`
       );
@@ -168,11 +180,11 @@ async function SameData(value1, value2, value3) {
       .eq(`${column}`, `${value}`);
     return data;
   }
-  if (CheckData(value1, account_name).length > 0) {
+  if (CheckData(`${value1}`, "account_name").length > 0) {
     console.log(`${value1} is exist`);
-  } else if (CheckData(value2, account_email).length > 0) {
+  } else if (CheckData(`${value2}`, "account_email").length > 0) {
     console.log(`${value2} is exist`);
-  } else {
+  } else if (CheckData(`${value3}`, "account_password").length > 0) {
     console.log(`${value3} is exist`);
   }
   return false;
@@ -181,6 +193,7 @@ async function SameData(value1, value2, value3) {
 PlusBtn.addEventListener("click", () => {
   InputInfo();
   CreateInfo();
+  SameData();
 });
 
 /**刪除功能 */
