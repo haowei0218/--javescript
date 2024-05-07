@@ -140,14 +140,16 @@ async function CreateInfo() {
       )) === true
     ) {
       Name.style.border = "1px solid red";
-      console.log(
-        `please check name:${result_name},email:${result_email},password:${result_password}`
-      );
-      console.log(`Create Data Rule
+      Email.style.border = "1px solid red";
+      Password.style.border = "1px solid red";
+      alert(
+        `please check name:${result_name},email:${result_email},password:${result_password}
+        Create Data Rule
         1. Name:value is not empty
         2. email:input effective email address
         3. password length > 9
-      `);
+        `
+      );
     } else {
       try {
         const { data, error } = await _supabase
