@@ -536,3 +536,86 @@ animation是運用設定"關鍵影格"來描述動畫元素的外觀 各個影�
                   -webkit-transform: rotateY(-359.9deg);
          }
 }
+
+
+.title .tran {
+         display: block;
+         background-color: #fff;
+         border: 1px solid rgb(61, 191, 234);
+         height: 30px;
+         width: 30px;
+         animation: ani-circle 4s infinite alternate
+}
+
+@keyframes ani-circle {
+         0% {
+                  background-color: rgb(205, 38, 38);
+                  border-radius: 2%;
+                  opacity: 0.1;
+                  left: 0px;
+         }
+
+         12.5% {
+                  background-color: rgb(204, 96, 14);
+                  border-radius: 7%;
+                  opacity: 0.25;
+                  left: 30px
+         }
+
+         25% {
+                  background-color: rgb(205, 38, 38);
+                  border-radius: 10%;
+                  opacity: 0.35;
+                  left: 60px;
+         }
+
+         37.5% {
+                  background-color: rgb(204, 96, 14);
+                  border-radius: 20%;
+                  opacity: 0.45;
+                  left: 90px;
+         }
+
+         50% {
+                  background-color: rgb(225, 222, 35);
+                  border-radius: 30%;
+                  opacity: 0.55;
+                  left: 120px;
+         }
+
+         62.5% {
+                  background-color: rgb(90, 227, 32);
+                  border-radius: 35%;
+                  opacity: 0.6;
+                  left: 180px;
+         }
+
+         75% {
+                  background-color: rgb(18, 146, 220);
+                  border-radius: 40%;
+                  opacity: 0.75;
+                  left: 220px;
+         }
+
+         87.5% {
+                  background-color: rgb(74, 51, 225);
+                  border-radius: 45%;
+                  opacity: 0.8;
+                  left: 260px;
+         }
+
+         100% {
+                  background-color: rgb(183, 25, 204);
+                  border-radius: 50%;
+                  opacity: 1;
+                  left: 300px;
+         }
+
+         0% {
+                  background-color: rgb(205, 38, 38);
+                  border-radius: 2%;
+                  opacity: 0.1;
+                  left: 0;
+         }
+
+}
