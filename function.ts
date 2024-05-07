@@ -143,7 +143,7 @@ function DeleteAll() {
   ClearListData();
   Content();
 }
-function ClearListData(): any {
+function ClearListData(): any[] {
   return (CashList = []);
 }
 DeleteAllBtn.addEventListener("click", DeleteAll);
