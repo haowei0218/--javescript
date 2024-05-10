@@ -10,20 +10,11 @@ TestBtn.addEventListener("click", () => {
  * @return {JSON}
  */
 async function SearchBooks() {
-  fetch("/api/All_books", {
-    method: "GET",
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("NetWork response have error");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      displayData(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  try{
+    const response = await fetch('http://localhost:3000/BOOK');
+    const data = await response.json();
+    console.log(data);
+  }catch(error){
+    console.log(error)
+  }
 }
