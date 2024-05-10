@@ -20,7 +20,7 @@ const ReloadBtn = document.querySelector(".reloadpage");
 const CreateBtn = document.querySelector(".createAccount");
 const AccountContainer = document.querySelector(".Account_container");
 /**資料庫 */
-import { _supabase } from "./supabase with web/supabase";
+import { _supabase } from "../supabase with web/supabase";
 
 /**隨機數字*/
 /**
