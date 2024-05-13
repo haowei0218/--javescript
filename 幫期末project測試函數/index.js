@@ -18,3 +18,13 @@ async function SearchBooks() {
     console.log(error)
   }
 }
+async function TestBook(userId, bookId) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/users/${userId}/books/${bookId}`
+    );
+    console.log(await response.json());
+  } catch (error) {
+    console.log(error);
+  }
+}
