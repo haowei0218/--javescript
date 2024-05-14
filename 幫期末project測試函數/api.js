@@ -28,10 +28,11 @@ const server = http.createServer((req, res) => {
  * 提醒:每次改code前 先停止後端運作 改完後再啟動
  */
 
-app.get("/BOOK", async (req, res) => {
+app.get("/api/all_books", async (req, res) => {
   try {
-    const { data, error } = await supabase.from("accountdata").select("*");
+    const { data, error } = await supabase.from("booksdata").select("*");
     res.json(data);
+    res.status(200);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "查詢時發生錯誤" });
@@ -40,23 +41,29 @@ app.get("/BOOK", async (req, res) => {
 
 app.get("/api/books/:book_name", async (req, res) => {
   try {
-    const { data, error } = await _supabase
-      .from("bookData")
+    const Book_name = req.params.book_name;
+    const { data, error } = await supabase
+      .from("booksdata")
       .select("*")
-      .eq("book_name", ":book_name");
+      .eq("book_name", `${Book_name}`);
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "查詢書名時發生錯誤" });
   }
 });
-app.get("/users/:userId/books/:bookId", function (req, res) {
-  const userId = req.params.userId;
-  const bookId = req.params.bookId;
-
-  res.json({
-    userId: userId,
-    bookId: bookId,
-  });
+app.get("/api/books/:bookid", async (req, res) => {
+  try {
+    const bookId = req.params.bookid;
+    const { data, error } = await supabase
+      .from("booksdata")
+      .select("*")
+      .eq("book_id", `${bookId}`);
+    res.json({
+      bookId: bookId,
+    });
+  } catch (error) {
+    res.status(500).json();
+  }
 });
 const PORT = 3000;
 app.listen(PORT, () => {

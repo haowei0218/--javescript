@@ -1,7 +1,8 @@
 const TestBtn = document.querySelector(".test");
+const DisplayContainer = document.querySelector(".container");
 
 TestBtn.addEventListener("click", () => {
-  TestBook();
+  SearchAllBooks();
 });
 /**
  * @async
@@ -9,10 +10,11 @@ TestBtn.addEventListener("click", () => {
  * @param {string} url - 自定義的api
  * @return {JSON}
  */
-async function SearchBooks() {
+async function SearchAllBooks() {
   try {
-    const response = await fetch("http://localhost:3000/BOOK");
+    const response = await fetch("http://localhost:3000/api/all_books");
     const data = await response.json();
+    DisplayContent(data);
     console.log(data);
   } catch (error) {
     console.log(error);
@@ -25,13 +27,33 @@ async function SearchBooks() {
  * @param {*} bookId
  * @return {void}
  */
-async function TestBook(userId, bookId) {
+async function SearchBooksId(bookId) {
   try {
-    const response = await fetch(
-      `http://localhost:3000/users/${userId}/books/${bookId}`
-    );
+    const response = await fetch(`http://localhost:3000/api/books/${bookId}`);
     console.log(await response.json());
   } catch (error) {
     console.log(error);
   }
+}
+
+/**
+ * @async
+ * @param {Array[Object]} database
+ * @return {HTMLElement}
+ */
+async function DisplayContent(database) {
+  const displayInHtml = database
+    .map((data) => {
+      const { book_id, book_name, author_name, classification } = data;
+      return `
+    <tr>
+      <td>${data.book_id}</td>
+      <td>${data.book_name}</td>
+      <td>${data.author_name}</td>
+      <td>${data.classification}</td>
+    </tr>
+    `;
+    })
+    .join(" ");
+  DisplayContainer.innerHTML = displayInHtml;
 }
