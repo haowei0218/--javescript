@@ -17,6 +17,37 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-type": "text/plain" });
   res.end("hello world\n");
 });
+/**TEST CREATE API */
+app.post(
+  "/api/id/:book_id/name/:book_name/author/:author_name/class/:class",
+  async (req, res) => {
+    try {
+      const id = req.params.book_id;
+      const name = req.params.book_name;
+      const author = req.params.author_name;
+      const Class = req.params.class;
+      const { data, error } = await supabase
+        .from("booksdata")
+        .insert([
+          {
+            book_id: id,
+            book_name: name,
+            author_name: author,
+            classification: Class,
+          },
+        ])
+        .select();
+      console.log([
+        { id: id, book_name: name, author_name: author, classification: Class },
+      ]);
+      res.json(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+/**---------------------------------------------------------------------- */
 
 /**
  * 定義一個GET路由 取得所有書籍的資料
@@ -39,28 +70,28 @@ app.get("/api/all_books", async (req, res) => {
   }
 });
 
-app.get("/api/books/:book_name", async (req, res) => {
+app.get("/api/book_name/:book_name", async (req, res) => {
   try {
     const Book_name = req.params.book_name;
+    console.log("查詢的書名：", Book_name);
     const { data, error } = await supabase
       .from("booksdata")
       .select("*")
-      .eq("book_name", `${Book_name}`);
+      .eq("book_name", Book_name);
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "查詢書名時發生錯誤" });
   }
 });
-app.get("/api/books/:bookid", async (req, res) => {
+app.get("/api/books_id/:bookid", async (req, res) => {
   try {
     const bookId = req.params.bookid;
+    console.log("查詢的書本編號：", bookId);
     const { data, error } = await supabase
       .from("booksdata")
       .select("*")
-      .eq("book_id", `${bookId}`);
-    res.json({
-      bookId: bookId,
-    });
+      .eq("book_id", bookId);
+    res.json(data);
   } catch (error) {
     res.status(500).json();
   }

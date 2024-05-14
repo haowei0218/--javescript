@@ -12,13 +12,41 @@
                   height: 100vh;
                   border: 1px solid black;
          }
+
+         .data_table ul {
+                  display: flex;
+                  list-style: none;
+                  justify-content: space-around;
+                  align-content: space-around;
+                  width: 400px;
+                  height: 50px;
+         }
 </style>
 
 <body>
 
          <button class="test">Test</button>
-         <div class="container"></div>
-         <script type="module" src="./index.js"></script>
+         <button class="test_with_create">新增資料用</button>
+
+         <div class="search-1">
+                  <input class="input_name" type="text" placeholder="name">
+                  <button class="search_name">
+                           search
+                  </button>
+         </div>
+         <div class="search-2">
+                  <input class="input_id" type="text" placeholder="Id">
+                  <button class="search_id">
+                           search
+                  </button>
+         </div>
+         <div class="container">
+                  <div class="data_table">
+
+                  </div>
+         </div>
+         <script src="./index.js"></script>
+
 </body>
 
 </html>
