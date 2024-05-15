@@ -10,52 +10,66 @@
 
 <body>
          <div class="web">
-                  <div class="menu">
+                  <nav class="menu">
                            <div class="title">
-                                    <h1>圖書管理系統</h1>
+                                    <h2>圖書管理系統</h2>
                            </div>
 
-                           <div class="search">
-                                    <input type="text" placeholder="請輸入書本名稱/作者">
-                                    <button class="searchBtn">搜尋</button>
+                           <div class="btn">
+                                    <select name="Language" class="Language">
+                                             <option value="繁體中文" class="language-1">繁體中文</option>
+                                             <option value="英文" class="language-2">英文</option>
+                                    </select>
+                                    <select name="User" class="User">
+                                             <option value="User1" class="user-1">User1</option>
+                                             <option value="User2" class="user-2">User2</option>
+                                    </select>
                            </div>
 
+                  </nav>
+                  <div class="main-container">
+                           <div class="function_list">
+                                    <h4>書籍</h4>
+                                    <ul>
+                                             <li><i class="fa-solid fa-book"></i>查詢書本資料</li>
+                                             <li>查詢借閱紀錄</li>
+                                    </ul>
 
-                           <div class="action">
-                                    <button class="insertBtn">新增</button>
                            </div>
-                           <div class="addInfo hidden">
-                                    <input type="text" placeholder="書本名稱" class="input1 hidden">
-                                    <input type="text" placeholder="書本分類" class="input2 hidden">
-                                    <input type="text" placeholder="作者" class="input3 hidden">
-                                    <button class="addBtn hidden">確認</button>
-                           </div>
+                           <div class="container">
+                                    <h3>管理列表</h3>
 
+                                    <div class="allbuttton">
+                                             <button class="insertBtn">新增</button>
+                                             <input class="searchInput" type="text" placeholder="請輸入書本名稱/作者">
+                                    </div>
+
+
+                                    <ul class="tableTitle">
+                                             <li class="table_id">書本編號</li>
+                                             <li class="table_name">書名</li>
+                                             <li class="table_author_name">作者</li>
+                                             <li class="table_classification">書本分類</li>
+                                    </ul>
+                                    <div class="Datalist">
+
+
+                                    </div>
+                                    <nav class="pageList">
+                                             <ul class="booklist">
+                                                      <li>1</li>
+                                                      <li>2</li>
+                                                      <li>3</li>
+                                                      <li>4</li>
+                                                      <li>Next</li>
+                                                      <li>Last</li>
+                                             </ul>
+
+                                    </nav>
+
+                           </div>
                   </div>
-                  <div class="container">
-                           <h2>圖書管理列表</h2>
-                           <ul class="booklist">
-                                    <li>1</li>
-                                    <li>2</li>
-                                    <li>3</li>
-                                    <li>4</li>
-                                    <li>Next</li>
-                                    <li>Last</li>
 
-                           </ul>
-
-                           <ul class="tableTitle">
-                                    <li class="table_id">書本編號</li>
-                                    <li class="table_name">書名</li>
-                                    <li class="table_author_name">作者</li>
-                                    <li class="table_classification">書本分類</li>
-                           </ul>
-                           <div class="main_Container">
-
-
-                           </div>
-
-                  </div>
          </div>
 
 

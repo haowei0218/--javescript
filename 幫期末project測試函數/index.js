@@ -142,7 +142,8 @@ async function SearchBooksId() {
     const book_id = input_id.value;
     console.log(book_id);
     const Apidata = await FetchApi(
-      `http://localhost:3000/api/books_id/${book_id}`
+      `http://localhost:3000/api/books_id/${book_id}`,
+      "GET"
     );
     DisplayContent(Apidata);
   } catch (error) {
@@ -163,7 +164,8 @@ async function SearchBookName() {
     const name = input_name.value;
     console.log(name);
     const Apidata = await FetchApi(
-      `http://localhost:3000/api/book_name/${name}`
+      `http://localhost:3000/api/book_name/${name}`,
+      "GET"
     );
     DisplayContent(Apidata);
   } catch (error) {
