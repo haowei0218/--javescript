@@ -1,10 +1,12 @@
 const TestBtn = document.querySelector(".test");
 const DisplayContainer = document.querySelector(".data_table");
-const input_name = document.querySelector(".input_name");
-const search_name = document.querySelector(".search_name");
-const input_id = document.querySelector(".input_id");
-const search_id = document.querySelector(".search_id");
+const id = document.getElementById("id");
+const name_btn = document.getElementById("name");
+const author = document.getElementById("author");
+const class_btn = document.getElementById("classification");
 const add_btn = document.querySelector(".test_with_create");
+const create_btn = document.querySelector('.create_classification');
+
 /**-----------------------------------------------------------
  * 測試用的功能
  */
@@ -66,6 +68,12 @@ async function CreateBooksData() {
   console.log(Apidata);
   DisplayContent(Apidata);
 }
+
+
+
+
+
+
 
 /**---------------------------------------------------------- */
 /**
@@ -150,9 +158,7 @@ async function SearchBooksId() {
     console.log(error);
   }
 }
-search_id.addEventListener("click", async () => {
-  SearchBooksId();
-});
+
 
 /**
  * @async
@@ -172,6 +178,29 @@ async function SearchBookName() {
     alert(`${error}`);
   }
 }
-search_name.addEventListener("click", async () => {
-  SearchBookName();
-});
+
+
+
+/**
+ * @async 
+ * @function ManualCreateBook - 手動新增書籍的基本資料
+ * @returns {void}
+ */
+async function ManualCreateBook(){
+  try{
+    const result_id = id.value;
+    const result_name = name_btn.value;
+    const result_author = author.value;
+    const result_classification = class_btn.value;
+    console.log(result_author);
+    const Apidata = await FetchApi(`http://localhost:3000/api/id/${result_id}/name/${result_name}/author/${result_author}/class/${result_classification}`,"POST");
+    DisplayContent(Apidata);
+  }catch(error){
+    console.log(error)
+  }
+}
+
+create_btn.addEventListener('click',async()=>{
+ 
+  await ManualCreateBook();
+})

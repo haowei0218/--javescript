@@ -50,9 +50,9 @@ app.post(
 /**---------------------------------------------------------------------- */
 
 /**
- * 定義一個GET路由 取得所有書籍的資料
+ * 取得資料庫內的所有資料
  * @route GET /api/books
- * @returns {object[]} books - all data in supabase
+ * @returns {JSON} books - all data in supabase
  * @returns 將response以json的格式回傳
  * @returns catch(error) => res.status(500)
  *
@@ -70,6 +70,12 @@ app.get("/api/all_books", async (req, res) => {
   }
 });
 
+
+/**
+ * 以書籍名稱搜尋
+ * @route GET /api/book_name 
+ * @returns {JSON}
+ */
 app.get("/api/book_name/:book_name", async (req, res) => {
   try {
     const Book_name = req.params.book_name;

@@ -2,84 +2,126 @@
 <html lang="en">
 
 <head>
-         <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <title>Document</title>
-         <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
-         <div class="web">
-                  <nav class="menu">
-                           <div class="title">
-                                    <h2>圖書管理系統</h2>
-                           </div>
+    <div class="web">
+        <nav class="menu">
+            <div class="title">
+                <div class="icon"><i class="fa-solid fa-computer"></i></div>
+                <h2>圖書管理系統</h2>
+            </div>
 
-                           <div class="btn">
-                                    <select name="Language" class="Language">
-                                             <option value="繁體中文" class="language-1">繁體中文</option>
-                                             <option value="英文" class="language-2">英文</option>
-                                    </select>
-                                    <select name="User" class="User">
-                                             <option value="User1" class="user-1">User1</option>
-                                             <option value="User2" class="user-2">User2</option>
-                                    </select>
-                           </div>
+            <div class="btn">
+                <select name="Language" class="Language">
+                    <option value="繁體中文" class="language-1">繁體中文</option>
+                    <option value="英文" class="language-2">英文</option>
+                </select>
+                <select name="User" class="User">
+                    <option value="User1" class="user-1">User1</option>
+                    <option value="User2" class="user-2">User2</option>
+                </select>
+            </div>
 
-                  </nav>
-                  <div class="main-container">
-                           <div class="function_list">
-                                    <h4>書籍</h4>
-                                    <ul>
-                                             <li><i class="fa-solid fa-book"></i>查詢書本資料</li>
-                                             <li>查詢借閱紀錄</li>
-                                    </ul>
+        </nav>
+        <div class="main-container">
+            <div class="function_list">
+                <h4>書籍<i class="fa-solid fa-caret-down"></i></h4>
+                <ul class="search_book">
+                    <li><i class="fa-solid fa-book"></i>查詢書籍資料</li>
+                    <li><i class="fa-solid fa-book-medical"></i>查詢借閱紀錄</li>
+                    <li><i class="fa-solid fa-square-plus"></i>新增書籍資料</li>
+                </ul>
 
-                           </div>
-                           <div class="container">
-                                    <h3>管理列表</h3>
+            </div>
+            <div class="container">
+                <h3>管理列表</h3>
 
-                                    <div class="allbuttton">
-                                             <button class="insertBtn">新增</button>
-                                             <input class="searchInput" type="text" placeholder="請輸入書本名稱/作者">
-                                    </div>
+                <div class="allbutton">
+                    <div class="filter_book">
+                        <select name="" class="filter_info">
+                            <option value="book_id">書籍編號</option>
+                            <option value="book_name">書籍名稱</option>
+                            <option value="book_author">書籍作者</option>
+                        </select>
 
-
-                                    <ul class="tableTitle">
-                                             <li class="table_id">書本編號</li>
-                                             <li class="table_name">書名</li>
-                                             <li class="table_author_name">作者</li>
-                                             <li class="table_classification">書本分類</li>
-                                    </ul>
-                                    <div class="Datalist">
+                        <input class="searchInput" type="text" placeholder="搜尋">
 
 
-                                    </div>
-                                    <nav class="pageList">
-                                             <ul class="booklist">
-                                                      <li>1</li>
-                                                      <li>2</li>
-                                                      <li>3</li>
-                                                      <li>4</li>
-                                                      <li>Next</li>
-                                                      <li>Last</li>
-                                             </ul>
-
-                                    </nav>
-
-                           </div>
-                  </div>
-
-         </div>
+                    </div>
+                    <select name="classification" class="classification">
+                        <option value="" disabled selected>請選擇書籍的分類</option>
+                        <option value="文學">文學</option>
+                        <option value="藝術">藝術</option>
+                        <option value="人文">人文</option>
+                        <option value="歷史">歷史</option>
+                        <option value="體育">體育</option>
+                        <option value="奇幻">奇幻</option>
+                        <option value="武俠小說">武俠小說</option>
+                        <option value="漫畫">漫畫</option>
+                        <option value="中國文學">中國文學</option>
+                        <option value="雜誌">雜誌</option>
+                        <option value="兒童">兒童</option>
+                    </select>
 
 
 
+                </div>
+                <div class="search__book_btn">
+                    <button class="search_btn">搜尋</button>
+                    <button class="reset_btn">重設</button>
+
+                </div>
+
+
+
+
+                <ul class="tableTitle">
+                    <li class="table_id">書本編號</li>
+                    <li class="table_name">書名</li>
+                    <li class="table_author_name">作者</li>
+                    <li class="table_classification">書本分類</li>
+                    <li class="table_action">執行的動作</li>
+                </ul>
+                <div class="Datalist">
+
+                    <div class="data_status hidden">
+                        <div class="data_icon"><i class="fa-solid fa-robot"></i></div>
+                        <p>No data</p>
+                    </div>
+
+
+                </div>
+                <nav class="pageList">
+                    <ul class="booklist">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>Next</li>
+                        <li>Last</li>
+                    </ul>
+
+                </nav>
+
+            </div>
+        </div>
+
+    </div>
 
 
 
 
 
-         <script src="./index.js"></script>
+
+
+
+    <script src="./index.js"></script>
 </body>
 
 </html>
