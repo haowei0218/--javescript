@@ -69,11 +69,32 @@ app.get("/api/all_books", async (req, res) => {
     res.status(500).json({ error: "查詢時發生錯誤" });
   }
 });
-
+/**
+ * 限制資料庫每次傳輸的數量
+ * @route GET /api/limit/books
+ * @return {JSON}
+ * @range 依照分頁的數字 設定起始查詢位置與結束查詢位置
+ */
+app.get("/api/page/:page/books", async (req, res) => {
+  const limitData = 10;
+  const pageNumber = Number(req.params.page);
+  const start = (pageNumber - 1) * limitData + 1;
+  const end = pageNumber * limitData;
+  try {
+    const { data, error } = await supabase
+      .from("booksdata")
+      .select("*")
+      .range(start, end);
+    res.json(data);
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 /**
  * 以書籍名稱搜尋
- * @route GET /api/book_name 
+ * @route GET /api/book_name
  * @returns {JSON}
  */
 app.get("/api/book_name/:book_name", async (req, res) => {

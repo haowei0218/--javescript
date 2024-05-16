@@ -5,7 +5,15 @@ const name_btn = document.getElementById("name");
 const author = document.getElementById("author");
 const class_btn = document.getElementById("classification");
 const add_btn = document.querySelector(".test_with_create");
-const create_btn = document.querySelector('.create_classification');
+const create_btn = document.querySelector(".create_classification");
+const create_container = document.querySelector(".create_info");
+const createInfo = document.querySelector(".create_content");
+const overlay = document.querySelector(".overlay");
+const loading = document.querySelector(".loading");
+const page1 = document.querySelector(".perpage-1");
+const page2 = document.querySelector(".perpage-2");
+const page3 = document.querySelector(".perpage-3");
+const page4 = document.querySelector(".perpage-4");
 
 /**-----------------------------------------------------------
  * 測試用的功能
@@ -69,12 +77,6 @@ async function CreateBooksData() {
   DisplayContent(Apidata);
 }
 
-
-
-
-
-
-
 /**---------------------------------------------------------- */
 /**
  * @async
@@ -136,8 +138,32 @@ async function SearchAllBooks() {
   }
 }
 TestBtn.addEventListener("click", () => {
-  SearchAllBooks();
+  DisplayLoading();
+  SearchAllBooks().then(() => {
+    HiddenLoading();
+  });
+
+  /*loading.addEventListener("animationiteration", function () {
+    setTimeout(function () {}, 500);
+  });*/
 });
+
+/**
+ * 用於在網頁執行動作時顯示動畫
+ * @function DisplayLoading
+ */
+function DisplayLoading() {
+  loading.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+}
+/**
+ * 用於執行完動作時隱藏動畫
+ * @function HiddenLoading
+ */
+function HiddenLoading() {
+  loading.classList.add("hidden");
+  overlay.classList.add("hidden");
+}
 
 /**
  * @async
@@ -159,7 +185,6 @@ async function SearchBooksId() {
   }
 }
 
-
 /**
  * @async
  * @function SearchBookName 查詢書本名稱
@@ -179,28 +204,107 @@ async function SearchBookName() {
   }
 }
 
-
-
 /**
- * @async 
+ * @async
  * @function ManualCreateBook - 手動新增書籍的基本資料
  * @returns {void}
  */
-async function ManualCreateBook(){
-  try{
+async function ManualCreateBook() {
+  try {
     const result_id = id.value;
     const result_name = name_btn.value;
     const result_author = author.value;
     const result_classification = class_btn.value;
     console.log(result_author);
-    const Apidata = await FetchApi(`http://localhost:3000/api/id/${result_id}/name/${result_name}/author/${result_author}/class/${result_classification}`,"POST");
+    const Apidata = await FetchApi(
+      `http://localhost:3000/api/id/${result_id}/name/${result_name}/author/${result_author}/class/${result_classification}`,
+      "POST"
+    );
     DisplayContent(Apidata);
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
 }
 
-create_btn.addEventListener('click',async()=>{
- 
+create_btn.addEventListener("click", async () => {
   await ManualCreateBook();
-})
+});
+
+/**
+ * @async
+ * @function CreateInfo() 點擊後再網頁中央顯示輸入匡用於新增資料
+ * @param {string} title
+ */
+async function CreateInfo(title) {
+  create_container.classList.remove("hidden");
+  create_container.innerHTML = `
+  <h3>${title}</h3>
+  <button class="close-btn">X</button>
+  <div class="create-list">
+  <label for="id">書籍編號</label>
+  <input type="text" placeholder="id">
+  <label for="name">書籍名稱</label>
+  <input type="text" placeholder="name">
+  <label for="author">書籍作者</label>
+  <input type="text" placeholder="author">
+  <label for="classification">書籍分類</label>
+  <input type="text" placeholder="classification">
+  <button class="create-btn">create</button>
+  </div>
+  `;
+  const create_btn = document.querySelector(".create-btn");
+  const close_btn = document.querySelector(".close-btn");
+  console.log(create_btn);
+  close_btn.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    create_container.classList.add("hidden");
+  });
+}
+createInfo.addEventListener("click", async () => {
+  CreateInfo("編輯資料");
+  overlay.classList.remove("hidden");
+});
+
+/**
+ * @async
+ * @function PerpageDisplayData 分頁顯示資料
+ * @param {Number} page
+ */
+async function PerpageDisplayData(page) {
+  try {
+    DisplayContainer.innerHTML = " ";
+    const response = await FetchApi(
+      `http://localhost:3000/api/page/${page}/books`,
+      "GET"
+    );
+    DisplayContent(response);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+page1.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(1).then(() => {
+    HiddenLoading();
+  });
+});
+page2.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(2).then(() => {
+    HiddenLoading();
+  });
+});
+page3.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(3).then(() => {
+    HiddenLoading();
+  });
+});
+page4.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(4).then(() => {
+    HiddenLoading();
+  });
+});
