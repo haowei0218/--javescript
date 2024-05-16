@@ -1,0 +1,543 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
+body {
+    top: 0;
+    margin: 0;
+    font-family: 'Poetsen', 'sans-serif';
+    font-weight: 400;
+    font-style: normal;
+}
+
+.web {
+    display: grid;
+    width: 100%;
+    height: 100%;
+}
+
+.btn {
+    display: flex;
+    gap: 5px;
+    margin-top: 25px;
+    margin-right: 20px;
+
+}
+
+.Language {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.User {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 100%;
+    height: 10%;
+    border-bottom: 1px solid rgba(224, 215, 215, 0.913);
+    background: #f0efef;
+    box-shadow: 10px;
+    position: fixed;
+    top: 0;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 50px;
+    width: 250px;
+    margin-left: 10px;
+    margin-top: 15px;
+    gap: 8px;
+
+}
+
+.icon {
+    display: block;
+    padding-top: 10px;
+    font-size: 40px;
+}
+
+
+.search button:hover {
+    cursor: pointer;
+}
+
+.filter_book button {
+    height: 35px;
+    background-color: #fff;
+    border-left: 0px;
+}
+
+.allbutton {
+    display: flex;
+    height: 25px;
+
+    gap: 10px;
+
+}
+
+.filter_info {
+    width: 100px;
+    height: 35px;
+    border: 1px solid #838181;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.classification {
+    width: 200px;
+    height: 35px;
+    border: 1px solid #838181;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+
+.searchInput {
+    width: 200px;
+    height: 30px;
+    border: 1px solid #838181;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+
+}
+
+.searchInput:hover {
+    cursor: pointer;
+    border: 2px solid #859ce7;
+}
+
+.classification:hover {
+    cursor: pointer;
+    border: 2px solid #859ce7;
+}
+
+.filter_info:hover {
+    cursor: pointer;
+    border: 2px solid #859ce7;
+}
+
+
+.search__book_btn {
+    display: flex;
+    margin-top: 20px;
+    width: 300px;
+    gap: 5px;
+}
+
+.search_btn {
+    width: 80px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.search_btn:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+.reset_btn:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+.reset_btn {
+    width: 80px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.addInfo {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin-left: 60px;
+    margin-top: 20px;
+}
+
+.addInfo input {
+    width: 100%;
+}
+
+.addInfo button {
+    margin: 0 auto;
+}
+
+.container {
+    width: 100%;
+    height: 80%;
+    margin-top: 100px;
+    background-color: #fff;
+    margin-left: 40px;
+}
+
+.container h3 {
+    font-size: 25px;
+
+}
+
+.booklist {
+    display: grid;
+    grid-auto-flow: column;
+    list-style: none;
+    width: 300px;
+    height: 25px;
+    text-align: center;
+}
+
+.booklist li {
+    width: 80%;
+    height: 100%;
+    border: 1px solid gray;
+    padding-top: 5px;
+}
+
+.booklist li:hover {
+    background-color: #7c7c7c;
+    cursor: pointer;
+}
+
+.tableTitle {
+    display: flex;
+    list-style: none;
+    width: 98%;
+    height: 40px;
+    border: 1px solid gray;
+    margin-top: 20px;
+    margin-right: 50px;
+    padding-top: 8px;
+    text-align: center;
+
+
+}
+
+.tableTitle li {
+    width: 100%;
+    padding-right: 80px;
+
+}
+
+.table_id {
+    color: rgb(24, 95, 229);
+}
+
+
+.pageList {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+
+}
+
+.function_list {
+    width: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.function_list h4 {
+    display: flex;
+    gap: 5px;
+    margin-top: 100px;
+    margin-left: 20px;
+}
+
+.function_list i:hover {
+    cursor: pointer;
+
+}
+
+.function_list ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.function_list ul li:hover {
+    color: #2d52cc;
+    cursor: pointer;
+}
+
+
+.main-container {
+    display: flex;
+    margin-top: 40px;
+    margin-right: 50px;
+
+}
+
+.search_book {
+    display: grid;
+    gap: 5px;
+    flex-direction: column;
+    justify-content: end;
+    width: 150px;
+
+
+}
+
+.search_book li {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+
+}
+
+.data_status {
+    display: grid;
+    width: 100px;
+    height: 115px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 10px gray;
+    margin: 0 auto;
+}
+
+.data_icon {
+    width: 100%;
+    height: 100%;
+    font-size: 40px;
+    padding-left: 13px;
+}
+
+.data_status p {
+    font-size: 25px;
+
+}
+
+.hidden {
+    display: none;
+}
+
+/**加載動畫*/
+
+.loading {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    border: 16px solid rgb(255, 255, 255);
+    border-top: 16px solid rgb(44, 90, 206);
+    border-bottom: 16px solid rgb(44, 90, 206);
+    border-radius: 50%;
+    animation: Search_loading;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    z-index: 10;
+}
+
+@keyframes Search_loading {
+    0% {
+
+        transform: rotateZ(40deg);
+
+    }
+
+    12.5% {
+
+        transform: rotateZ(80deg);
+    }
+
+    25% {
+
+        transform: rotateZ(120deg);
+    }
+
+    37.5% {
+
+        transform: rotateZ(160deg);
+    }
+
+    50% {
+
+        transform: rotateZ(200deg);
+    }
+
+    62.5% {
+
+        transform: rotateZ(240deg);
+    }
+
+    75% {
+
+        transform: rotateZ(280deg);
+    }
+
+    87.5% {
+
+        transform: rotateZ(320deg);
+    }
+
+    100% {
+
+        transform: rotateZ(360deg);
+    }
+}
+
+/*點擊按鈕後 網頁背景變成有點透明的黑色*/
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 5;
+}
+
+/*前端顯示資料的樣式*/
+.Datalist {
+    width: 100%;
+    height: 68vh;
+    border: 1px solid gray;
+    justify-content: center;
+    align-content: center;
+
+
+}
+
+.data_table {
+    position: relative;
+    top: 10px;
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    height: 100%;
+}
+
+.Datalist tr {
+    position: relative;
+    top: 2;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    width: 100%;
+    list-style: none;
+    text-justify: auto;
+    text-align: center;
+
+}
+
+.Datalist tr td {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+}
+
+/*手動新增資料的樣式*/
+/*z-index: 10代表此資料樣式會在整個網頁元素的最上方*/
+.create_info {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 420px;
+    height: 550px;
+    z-index: 10;
+    margin: 0 auto;
+    border: 1px solid rgb(135, 129, 129);
+    border-radius: 5px;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.create-list {
+    position: relative;
+    display: grid;
+    width: 300px;
+    height: 300px;
+    top: 20%;
+    left: 20%;
+    background-color: #fff
+}
+
+.create-list input {
+    width: 80%;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid rgb(209, 208, 208);
+}
+
+.create-list button {
+    width: 82%;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid rgb(209, 208, 208);
+}
+
+
+
+.create_info h3 {
+    position: relative;
+    top: 18%;
+    left: 40%;
+}
+
+.create-list {
+    position: relative;
+    display: grid;
+}
+
+.close-btn {
+    display: block;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border: 0px;
+    top: 20px;
+    left: 80%;
+    font-size: 20px;
+
+}
+
+.close-btn:hover {
+    cursor: pointer;
+    color: rgb(44, 90, 206);
+}
+
+.create-btn:hover {
+    cursor: pointer;
+    background-color: rgb(44, 90, 206);
+}
+
+.hidden {
+    display: none;
+}
