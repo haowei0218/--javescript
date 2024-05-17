@@ -91,39 +91,49 @@ app.get("/api/page/:page/books", async (req, res) => {
     console.log(error);
   }
 });
-
 /**
- * 以書籍名稱搜尋
- * @route GET /api/book_name
- * @returns {JSON}
+ * 檢查資料的重複性
+ * @route Get /api/books_field/:book_field/book_data/:book_data
  */
-app.get("/api/book_name/:book_name", async (req, res) => {
-  try {
-    const Book_name = req.params.book_name;
-    console.log("查詢的書名：", Book_name);
-    const { data, error } = await supabase
-      .from("booksdata")
-      .select("*")
-      .eq("book_name", Book_name);
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: "查詢書名時發生錯誤" });
+app.get(
+  "/api/books_field/:book_field/book_data/:book_data",
+  async (req, res) => {
+    try {
+      const book_field = req.params.book_field;
+      const book_data = req.params.book_data;
+      console.log("查詢的書本重複性：", `${book_field}`, `${book_data}`);
+      const { data, error } = await supabase
+        .from("booksdata")
+        .select("*")
+        .eq(`${book_field}`, `${book_data}`);
+      res.json(data);
+      res.status(200);
+      console.log("重複的資料為:", data);
+    } catch (error) {
+      res.status(500);
+    }
   }
-});
-app.get("/api/books_id/:bookid", async (req, res) => {
-  try {
-    const bookId = req.params.bookid;
-    console.log("查詢的書本編號：", bookId);
-    const { data, error } = await supabase
-      .from("booksdata")
-      .select("*")
-      .eq("book_id", bookId);
-    res.json(data);
-  } catch (error) {
-    res.status(500).json();
-  }
-});
+);
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`listen ${PORT}`);
+});
+
+/**
+ * 取得對應分類的所有書籍
+ * @route GET /api/book_classification/:classification
+ */
+
+app.get("/api/book_classification/:book_classification", async (req, res) => {
+  try {
+    const classification = req.params.book_classification;
+    const { data, error } = await supabase
+      .from("booksdata")
+      .select("*")
+      .eq("classification", `${classification}`);
+    res.json(data);
+    console.log(`${classification}分類中的所有資料：`, data);
+  } catch (error) {
+    console.log(error);
+  }
 });

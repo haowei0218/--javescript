@@ -1,10 +1,13 @@
-const search_btn = document.querySelector('.search_btn')
-const search_btn_inMenu = document.querySelector('.search_book_list')
+const search_btn = document.querySelector(".search_btn");
+const search_btn_inMenu = document.querySelector(".search_book_list");
 const loading = document.querySelector(".loading");
 const overlay = document.querySelector(".overlay");
-const DataTable = document.querySelector('.data_table');
-const Create_btn = document.querySelector('.create');
-const create_container = document.querySelector('.create_info');
+const DataTable = document.querySelector(".data_table");
+const Create_btn = document.querySelector(".create");
+const create_container = document.querySelector(".create_info");
+const data_status = document.querySelector(".data_status");
+const FilterSelect = document.querySelector(".filter_info");
+const FilterInput = document.querySelector(".searchInput");
 const page1 = document.querySelector(".perpage-1");
 const page2 = document.querySelector(".perpage-2");
 const page3 = document.querySelector(".perpage-3");
@@ -12,32 +15,8 @@ const page4 = document.querySelector(".perpage-4");
 const page5 = document.querySelector(".perpage-5");
 const page6 = document.querySelector(".perpage-6");
 /**-----------------------------------------------------------
- * 測試用的功能
- */
-function DataRandom(result) {
-  const Rnumber = Math.random();
-  const random = Rnumber * result;
-  const testNum = Math.ceil(random);
-  return testNum;
-}
-
-function ID() {
-  const Id = String(DataRandom(10000000));
-  return Id;
-}
-
-function BookName() {
-  const Name = String("Book" + DataRandom(1000000));
-  return Name;
-}
-
-function Author_name() {
-  const Author = String("Author" + DataRandom(10000000));
-  return Author;
-}
-
-function classification() {
-  const classList = [
+ * 測試用的功能 
+ * const classList = [
     "文學",
     "藝術",
     "人文",
@@ -50,25 +29,7 @@ function classification() {
     "雜誌",
     "兒童",
   ];
-  const number = DataRandom(10);
-  console.log(number);
-  return classList[number];
-}
-
-
-async function CreateBooksData() {
-  const id = ID();
-  const book_name = BookName();
-  const author_name = Author_name();
-  const Classification = classification();
-
-  const Apidata = await FetchApi(
-    `http://localhost:3000/api/id/${id}/name/${book_name}/author/${author_name}/class/${Classification}`,
-    "POST"
-  );
-  console.log(Apidata);
-  DisplayContent(Apidata);
-}
+ */
 
 /**---------------------------------------------------------- */
 /**
@@ -97,7 +58,7 @@ async function DisplayContent(database) {
     `;
     })
     .join(" ");
-    DataTable.innerHTML = displayInHtml;
+  DataTable.innerHTML = displayInHtml;
 }
 
 /**
@@ -112,34 +73,75 @@ async function FetchApi(url, method) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(`${error}`);
-  }
-}
-
-/**
- * @async
- * @function SearchBooks() 該函數向api發送request 從資料庫獲取所有資料
- * @param {string} url - 自定義的api
- * @return {JSON}
- */
-async function SearchAllBooks() {
-  try {
-    const Apidata = await FetchApi(
-      "http://localhost:3000/api/all_books",
-      "GET"
-    );
-    DisplayContent(Apidata);
-    console.log(Apidata);
-  } catch (error) {
     console.log(error);
   }
 }
-search_btn_inMenu.addEventListener('click',async ()=>{
-  SearchAllBooks();
-})
+/**
+ * @async
+ * @function PerpageDisplayData 分頁顯示資料
+ * @param {Number} page
+ */
 
-
-
+async function PerpageDisplayData(page) {
+  try {
+    DataTable.innerHTML = " ";
+    const response = await FetchApi(
+      `http://localhost:3000/api/page/${page}/books`,
+      "GET"
+    );
+    if (response.length !== 0) {
+      data_status.classList.add("hidden");
+      DisplayContent(response);
+    } else {
+      data_status.classList.remove("hidden");
+    }
+    console.log(response);
+  } catch (error) {
+    alert(error);
+  }
+}
+search_btn_inMenu.addEventListener("click", async () => {
+  DisplayLoading();
+  PerpageDisplayData(1).then(() => {
+    HiddenLoading();
+  });
+});
+page1.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(1).then(() => {
+    HiddenLoading();
+  });
+});
+page2.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(2).then(() => {
+    HiddenLoading();
+  });
+});
+page3.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(3).then(() => {
+    HiddenLoading();
+  });
+});
+page4.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(4).then(() => {
+    HiddenLoading();
+  });
+});
+page5.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(5).then(() => {
+    HiddenLoading();
+  });
+});
+page6.addEventListener("click", () => {
+  DisplayLoading();
+  PerpageDisplayData(6).then(() => {
+    HiddenLoading();
+  });
+});
 /**
  * @async
  * @function SearchBooksId 查詢書本編號
@@ -160,7 +162,6 @@ async function SearchBooksId() {
   }
 }
 
-
 /**
  * @async
  * @function SearchBookName 查詢書本名稱
@@ -180,16 +181,14 @@ async function SearchBookName() {
   }
 }
 
-
-
 /**
  * 用於網頁執行動作時的顯示動畫
  * @function DisplayLoading
  */
 
-function DisplayLoading(){
-  loading.classList.remove('hidden');
-  overlay.classList.remove('hidden');
+function DisplayLoading() {
+  loading.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 }
 
 /**
@@ -197,105 +196,131 @@ function DisplayLoading(){
  * @function HiddenLoading
  */
 
-function HiddenLoading(){
-  loading.classList.add('hidden');
-  overlay.classList.add('hidden');
+function HiddenLoading() {
+  loading.classList.add("hidden");
+  overlay.classList.add("hidden");
 }
 
-search_btn.addEventListener('click',()=>{
+search_btn.addEventListener("click", () => {
   //DisplayLoading()
-  
-})
+});
 
 /**
- * @async 
- * @function CreateInfo() 在網頁中央顯示輸入框用於新增以及編輯資料
+ * @async
+ * @function DisplayEditInput() 在網頁中央顯示輸入框用於新增以及編輯資料
  * @param {string} title
  */
-
-async function CreateInfo(title){
-  create_container.classList.remove('hidden');
-  create_container.innerHTML =
-  `
+function DisplayEditInput(title) {
+  create_container.classList.remove("hidden");
+  create_container.innerHTML = `
   <h3>${title}</h3>
   <button class="close-btn">X</button>
   <div class="create-list">
   <label for="id">書籍編號</label>
-  <input type="text" placeholder="id">
+  <input class="book_id" type="text" placeholder="id">
   <label for="name">書籍名稱</label>
-  <input type="text" placeholder="name">
+  <input class="book_name" type="text" placeholder="name">
   <label for="author">書籍作者</label>
-  <input type="text" placeholder="author">
+  <input class="book_author" type="text" placeholder="author">
   <label for="classification">書籍分類</label>
-  <input type="text" placeholder="classification">
+  <input class="book_class" type="text" placeholder="classification">
   <button class="create-btn">create</button>
   </div>
-  `
-  const create_btn = document.querySelector('.create-btn')
-  const close_btn = document.querySelector('.close-btn')
-  close_btn.addEventListener('click',()=>{
-    HiddenLoading();
-    create_container.classList.add('hidden')
-  })
-  create_btn.addEventListener('click',()=>{
-    //DisplayLoading();
-  })
-
+  `;
 }
-Create_btn.addEventListener('click',()=>{
-  CreateInfo('新增資料');
-  overlay.classList.remove('hidden');
-})
-
 /**
- * @async 
- * @function PerpageDisplayData 分頁顯示資料
- * @param {Number} page
+ * @async
+ * @function CreateInfo() 手動新增資料 以及編輯資料
  */
+async function CreateInfo() {
+  DisplayEditInput("新增資料");
+  const create_btn = document.querySelector(".create-btn");
+  const close_btn = document.querySelector(".close-btn");
+  const result_Id = document.querySelector(".book_id");
+  const result_Name = document.querySelector(".book_name");
+  const result_Author = document.querySelector(".book_author");
+  const result_Class = document.querySelector(".book_class");
 
-async function PerpageDisplayData(page){
-  try{
-    DataTable.innerHTML = ' ';
-    const response = await FetchApi(`http://localhost:3000/api/page/${page}/books`,"GET");
-    DisplayContent(response);
-    console.log(response)
-  }catch(error){
-    alert(error);
+  console.log(create_btn);
+  close_btn.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    create_container.classList.add("hidden");
+  });
+  create_btn.addEventListener("click", async () => {
+    const checkData = await SameData(
+      result_Id.value,
+      result_Name.value,
+      result_Author.value
+    );
+    if (
+      result_Id.value === 0 ||
+      result_Name.value === "" ||
+      result_Author.value === "" ||
+      result_Class.value === "" ||
+      checkData === false
+    ) {
+      create_btn.classList.add("disabled");
+      result_Id.style.border = "1px solid red";
+      result_Name.style.border = "1px solid red";
+      result_Author.style.border = "1px solid red";
+      result_Class.style.border = "1px solid red";
+      console.log("輸入值為空", result_Id);
+    } else {
+      const response = await FetchApi(
+        `http://localhost:3000/api/id/${result_Id.value}/name/${result_Name.value}/author/${result_Author.value}/class/${result_Class.value}`,
+        "POST"
+      );
+      DisplayContent(response).then(() => {
+        data_status.classList.add("hidden");
+      });
+    }
+  });
+}
+
+Create_btn.addEventListener("click", () => {
+  CreateInfo("新增資料");
+  overlay.classList.remove("hidden");
+});
+/**
+ * 檢查資料重複性
+ * @function SameData
+ * @param {number} result1
+ * @param {string} result2
+ * @param {string} result3
+ * @returns {boolean}
+ */
+async function SameData(result1, result2, result3) {
+  try {
+    const res_id = await FetchApi(
+      `http://localhost:3000/api/books_field/book_id/book_data/${result1}`,
+      "GET"
+    );
+    const res_name = await FetchApi(
+      `http://localhost:3000/api/books_field/book_name/book_data/${result2}`,
+      "GET"
+    );
+    const res_author = await FetchApi(
+      `http://localhost:3000/api/books_field/author_name/book_data/${result3}`,
+      "GET"
+    );
+    if (res_id.length > 0 || res_name.length > 0 || res_author.length > 0) {
+      console.log(`data is exist`);
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
-page1.addEventListener('click',()=>{
-  DisplayLoading();
-  PerpageDisplayData(1).then(()=>{
-    HiddenLoading();
-  })
-})
-page2.addEventListener('click',()=>{
-  DisplayLoading();
-  PerpageDisplayData(2).then(()=>{
-    HiddenLoading();
-  })
-})
-page3.addEventListener('click',()=>{
-  DisplayLoading();
-  PerpageDisplayData(3).then(()=>{
-    HiddenLoading();
-  })
-})
-page4.addEventListener('click',()=>{
-  DisplayLoading();
-  PerpageDisplayData(4).then(()=>{
-    HiddenLoading();
-  })
-})
-page5.addEventListener('click',()=>{
-  DisplayLoading();
-  PerpageDisplayData(5).then(()=>{
-    HiddenLoading();
-  })
-})
-page6.addEventListener('click',()=>{
-  DisplayLoading();
-  PerpageDisplayData(6).then(()=>{
-    HiddenLoading();
-  })
-})
+
+/**
+ * @async
+ * @function OptionWithDifferentApi 根據書籍不同的分類 發送不同的api
+ */
+
+async function OptionWithDifferentApi(classification) {
+  const response = await FetchApi(
+    `http://localhost:3000/api/book_classification/${classification}`
+  );
+  DisplayContent(response);
+}

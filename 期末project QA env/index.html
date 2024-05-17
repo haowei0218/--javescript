@@ -7,6 +7,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Poetsen+One&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -19,10 +23,12 @@
 
             <div class="btn">
                 <select name="Language" class="Language">
+                    <option disabled selected>語言</option>
                     <option value="繁體中文" class="language-1">繁體中文</option>
                     <option value="英文" class="language-2">英文</option>
                 </select>
                 <select name="User" class="User">
+                    <option disabled selected>使用者</option>
                     <option value="User1" class="user-1">User1</option>
                     <option value="User2" class="user-2">User2</option>
                 </select>
@@ -50,37 +56,29 @@
                             <option value="book_author">書籍作者</option>
                         </select>
 
-                        <input class="searchInput" type="text" placeholder="搜尋">
-
-
+                        <input class="searchInput" type="text" placeholder="搜尋" value=""
+                            oninput="if(value>999999999)value=999999999;if(value<0)value=0">
                     </div>
                     <select name="classification" class="classification">
-                        <option value="" disabled selected>請選擇書籍的分類</option>
+                        <option disabled selected>請選擇書籍的分類</option>
                         <option value="文學">文學</option>
                         <option value="藝術">藝術</option>
                         <option value="人文">人文</option>
                         <option value="歷史">歷史</option>
                         <option value="體育">體育</option>
                         <option value="奇幻">奇幻</option>
-                        <option value="武俠小說">武俠小說</option>
+                        <option value="武俠">武俠</option>
                         <option value="漫畫">漫畫</option>
-                        <option value="中國文學">中國文學</option>
                         <option value="雜誌">雜誌</option>
-                        <option value="兒童">兒童</option>
+                        <option value="兒童">愛情</option>
+                        <option value="兒童">恐怖</option>
                     </select>
-
-
-
                 </div>
                 <div class="search__book_btn">
                     <button class="search_btn">搜尋</button>
                     <button class="reset_btn">重設</button>
 
                 </div>
-
-
-
-
                 <ul class="tableTitle">
                     <li class="table_id">書本編號</li>
                     <li class="table_name">書名</li>
@@ -90,7 +88,7 @@
                 </ul>
                 <div class="Datalist">
 
-                    <div class="data_status hidden">
+                    <div class="data_status">
                         <div class="data_icon"><i class="fa-solid fa-robot"></i></div>
                         <p>No data</p>
                     </div>
@@ -114,13 +112,6 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
     <div class="overlay hidden"></div>
     <div class="create_info hidden"></div>
     <div class="loading hidden"></div>

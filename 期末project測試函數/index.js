@@ -14,7 +14,7 @@ const page1 = document.querySelector(".perpage-1");
 const page2 = document.querySelector(".perpage-2");
 const page3 = document.querySelector(".perpage-3");
 const page4 = document.querySelector(".perpage-4");
-
+const Classification = document.querySelector(".classification");
 /**-----------------------------------------------------------
  * 測試用的功能
  */
@@ -48,13 +48,13 @@ function classification() {
     "歷史",
     "體育",
     "奇幻",
-    "武俠小說",
+    "武俠",
     "漫畫",
-    "中國文學",
     "雜誌",
-    "兒童",
+    "愛情",
+    "恐怖",
   ];
-  const number = DataRandom(10);
+  const number = DataRandom(9);
   console.log(number);
   return classList[number];
 }
@@ -137,16 +137,10 @@ async function SearchAllBooks() {
     console.log(error);
   }
 }
-TestBtn.addEventListener("click", () => {
-  DisplayLoading();
-  SearchAllBooks().then(() => {
-    HiddenLoading();
-  });
 
-  /*loading.addEventListener("animationiteration", function () {
+/*loading.addEventListener("animationiteration", function () {
     setTimeout(function () {}, 500);
   });*/
-});
 
 /**
  * 用於在網頁執行動作時顯示動畫
@@ -242,22 +236,30 @@ async function CreateInfo(title) {
   <button class="close-btn">X</button>
   <div class="create-list">
   <label for="id">書籍編號</label>
-  <input type="text" placeholder="id">
+  <input class="book_id" type="text" placeholder="id">
   <label for="name">書籍名稱</label>
-  <input type="text" placeholder="name">
+  <input class="book_name" type="text" placeholder="name">
   <label for="author">書籍作者</label>
-  <input type="text" placeholder="author">
+  <input class="book_author" type="text" placeholder="author">
   <label for="classification">書籍分類</label>
-  <input type="text" placeholder="classification">
+  <input class="book_class" type="text" placeholder="classification">
   <button class="create-btn">create</button>
   </div>
   `;
   const create_btn = document.querySelector(".create-btn");
   const close_btn = document.querySelector(".close-btn");
+  const result_Id = document.querySelector(".book_id").value;
+  const result_Name = document.querySelector(".book_name").value;
+  const result_Author = document.querySelector(".book_author").value;
+  const result_Class = document.querySelector(".book_class").value;
+
   console.log(create_btn);
   close_btn.addEventListener("click", () => {
     overlay.classList.add("hidden");
     create_container.classList.add("hidden");
+  });
+  create_btn.addEventListener("click", () => {
+    console.log(result_Id);
   });
 }
 createInfo.addEventListener("click", async () => {
@@ -307,4 +309,48 @@ page4.addEventListener("click", () => {
   PerpageDisplayData(4).then(() => {
     HiddenLoading();
   });
+});
+function SelectOptionValue() {
+  var selectedOption =
+    Classification.options[Classification.selectedIndex].value;
+
+  // Use a switch statement to handle different classification values
+  switch (selectedOption) {
+    case "文學":
+      console.log("分類為文學");
+      break;
+    case "藝術":
+      console.log("分類為藝術");
+      break;
+    case "人文":
+      console.log("分類為人文");
+      break;
+    case "歷史":
+      console.log("分類為歷史");
+      break;
+    case "體育":
+      console.log("分類為體育");
+      break;
+    case "奇幻":
+      console.log("分類為奇幻");
+      break;
+    case "武俠":
+      console.log("分類為武俠");
+      break;
+    case "漫畫":
+      console.log("分類為漫畫");
+      break;
+    case "愛情":
+      console.log("分類為愛情");
+      break;
+    case "恐怖":
+      console.log("分類為恐怖");
+      break;
+    default:
+      console.log("未知分類");
+  }
+  return selectedOption;
+}
+Classification.addEventListener("change", () => {
+  SelectOptionValue();
 });
