@@ -51,7 +51,7 @@ async function DisplayContent(database) {
       <th>
       <button class="${book_id}_delete" width="20px" height="10px">刪除</button>
       <button class="${book_id}_edit" width="20px" height="10px">編輯</button>
-      <button class="${book_id}_status" width="20px" height="10px">狀態</button>
+      <button class="${book_id}_record" width="20px" height="10px">借閱紀錄</button>
       </th>
     </tr>
     
@@ -86,15 +86,15 @@ async function PerpageDisplayData(page) {
   try {
     DataTable.innerHTML = " ";
     const response = await FetchApi(
-      `http://localhost:3000/api/page/${page}/books`,
+      `http://localhost:3000/api/page/${page}/table`,
       "GET"
     );
-    if (response.length !== 0) {
+    /*if (response.length !== 0) {
       data_status.classList.add("hidden");
       DisplayContent(response);
     } else {
       data_status.classList.remove("hidden");
-    }
+    }*/
     console.log(response);
   } catch (error) {
     alert(error);
@@ -103,42 +103,6 @@ async function PerpageDisplayData(page) {
 search_btn_inMenu.addEventListener("click", async () => {
   DisplayLoading();
   PerpageDisplayData(1).then(() => {
-    HiddenLoading();
-  });
-});
-page1.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(1).then(() => {
-    HiddenLoading();
-  });
-});
-page2.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(2).then(() => {
-    HiddenLoading();
-  });
-});
-page3.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(3).then(() => {
-    HiddenLoading();
-  });
-});
-page4.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(4).then(() => {
-    HiddenLoading();
-  });
-});
-page5.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(5).then(() => {
-    HiddenLoading();
-  });
-});
-page6.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(6).then(() => {
     HiddenLoading();
   });
 });
@@ -252,19 +216,21 @@ async function CreateInfo() {
       result_Name.value,
       result_Author.value
     );
+    if (checkData !== false) {
+      console.log(`${data} is exits`);
+    }
     if (
       result_Id.value === 0 ||
       result_Name.value === "" ||
       result_Author.value === "" ||
       result_Class.value === "" ||
-      checkData === false
+      checkData === true
     ) {
       create_btn.classList.add("disabled");
       result_Id.style.border = "1px solid red";
       result_Name.style.border = "1px solid red";
       result_Author.style.border = "1px solid red";
       result_Class.style.border = "1px solid red";
-      console.log("輸入值為空", result_Id);
     } else {
       const response = await FetchApi(
         `http://localhost:3000/api/id/${result_Id.value}/name/${result_Name.value}/author/${result_Author.value}/class/${result_Class.value}`,
@@ -312,6 +278,72 @@ async function SameData(result1, result2, result3) {
     console.log(error);
   }
 }
+/**
+ * @async
+ * @function SelectOptionValue 取得書籍分類的選單內容
+ * @returns {string}
+ */
+function SelectOptionValue() {
+  var selectedOption =
+    Classification.options[Classification.selectedIndex].value;
+
+  // Use a switch statement to handle different classification values
+  switch (selectedOption) {
+    case "文學":
+      console.log("分類為文學");
+      break;
+    case "藝術":
+      console.log("分類為藝術");
+      break;
+    case "人文":
+      console.log("分類為人文");
+      break;
+    case "歷史":
+      console.log("分類為歷史");
+      break;
+    case "體育":
+      console.log("分類為體育");
+      break;
+    case "奇幻":
+      console.log("分類為奇幻");
+      break;
+    case "武俠":
+      console.log("分類為武俠");
+      break;
+    case "漫畫":
+      console.log("分類為漫畫");
+      break;
+    case "愛情":
+      console.log("分類為愛情");
+      break;
+    case "恐怖":
+      console.log("分類為恐怖");
+      break;
+    default:
+      console.log("未知分類");
+  }
+  return selectedOption;
+}
+/**
+ * 根據書籍編號 書籍作者 書籍名稱查詢
+ * @function SelectInfoValue
+ */
+async function SelectInfoValue(value) {
+  var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
+  if (selectedOption === "書籍編號" && typeof FilterInput.value == "number") {
+    FetchApi(`http://localhost:3000/api/book_id/${value}`, "GET");
+  } else if (
+    selectedOption === "書籍名稱" &&
+    typeof FilterInput.value == "string"
+  ) {
+    FetchApi(`http://localhost:3000/api/book_name/${value}`, "GET");
+  } else if (
+    selectedOption === "書籍作者" &&
+    typeof FilterInput.value == "string"
+  ) {
+    FetchApi(`http://localhost:3000/api/author_name/${value}`, "GET");
+  }
+}
 
 /**
  * @async
@@ -324,3 +356,5 @@ async function OptionWithDifferentApi(classification) {
   );
   DisplayContent(response);
 }
+
+search_btn.addEventListener("click", () => {});

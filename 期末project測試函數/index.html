@@ -224,10 +224,12 @@
         <input id="id" type="text" placeholder="id">
         <input id="name" type="text" placeholder="name">
         <input id="author" type="text" placeholder="author">
-        <input id="classification" type="text" placeholder="classification">
+        <input id="filter_info" type="text" placeholder="classification">
         <button class="create_classification">
             create
         </button>
+        <button class="search">Search</button>
+        <button class="test_borrow">borrow_record</button>
         <button class="create_content">AddInfo</button>
         <div class="container">
             <div class="data_table">
@@ -255,8 +257,16 @@
         <option value="奇幻">奇幻</option>
         <option value="武俠">武俠</option>
         <option value="漫畫">漫畫</option>
-        <option value="雜誌">雜誌</option>
-        <option value="兒童">兒童</option>
+        <option value="愛情">愛情</option>
+        <option value="恐怖">恐怖</option>
+    </select>
+
+    <select name="classification" class="filter_info">
+        <option disabled selected>請選擇書籍的分類</option>
+        <option value="文學">書籍編號</option>
+        <option value="書籍名稱">書籍名稱</option>
+        <option value="書籍作者">書籍作者</option>
+
     </select>
 
     <script src="./index.js"></script>

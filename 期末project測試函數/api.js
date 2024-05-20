@@ -50,7 +50,7 @@ app.post(
 /**---------------------------------------------------------------------- */
 
 /**
- * 取得資料庫內的所有資料
+ * 取得該欄位的所有資料
  * @route GET /api/books
  * @returns {JSON} books - all data in supabase
  * @returns 將response以json的格式回傳
@@ -59,9 +59,19 @@ app.post(
  * 提醒:每次改code前 先停止後端運作 改完後再啟動
  */
 
-app.get("/api/all_books", async (req, res) => {
+app.get("/api/:book_column/:book_info/:page", async (req, res) => {
+  const limitData = 10;
+  const pageNumber = Number(req.params.page);
+  const start = (pageNumber - 1) * limitData + 1;
+  const end = pageNumber * limitData;
   try {
-    const { data, error } = await supabase.from("booksdata").select("*");
+    const column = req.params.book_column;
+    const Info = req.params.book_info;
+    const { data, error } = await supabase
+      .from("booksdata")
+      .select("*")
+      .eq(`${column}`, `${Info}`)
+      .range(start, end);
     res.json(data);
     res.status(200);
   } catch (error) {
@@ -70,19 +80,20 @@ app.get("/api/all_books", async (req, res) => {
   }
 });
 /**
- * 限制資料庫每次傳輸的數量
+ * 限制資料庫每次傳輸的數量(撈出table的所有資料)
  * @route GET /api/limit/books
  * @return {JSON}
  * @range 依照分頁的數字 設定起始查詢位置與結束查詢位置
  */
-app.get("/api/page/:page/books", async (req, res) => {
+app.get("/api/page/:page/:table", async (req, res) => {
   const limitData = 10;
   const pageNumber = Number(req.params.page);
   const start = (pageNumber - 1) * limitData + 1;
   const end = pageNumber * limitData;
+  const table = req.params.table;
   try {
     const { data, error } = await supabase
-      .from("booksdata")
+      .from(`${table}`)
       .select("*")
       .range(start, end);
     res.json(data);
@@ -117,4 +128,24 @@ app.get(
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`listen ${PORT}`);
+});
+
+/**
+ * 查詢指定書籍的借閱紀錄
+ * @route GET /api/borrow_record
+ */
+app.get("/api/borrow_record", async (req, res) => {
+  try {
+    const record_id = 5050;
+    const { data, error } = await supabase
+      .from("borrow_record")
+      .select("record_id, book_id, user_id, borrow_status, borrow_date")
+      .eq("book_id", `${record_id}`);
+    res.json(data);
+    res.status(200);
+    console.log(data);
+  } catch (error) {
+    res.status(500);
+    console.log(error);
+  }
 });

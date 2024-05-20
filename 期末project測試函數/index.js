@@ -15,6 +15,9 @@ const page2 = document.querySelector(".perpage-2");
 const page3 = document.querySelector(".perpage-3");
 const page4 = document.querySelector(".perpage-4");
 const Classification = document.querySelector(".classification");
+const test_borrow = document.querySelector(".test_borrow");
+const search_btn = document.querySelector(".search");
+const FilterSelect = document.querySelector(".filter_info");
 /**-----------------------------------------------------------
  * 測試用的功能
  */
@@ -74,17 +77,17 @@ async function CreateBooksData() {
     "POST"
   );
   console.log(Apidata);
-  DisplayContent(Apidata);
+  DisplayBookInfo(Apidata);
 }
 
 /**---------------------------------------------------------- */
 /**
  * @async
- * @function DisplayContent 在頁面上顯示資料
+ * @function DisplayContent 在頁面顯示書本的基本資料
  * @param {JSON} database
  * @return {HTMLElement}
  */
-async function DisplayContent(database) {
+async function DisplayBookInfo(database) {
   const displayInHtml = await database
     .map((item) => {
       const { book_id, book_name, author_name, classification } = item;
@@ -97,6 +100,28 @@ async function DisplayContent(database) {
       <button class="${book_id}-btn" width="20px" height="10px">刪除</button>
     </ul>
     
+    `;
+    })
+    .join(" ");
+  DisplayContainer.innerHTML = displayInHtml;
+}
+/**
+ * @async
+ * @function DisplayBorrowInfo 在頁面顯示借閱資料
+ */
+async function DisplayBorrowInfo(borrowData) {
+  const displayInHtml = await borrowData
+    .map((item) => {
+      const { record_id, book_id, user_id, borrow_status, borrow_date } = item;
+      return `
+    <ul>
+      <li>${record_id}</li>
+      <li>${book_id}</li>
+      <li>${user_id}</li>
+      <li>${borrow_status}</li>
+      <li>${borrow_date}</li>
+      <button class="${book_id}-btn" width="20px" height="10px">刪除</button>
+    </ul>
     `;
     })
     .join(" ");
@@ -131,16 +156,12 @@ async function SearchAllBooks() {
       "http://localhost:3000/api/all_books",
       "GET"
     );
-    DisplayContent(Apidata);
+    DisplayBookInfo(Apidata);
     console.log(Apidata);
   } catch (error) {
     console.log(error);
   }
 }
-
-/*loading.addEventListener("animationiteration", function () {
-    setTimeout(function () {}, 500);
-  });*/
 
 /**
  * 用於在網頁執行動作時顯示動畫
@@ -173,7 +194,7 @@ async function SearchBooksId() {
       `http://localhost:3000/api/books_id/${book_id}`,
       "GET"
     );
-    DisplayContent(Apidata);
+    DisplayBookInfo(Apidata);
   } catch (error) {
     console.log(error);
   }
@@ -192,7 +213,7 @@ async function SearchBookName() {
       `http://localhost:3000/api/book_name/${name}`,
       "GET"
     );
-    DisplayContent(Apidata);
+    DisplayBookInfo(Apidata);
   } catch (error) {
     alert(`${error}`);
   }
@@ -214,7 +235,7 @@ async function ManualCreateBook() {
       `http://localhost:3000/api/id/${result_id}/name/${result_name}/author/${result_author}/class/${result_classification}`,
       "POST"
     );
-    DisplayContent(Apidata);
+    DisplayBookInfo(Apidata);
   } catch (error) {
     console.log(error);
   }
@@ -272,45 +293,56 @@ createInfo.addEventListener("click", async () => {
  * @function PerpageDisplayData 分頁顯示資料
  * @param {Number} page
  */
-async function PerpageDisplayData(page) {
+async function PerpageDisplayAllBookData(page, table) {
   try {
     DisplayContainer.innerHTML = " ";
     const response = await FetchApi(
-      `http://localhost:3000/api/page/${page}/books`,
+      `http://localhost:3000/api/page/${page}/${table}`,
       "GET"
     );
-    DisplayContent(response);
+    DisplayBookInfo(response);
     console.log(response);
   } catch (error) {
     console.log(error);
   }
 }
 
-page1.addEventListener("click", () => {
+async function PerpageDisplayBookInfo(page, column, info) {
+  try {
+    DisplayContainer.innerHTML = " ";
+    const response = await FetchApi(
+      `http://localhost:3000/api/${column}/${info}/${page}`,
+      "GET"
+    );
+    DisplayBookInfo(response);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+/**
+ * 讓分頁顯示資料功能在搜尋按鈕被點擊後才調用
+ * 搜尋功能邏輯：
+ * 1. if:如果選單內的數值為默認數值(代表沒有選取選項)且輸入匡數值為空 不能被搜尋
+ * 2. else if:如果輸入匡內數值不為0 則調用“SelectInfoValue()”
+ * 3. else if: 調用SelectClassificationValue()查詢書籍分類
+ */
+search_btn.addEventListener("click", async () => {
   DisplayLoading();
-  PerpageDisplayData(1).then(() => {
-    HiddenLoading();
+  var result_option = SelectClassificationValue();
+  var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
+  const pages = ["page1", "page2", "page3", "page4"];
+  pages.forEach((pageItem, index) => {
+    pageItem.addEventListener("click", async () => {});
   });
 });
-page2.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(2).then(() => {
-    HiddenLoading();
-  });
-});
-page3.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(3).then(() => {
-    HiddenLoading();
-  });
-});
-page4.addEventListener("click", () => {
-  DisplayLoading();
-  PerpageDisplayData(4).then(() => {
-    HiddenLoading();
-  });
-});
-function SelectOptionValue() {
+
+/**
+ * @async
+ * @function SelectOptionValue 取得選單的內容
+ * @returns {string}
+ */
+function SelectClassificationValue() {
   var selectedOption =
     Classification.options[Classification.selectedIndex].value;
 
@@ -351,6 +383,73 @@ function SelectOptionValue() {
   }
   return selectedOption;
 }
-Classification.addEventListener("change", () => {
-  SelectOptionValue();
+
+/**
+ * @async
+ * @function SelectDifferentApi 查詢同一個分類下的所有書籍
+ */
+
+async function SelectDifferentApi(option) {
+  try {
+    const response = await FetchApi(
+      `http://localhost:3000/api/classification/${option}`,
+      "GET"
+    );
+    DisplayBookInfo(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+test_borrow.addEventListener("click", async () => {
+  const Option = SelectClassificationValue();
+  SelectDifferentApi(Option);
 });
+/**
+ * 根據書籍編號 書籍作者 書籍名稱查詢
+ * @function SelectInfoValue
+ */
+async function SelectInfoValue(value, page) {
+  var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
+  if (selectedOption === "書籍編號" && typeof FilterInput.value == "number") {
+    const response = FetchApi(
+      `http://localhost:3000/api/book_id/${value}/${page}`,
+      "GET"
+    );
+    return response;
+  } else if (
+    selectedOption === "書籍名稱" &&
+    typeof FilterInput.value == "string"
+  ) {
+    const response = FetchApi(
+      `http://localhost:3000/api/book_name/${value}/${page}`,
+      "GET"
+    );
+    return response;
+  } else if (
+    selectedOption === "書籍作者" &&
+    typeof FilterInput.value == "string"
+  ) {
+    const response = FetchApi(
+      `http://localhost:3000/api/author_name/${value}/${page}`,
+      "GET"
+    );
+    return response;
+  }
+}
+
+/**
+ * @async
+ * @function SearchBorrowRecord 查詢指定書籍的借閱紀錄
+ */
+async function SearchBorrowRecord() {
+  try {
+    const response = await FetchApi(
+      "http://localhost:3000/api/borrow_record",
+      "GET"
+    );
+    DisplayBorrowInfo(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
