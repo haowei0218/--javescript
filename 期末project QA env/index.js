@@ -8,12 +8,10 @@ const create_container = document.querySelector(".create_info");
 const data_status = document.querySelector(".data_status");
 const FilterSelect = document.querySelector(".filter_info");
 const FilterInput = document.querySelector(".searchInput");
-const page1 = document.querySelector(".perpage-1");
-const page2 = document.querySelector(".perpage-2");
-const page3 = document.querySelector(".perpage-3");
-const page4 = document.querySelector(".perpage-4");
-const page5 = document.querySelector(".perpage-5");
-const page6 = document.querySelector(".perpage-6");
+const next_btn = document.querySelector(".perpage-1");
+const last_btn = document.querySelector(".perpage-2");
+const Classification = document.querySelector('.classification');
+let itempage = 0;/**控制分頁數量 */
 /**-----------------------------------------------------------
  * 測試用的功能 
  * const classList = [
@@ -78,33 +76,55 @@ async function FetchApi(url, method) {
 }
 /**
  * @async
- * @function PerpageDisplayData 分頁顯示資料
+ * @function PerpageDisplayData 分頁顯示資料(上一頁 / 下一頁)
  * @param {Number} page
  */
 
-async function PerpageDisplayData(page) {
+
+async function PerpageDisplayData(page,url) {
   try {
     DataTable.innerHTML = " ";
-    const response = await FetchApi(
-      `http://localhost:3000/api/page/${page}/table`,
-      "GET"
-    );
-    /*if (response.length !== 0) {
-      data_status.classList.add("hidden");
-      DisplayContent(response);
-    } else {
-      data_status.classList.remove("hidden");
-    }*/
-    console.log(response);
+    const response = await FetchApi(url,"GET");
+    const limit = 10;
+    let total = (response.length / limit)
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    if (response && response.length > 0) {
+      data_status.classList.add('hidden');
+
+      let new_response = Object.values(response).slice(start, end)
+      console.log(new_response);
+      DisplayContent(new_response)
+      if (new_response.length === 0) {
+        data_status.classList.remove('hidden');
+      }
+    }
+    
   } catch (error) {
     alert(error);
   }
 }
+
+/**
+ * 查詢所有書籍資料 並且利用NextButton以及LastButton實現分頁顯示
+ */
 search_btn_inMenu.addEventListener("click", async () => {
-  DisplayLoading();
-  PerpageDisplayData(1).then(() => {
-    HiddenLoading();
-  });
+  itempage = 1;
+  PerpageDisplayData(itempage,'http://localhost:3000/api/test');
+  next_btn.addEventListener("click", async () => {
+    await PerpageDisplayData(itempage);
+    itempage += 1;
+
+  })
+  last_btn.addEventListener("click", async () => {
+    if (itempage > 0) {
+      itempage -= 1;
+      await PerpageDisplayData(itempage)
+    } else {
+
+    }
+  })
 });
 /**
  * @async
@@ -328,20 +348,39 @@ function SelectOptionValue() {
  * 根據書籍編號 書籍作者 書籍名稱查詢
  * @function SelectInfoValue
  */
-async function SelectInfoValue(value) {
+async function SelectInfoValue() {
+  try{
+  var Filter_input = FilterInput.value.trim();
   var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
-  if (selectedOption === "書籍編號" && typeof FilterInput.value == "number") {
-    FetchApi(`http://localhost:3000/api/book_id/${value}`, "GET");
+  console.log(selectedOption);
+  console.log(Filter_input)
+  if (selectedOption === "book_id" && typeof Filter_input === "string" && Filter_input !== "") {
+    const response = await FetchApi(`http://localhost:3000/api/book_id/${Filter_input}`, "GET");
+    console.log(response);
+    DisplayContent(response);
+    data_status.classList.add('hidden',`http://localhost:3000/api/book_id/${Filter_input}`);
   } else if (
-    selectedOption === "書籍名稱" &&
-    typeof FilterInput.value == "string"
+    selectedOption === "book_name" &&
+    typeof Filter_input === "string" && Filter_input !== "" 
   ) {
-    FetchApi(`http://localhost:3000/api/book_name/${value}`, "GET");
+    const response = await FetchApi(`http://localhost:3000/api/book_name/${Filter_input}`, "GET");
+    console.log(response);
+    DisplayContent(response);
+    data_status.classList.add('hidden');
   } else if (
-    selectedOption === "書籍作者" &&
-    typeof FilterInput.value == "string"
+    selectedOption === "author_name" &&
+    typeof Filter_input === "string" && Filter_input !== "" 
   ) {
-    FetchApi(`http://localhost:3000/api/author_name/${value}`, "GET");
+    const response = await FetchApi(`http://localhost:3000/api/author_name/${Filter_input}`, "GET");
+    console.log(response);
+    DisplayContent(response);
+    data_status.classList.add('hidden');
+  }else{
+    FilterInput.style.border = "1px solid red";
+    data_status.classList.remove('hidden');
+  }
+  }catch(error){
+    console.log(error);
   }
 }
 
@@ -349,12 +388,26 @@ async function SelectInfoValue(value) {
  * @async
  * @function OptionWithDifferentApi 根據書籍不同的分類 發送不同的api
  */
-
 async function OptionWithDifferentApi(classification) {
   const response = await FetchApi(
     `http://localhost:3000/api/book_classification/${classification}`
   );
   DisplayContent(response);
 }
+search_btn.addEventListener("click", async () => {
+  const Filter_input = FilterInput.value.trim();
+  if(Filter_input === ""){
+    let result = SelectOptionValue();
+    console.log(result);
+    //const response = await FetchApi(`http://localhost:3000/api/classification/${result}`,"GET");
+    //console.log(response);
+    PerpageDisplayData(1,`http://localhost:3000/api/classification/${result}`);
+    itempage += 1;
+  }else{
+    SelectInfoValue();
+  }
+ });
 
-search_btn.addEventListener("click", () => {});
+
+
+
