@@ -10,8 +10,8 @@ const FilterSelect = document.querySelector(".filter_info");
 const FilterInput = document.querySelector(".searchInput");
 const next_btn = document.querySelector(".perpage-1");
 const last_btn = document.querySelector(".perpage-2");
-const Classification = document.querySelector('.classification');
-let itempage = 0;/**控制分頁數量 */
+const Classification = document.querySelector(".classification");
+let itempage = 0; /**控制分頁數量 */
 /**-----------------------------------------------------------
  * 測試用的功能 
  * const classList = [
@@ -32,12 +32,13 @@ let itempage = 0;/**控制分頁數量 */
 /**---------------------------------------------------------- */
 /**
  * @async
- * @function DisplayContent 在頁面上顯示資料
+ * @function DisplayContent
+ * @todo 在頁面上顯示資料
  * @param {JSON} database
  * @return {HTMLElement}
  */
-async function DisplayContent(database) {
-  const displayInHtml = await database
+function DisplayContent(database) {
+  const displayInHtml = database
     .map((item) => {
       const { book_id, book_name, author_name, classification } = item;
       return `
@@ -47,9 +48,9 @@ async function DisplayContent(database) {
       <td>${author_name}</td>
       <td>${classification}</td>
       <th>
-      <button class="${book_id}_delete" width="20px" height="10px">刪除</button>
-      <button class="${book_id}_edit" width="20px" height="10px">編輯</button>
-      <button class="${book_id}_record" width="20px" height="10px">借閱紀錄</button>
+      <button class="delete${book_id}" width="20px" height="10px">刪除</button>
+      <button class="edit${book_id}" width="20px" height="10px">編輯</button>
+      <button class="record${book_id}" width="20px" height="10px">借閱紀錄</button>
       </th>
     </tr>
     
@@ -57,18 +58,68 @@ async function DisplayContent(database) {
     })
     .join(" ");
   DataTable.innerHTML = displayInHtml;
+
+  /**
+   * 取得網頁的按鈕
+   */
+  let new_response = Object.values(database);
+  new_response.forEach(async (item) => {
+    const delete_btn = document.querySelector(
+      `${"." + "delete" + item.book_id}`
+    );
+    const edit_btn = document.querySelector(`${"." + "edit" + item.book_id}`);
+    const record_btn = document.querySelector(
+      `${"." + "record" + item.book_id}`
+    );
+    const bookId = item.book_id;
+    delete_btn.addEventListener("click", async function () {
+      try {
+        /**取得要刪除的資料 */
+        const response = await FetchApi(
+          `http://localhost:3000/api/book_id/${bookId}`,
+          "GET"
+        );
+        await DisplayContent(response);
+        /**將取回的資料處理後再發送一個刪除的api */
+        const Delete_response = await fetch(
+          `http://localhost:3000/api/delete/book_id/${bookId}`,
+          {
+            method: "DELETE",
+          }
+        );
+        console.log(Delete_response);
+        DataTable.innerHTML = "";
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    edit_btn.addEventListener("click", () => {
+      console.log("test");
+      overlay.classList.remove("hidden");
+      CreateInfo("編輯資料");
+    });
+    record_btn.addEventListener("click", () => {
+      console.log("test");
+    });
+  });
 }
 
 /**
  * @async
- * @function FetchApi 串接api 發送request
+ * @function FetchApi
+ * @todo 串接api 發送request
  * @param {string} url
  * @returns {JSON}
+ * @example FetchApi('http://localhost:3000/api,"GET")
+ * 注意:不適用Delete 因為Delete不會回傳data
  */
 async function FetchApi(url, method) {
   try {
-    const response = await fetch(url, { method: `${method}` });
-    const data = await response.json();
+    const response = await fetch(url, { method: method });
+    if (!response.ok) {
+      throw new Error(`error:${response.status}`);
+    }
+    const data = response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -76,59 +127,65 @@ async function FetchApi(url, method) {
 }
 /**
  * @async
- * @function PerpageDisplayData 分頁顯示資料(上一頁 / 下一頁)
+ * @function PerpageDisplayData
+ * @todo 分頁顯示資料(上一頁 / 下一頁)
  * @param {Number} page
  */
 
-
-async function PerpageDisplayData(page,url) {
+async function PerpageDisplayData(page, url) {
   try {
     DataTable.innerHTML = " ";
-    const response = await FetchApi(url,"GET");
+    const response = await FetchApi(url, "GET");
     const limit = 10;
-    let total = (response.length / limit)
+    const total = Math.ceil(response % limit);
     const start = (page - 1) * limit;
     const end = start + limit;
-
-    if (response && response.length > 0) {
-      data_status.classList.add('hidden');
-
-      let new_response = Object.values(response).slice(start, end)
-      console.log(new_response);
-      DisplayContent(new_response)
-      if (new_response.length === 0) {
-        data_status.classList.remove('hidden');
-      }
+    let response_length = Object.values(response).length;
+    console.log(response_length);
+    /**
+     * 判斷回傳的資料長度是否大於limit
+     * 1. 大於limit就執行分頁功能
+     * 2. 小於limit直接顯示
+     * 3. 等於0顯示no data
+     */
+    if (response_length > limit) {
+      data_status.classList.add("hidden");
+      response_length.slice(start, end);
+      DisplayContent(response);
+      console.log(response_length);
+    } else if (response_length < limit) {
+      data_status.classList.add("hidden");
+      DisplayContent(response);
+    } else if (response_length === 0) {
+      data_status.classList.remove("hidden");
     }
-    
   } catch (error) {
     alert(error);
   }
 }
 
 /**
- * 查詢所有書籍資料 並且利用NextButton以及LastButton實現分頁顯示
+ * @todo 查詢所有書籍資料 並且利用NextButton以及LastButton實現分頁顯示
  */
 search_btn_inMenu.addEventListener("click", async () => {
   itempage = 1;
-  PerpageDisplayData(itempage,'http://localhost:3000/api/test');
+  PerpageDisplayData(itempage, "http://localhost:3000/api/table");
   next_btn.addEventListener("click", async () => {
     await PerpageDisplayData(itempage);
     itempage += 1;
-
-  })
+  });
   last_btn.addEventListener("click", async () => {
     if (itempage > 0) {
       itempage -= 1;
-      await PerpageDisplayData(itempage)
+      await PerpageDisplayData(itempage);
     } else {
-
     }
-  })
+  });
 });
 /**
  * @async
- * @function SearchBooksId 查詢書本編號
+ * @function SearchBooksId
+ * @todo 查詢書本編號
  * @param {string} bookId
  * @return {void}
  */
@@ -148,7 +205,8 @@ async function SearchBooksId() {
 
 /**
  * @async
- * @function SearchBookName 查詢書本名稱
+ * @function SearchBookName
+ * @todo 查詢書本名稱
  * @returns {void}
  */
 async function SearchBookName() {
@@ -166,8 +224,8 @@ async function SearchBookName() {
 }
 
 /**
- * 用於網頁執行動作時的顯示動畫
  * @function DisplayLoading
+ * @todo 用於網頁執行動作時的顯示動畫
  */
 
 function DisplayLoading() {
@@ -176,8 +234,8 @@ function DisplayLoading() {
 }
 
 /**
- * 用於執行完動作時隱藏動畫
  * @function HiddenLoading
+ * @todo 用於執行完動作時隱藏動畫
  */
 
 function HiddenLoading() {
@@ -191,7 +249,8 @@ search_btn.addEventListener("click", () => {
 
 /**
  * @async
- * @function DisplayEditInput() 在網頁中央顯示輸入框用於新增以及編輯資料
+ * @function DisplayEditInput()
+ * @todo 在網頁中央顯示輸入框用於新增以及編輯資料
  * @param {string} title
  */
 function DisplayEditInput(title) {
@@ -214,10 +273,11 @@ function DisplayEditInput(title) {
 }
 /**
  * @async
- * @function CreateInfo() 手動新增資料 以及編輯資料
+ * @function CreateInfo()
+ * @todo 手動新增資料以及編輯資料
  */
-async function CreateInfo() {
-  DisplayEditInput("新增資料");
+async function CreateInfo(title) {
+  DisplayEditInput(title);
   const create_btn = document.querySelector(".create-btn");
   const close_btn = document.querySelector(".close-btn");
   const result_Id = document.querySelector(".book_id");
@@ -231,7 +291,7 @@ async function CreateInfo() {
     create_container.classList.add("hidden");
   });
   create_btn.addEventListener("click", async () => {
-    const checkData = await SameData(
+    const checkData = SameData(
       result_Id.value,
       result_Name.value,
       result_Author.value
@@ -251,7 +311,7 @@ async function CreateInfo() {
       result_Name.style.border = "1px solid red";
       result_Author.style.border = "1px solid red";
       result_Class.style.border = "1px solid red";
-    } else {
+    } else if (title === "新增資料") {
       const response = await FetchApi(
         `http://localhost:3000/api/id/${result_Id.value}/name/${result_Name.value}/author/${result_Author.value}/class/${result_Class.value}`,
         "POST"
@@ -259,6 +319,8 @@ async function CreateInfo() {
       DisplayContent(response).then(() => {
         data_status.classList.add("hidden");
       });
+    } else if (title === "編輯資料") {
+      /**發送編輯功能的api */
     }
   });
 }
@@ -268,8 +330,8 @@ Create_btn.addEventListener("click", () => {
   overlay.classList.remove("hidden");
 });
 /**
- * 檢查資料重複性
  * @function SameData
+ * @todo 檢查資料重複性
  * @param {number} result1
  * @param {string} result2
  * @param {string} result3
@@ -300,7 +362,8 @@ async function SameData(result1, result2, result3) {
 }
 /**
  * @async
- * @function SelectOptionValue 取得書籍分類的選單內容
+ * @function SelectOptionValue
+ * @todo 取得書籍分類的選單內容
  * @returns {string}
  */
 function SelectOptionValue() {
@@ -345,69 +408,80 @@ function SelectOptionValue() {
   return selectedOption;
 }
 /**
- * 根據書籍編號 書籍作者 書籍名稱查詢
  * @function SelectInfoValue
+ * @todo 根據書籍編號 書籍作者 書籍名稱查詢
  */
 async function SelectInfoValue() {
-  try{
-  var Filter_input = FilterInput.value.trim();
-  var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
-  console.log(selectedOption);
-  console.log(Filter_input)
-  if (selectedOption === "book_id" && typeof Filter_input === "string" && Filter_input !== "") {
-    const response = await FetchApi(`http://localhost:3000/api/book_id/${Filter_input}`, "GET");
-    console.log(response);
-    DisplayContent(response);
-    data_status.classList.add('hidden',`http://localhost:3000/api/book_id/${Filter_input}`);
-  } else if (
-    selectedOption === "book_name" &&
-    typeof Filter_input === "string" && Filter_input !== "" 
-  ) {
-    const response = await FetchApi(`http://localhost:3000/api/book_name/${Filter_input}`, "GET");
-    console.log(response);
-    DisplayContent(response);
-    data_status.classList.add('hidden');
-  } else if (
-    selectedOption === "author_name" &&
-    typeof Filter_input === "string" && Filter_input !== "" 
-  ) {
-    const response = await FetchApi(`http://localhost:3000/api/author_name/${Filter_input}`, "GET");
-    console.log(response);
-    DisplayContent(response);
-    data_status.classList.add('hidden');
-  }else{
-    FilterInput.style.border = "1px solid red";
-    data_status.classList.remove('hidden');
-  }
-  }catch(error){
+  try {
+    var Filter_input = FilterInput.value.trim();
+    var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
+    console.log(selectedOption);
+    console.log(Filter_input);
+    if (
+      selectedOption === "book_id" &&
+      typeof Filter_input === "string" &&
+      Filter_input !== ""
+    ) {
+      data_status.classList.add("hidden");
+      const response = await FetchApi(
+        `http://localhost:3000/api/book_id/${Filter_input}`,
+        "GET"
+      );
+      console.log(response);
+      DisplayContent(response);
+    } else if (
+      selectedOption === "book_name" &&
+      typeof Filter_input === "string" &&
+      Filter_input !== ""
+    ) {
+      data_status.classList.add("hidden");
+      const response = await FetchApi(
+        `http://localhost:3000/api/book_id/${Filter_input}`,
+        "GET"
+      );
+      console.log(response);
+      DisplayContent(response);
+    } else if (
+      selectedOption === "author_name" &&
+      typeof Filter_input === "string" &&
+      Filter_input !== ""
+    ) {
+      data_status.classList.add("hidden");
+      const response = await FetchApi(
+        `http://localhost:3000/api/book_id/${Filter_input}`,
+        "GET"
+      );
+      console.log(response);
+      DisplayContent(response);
+    } else {
+      FilterInput.style.border = "1px solid red";
+      data_status.classList.remove("hidden");
+    }
+  } catch (error) {
     console.log(error);
   }
 }
 
 /**
- * @async
- * @function OptionWithDifferentApi 根據書籍不同的分類 發送不同的api
+ * 目前有兩種搜尋功能
+ * 1. 選單內容：書籍編號 書籍作者 書籍名稱 再由右側輸入匡輸入內容
+ * 2. 根據書籍分類選單的內容查詢
+ * 因為目前只能做到單一查詢
+ * 所以為了讓搜尋按鈕區分目前要執行的是哪種搜尋
+ * 因此進行以下判斷
+ * 1. 若第一種查詢功能的右側輸入匡value為空字串 則代表現在要查詢的是書籍分類
+ * 2. 若第一種查詢功能的右側輸入匡value不為空字串 則不使用書籍分類查詢
  */
-async function OptionWithDifferentApi(classification) {
-  const response = await FetchApi(
-    `http://localhost:3000/api/book_classification/${classification}`
-  );
-  DisplayContent(response);
-}
 search_btn.addEventListener("click", async () => {
   const Filter_input = FilterInput.value.trim();
-  if(Filter_input === ""){
+  if (Filter_input === "") {
     let result = SelectOptionValue();
     console.log(result);
     //const response = await FetchApi(`http://localhost:3000/api/classification/${result}`,"GET");
     //console.log(response);
-    PerpageDisplayData(1,`http://localhost:3000/api/classification/${result}`);
+    PerpageDisplayData(1, `http://localhost:3000/api/classification/${result}`);
     itempage += 1;
-  }else{
+  } else {
     SelectInfoValue();
   }
- });
-
-
-
-
+});

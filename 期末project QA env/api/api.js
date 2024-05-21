@@ -49,47 +49,19 @@ app.post(
 
 /**---------------------------------------------------------------------- */
 
-/**
- * 取得該欄位的所有資料
- * @route GET /api/books
- * @returns {JSON} books - all data in supabase
- * @returns 將response以json的格式回傳
- * @returns catch(error) => res.status(500)
- *
+/*
  * 提醒:每次改code前 先停止後端運作 改完後再啟動
  */
-///api/:book_column/:book_info/:page
-app.get("/api/test", async (req, res) => {
-  try {
-  
-    const { data, error } = await supabase
-      .from("booksdata")
-      .select("*")
-    res.json(data);
-    res.status(200);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "查詢時發生錯誤" });
-  }
-});
 /**
- * 限制資料庫每次傳輸的數量(撈出table的所有資料)
- * @route GET /api/limit/books
+ * 撈出table的所有資料
+ * @route GET /api/table
  * @return {JSON}
- * @range 依照分頁的數字 設定起始查詢位置與結束查詢位置
+ *
  */
-app.get("/api/page/:page/table", async (req, res) => {
-  const limitData = 10;
-  const pageNumber = Number(req.params.page);
-  const start = (pageNumber - 1) * limitData + 1;
-  const end = pageNumber * limitData;
+app.get("/api/table", async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from("booksdata")
-      .select("*")
-      .range(start, end);
-    res.json(data);
-    res.status(200);
+    const { data, error } = await supabase.from("booksdata").select("*");
+    res.status(200).json(data);
     console.log(data);
   } catch (error) {
     console.log(error);
@@ -127,18 +99,20 @@ app.listen(PORT, () => {
  * 查詢指定欄位的資料
  * @route GET /api/column/searchdata
  */
-app.get('/api/:column/:searchdata',async (req,res)=>{
-  try{
-    const book_field = req.params.column
+app.get("/api/:column/:searchdata", async (req, res) => {
+  try {
+    const book_field = req.params.column;
     const book_data = req.params.searchdata;
-    const {data,error} = await supabase.from('booksdata').select('*').eq(book_field, book_data);
+    const { data, error } = await supabase
+      .from("booksdata")
+      .select("*")
+      .eq(book_field, book_data);
     res.json(data);
-  }catch(error){
+  } catch (error) {
     console.log(error);
     res.status(500);
   }
-})
-
+});
 
 /**
  * 查詢指定書籍的借閱紀錄
@@ -160,4 +134,27 @@ app.get("/api/borrow_record", async (req, res) => {
   }
 });
 
+/**
+ * 更新資料庫內資料
+ * @route PUT /api/:book_id/:book_name/:author/:classification
+ */
 
+/**
+ * 刪除資料庫內的資料
+ * @route Delete /api/:column/:book_data
+ */
+
+app.delete("/api/delete/:column/:book_data", async (req, res) => {
+  try {
+    const { column, book_data } = req.params;
+    const { data, error } = await supabase
+      .from("booksdata")
+      .delete()
+      .eq(column, book_data);
+    if (data === 0) {
+      res.status(200).send();
+    }
+  } catch (error) {
+    res.status(500).json({ error: "have error" });
+  }
+});
