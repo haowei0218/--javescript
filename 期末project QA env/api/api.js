@@ -1,4 +1,4 @@
-/**導入後端框架expresss */
+/**導入後端框架express */
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -17,30 +17,38 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-type": "text/plain" });
   res.end("hello world\n");
 });
-/**TEST CREATE API */
+/*
+ * 提醒:每次改code前 先停止後端運作 改完後再啟動
+ */
+/**
+ * @route 創建一筆完整的資料
+ */
 app.post(
-  "/api/id/:book_id/name/:book_name/author/:author_name/class/:class",
+  "/api/:book_id/:book_name/:author_name/:classification",
   async (req, res) => {
     try {
-      const id = req.params.book_id;
-      const name = req.params.book_name;
-      const author = req.params.author_name;
-      const Class = req.params.class;
+      const classification = decodeURI(req.params.classification);
+      const { book_id, book_name, author_name } = req.params;
+
       const { data, error } = await supabase
         .from("booksdata")
         .insert([
           {
-            book_id: id,
-            book_name: name,
-            author_name: author,
-            classification: Class,
+            book_id: book_id,
+            book_name: book_name,
+            author_name: author_name,
+            classification: classification,
           },
         ])
         .select();
-      console.log([
-        { id: id, book_name: name, author_name: author, classification: Class },
+      res.send([
+        {
+          id: book_id,
+          book_name: book_name,
+          author_name: author_name,
+          classification: classification,
+        },
       ]);
-      res.json(data);
     } catch (error) {
       console.log(error);
     }
@@ -49,9 +57,6 @@ app.post(
 
 /**---------------------------------------------------------------------- */
 
-/*
- * 提醒:每次改code前 先停止後端運作 改完後再啟動
- */
 /**
  * 撈出table的所有資料
  * @route GET /api/table
@@ -61,38 +66,11 @@ app.post(
 app.get("/api/table", async (req, res) => {
   try {
     const { data, error } = await supabase.from("booksdata").select("*");
-    res.status(200).json(data);
+    res.json(data);
     console.log(data);
   } catch (error) {
     console.log(error);
   }
-});
-/**
- * 檢查資料的重複性
- * @route Get /api/books_field/:book_field/book_data/:book_data
- */
-app.get(
-  "/api/books_field/:book_field/book_data/:book_data",
-  async (req, res) => {
-    try {
-      const book_field = req.params.book_field;
-      const book_data = req.params.book_data;
-      console.log("查詢的書本重複性：", `${book_field}`, `${book_data}`);
-      const { data, error } = await supabase
-        .from("booksdata")
-        .select("*")
-        .eq(`${book_field}`, `${book_data}`);
-      res.json(data);
-      res.status(200);
-      console.log(data);
-    } catch (error) {
-      res.status(500);
-    }
-  }
-);
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`listen ${PORT}`);
 });
 
 /**
@@ -101,16 +79,39 @@ app.listen(PORT, () => {
  */
 app.get("/api/:column/:searchdata", async (req, res) => {
   try {
-    const book_field = req.params.column;
-    const book_data = req.params.searchdata;
+    const { column, searchdata } = req.params;
     const { data, error } = await supabase
       .from("booksdata")
       .select("*")
-      .eq(book_field, book_data);
+      .eq(column, searchdata);
     res.json(data);
   } catch (error) {
     console.log(error);
     res.status(500);
+  }
+});
+
+/**
+ * 更新資料庫內資料
+ * @route PUT /api/:book_id/:book_name/:author/:classification
+ */
+
+/**
+ * 刪除資料庫內的資料
+ * @route Delete /api/:column/:book_data
+ */
+
+app.delete("/api/delete/:field/:bookData", async (req, res) => {
+  try {
+    const { field, bookData } = req.params;
+    const { data, error } = await supabase
+      .from("booksdata")
+      .delete()
+      .eq(field, bookData);
+    console.log("delete data success!!");
+    res.send({ success: true }).end();
+  } catch (error) {
+    res.status(500).json({ error: "have error" });
   }
 });
 
@@ -134,27 +135,7 @@ app.get("/api/borrow_record", async (req, res) => {
   }
 });
 
-/**
- * 更新資料庫內資料
- * @route PUT /api/:book_id/:book_name/:author/:classification
- */
-
-/**
- * 刪除資料庫內的資料
- * @route Delete /api/:column/:book_data
- */
-
-app.delete("/api/delete/:column/:book_data", async (req, res) => {
-  try {
-    const { column, book_data } = req.params;
-    const { data, error } = await supabase
-      .from("booksdata")
-      .delete()
-      .eq(column, book_data);
-    if (data === 0) {
-      res.status(200).send();
-    }
-  } catch (error) {
-    res.status(500).json({ error: "have error" });
-  }
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`listen ${PORT}`);
 });

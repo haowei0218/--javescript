@@ -73,7 +73,7 @@ async function CreateBooksData() {
   const Classification = classification();
 
   const Apidata = await FetchApi(
-    `http://localhost:3000/api/id/${id}/name/${book_name}/author/${author_name}/class/${Classification}`,
+    `http://localhost:4050/api/id/${id}/name/${book_name}/author/${author_name}/class/${Classification}`,
     "POST"
   );
   console.log(Apidata);
@@ -153,7 +153,7 @@ async function FetchApi(url, method) {
 async function SearchAllBooks() {
   try {
     const Apidata = await FetchApi(
-      "http://localhost:3000/api/all_books",
+      "http://localhost:4050/api/all_books",
       "GET"
     );
     DisplayBookInfo(Apidata);
@@ -191,7 +191,7 @@ async function SearchBooksId() {
     const book_id = input_id.value;
     console.log(book_id);
     const Apidata = await FetchApi(
-      `http://localhost:3000/api/books_id/${book_id}`,
+      `http://localhost:4050/api/books_id/${book_id}`,
       "GET"
     );
     DisplayBookInfo(Apidata);
@@ -210,7 +210,7 @@ async function SearchBookName() {
     const name = input_name.value;
     console.log(name);
     const Apidata = await FetchApi(
-      `http://localhost:3000/api/book_name/${name}`,
+      `http://localhost:4050/api/book_name/${name}`,
       "GET"
     );
     DisplayBookInfo(Apidata);
@@ -232,7 +232,7 @@ async function ManualCreateBook() {
     const result_classification = class_btn.value;
     console.log(result_author);
     const Apidata = await FetchApi(
-      `http://localhost:3000/api/id/${result_id}/name/${result_name}/author/${result_author}/class/${result_classification}`,
+      `http://localhost:4050/api/id/${result_id}/name/${result_name}/author/${result_author}/class/${result_classification}`,
       "POST"
     );
     DisplayBookInfo(Apidata);
@@ -297,7 +297,7 @@ async function PerpageDisplayAllBookData(page, table) {
   try {
     DisplayContainer.innerHTML = " ";
     const response = await FetchApi(
-      `http://localhost:3000/api/page/${page}/${table}`,
+      `http://localhost:4050/api/page/${page}/${table}`,
       "GET"
     );
     DisplayBookInfo(response);
@@ -311,7 +311,7 @@ async function PerpageDisplayBookInfo(page, column, info) {
   try {
     DisplayContainer.innerHTML = " ";
     const response = await FetchApi(
-      `http://localhost:3000/api/${column}/${info}/${page}`,
+      `http://localhost:4050/api/${column}/${info}/${page}`,
       "GET"
     );
     DisplayBookInfo(response);
@@ -392,7 +392,7 @@ function SelectClassificationValue() {
 async function SelectDifferentApi(option) {
   try {
     const response = await FetchApi(
-      `http://localhost:3000/api/classification/${option}`,
+      `http://localhost:4050/api/classification/${option}`,
       "GET"
     );
     DisplayBookInfo(response);
@@ -413,7 +413,7 @@ async function SelectInfoValue(value, page) {
   var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
   if (selectedOption === "書籍編號" && typeof FilterInput.value == "number") {
     const response = FetchApi(
-      `http://localhost:3000/api/book_id/${value}/${page}`,
+      `http://localhost:4050/api/book_id/${value}/${page}`,
       "GET"
     );
     return response;
@@ -422,7 +422,7 @@ async function SelectInfoValue(value, page) {
     typeof FilterInput.value == "string"
   ) {
     const response = FetchApi(
-      `http://localhost:3000/api/book_name/${value}/${page}`,
+      `http://localhost:4050/api/book_name/${value}/${page}`,
       "GET"
     );
     return response;
@@ -431,7 +431,7 @@ async function SelectInfoValue(value, page) {
     typeof FilterInput.value == "string"
   ) {
     const response = FetchApi(
-      `http://localhost:3000/api/author_name/${value}/${page}`,
+      `http://localhost:4050/api/author_name/${value}/${page}`,
       "GET"
     );
     return response;
@@ -445,7 +445,7 @@ async function SelectInfoValue(value, page) {
 async function SearchBorrowRecord() {
   try {
     const response = await FetchApi(
-      "http://localhost:3000/api/borrow_record",
+      "http://localhost:4050/api/borrow_record",
       "GET"
     );
     DisplayBorrowInfo(response);

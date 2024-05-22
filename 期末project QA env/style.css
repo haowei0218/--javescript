@@ -445,7 +445,7 @@ tbody {
 }
 
 /*手動新增資料的樣式*/
-/*z-index: 10代表此資料樣式會在整個網頁元素的最上方*/
+
 .create_info {
     position: fixed;
     top: 20%;
@@ -524,4 +524,59 @@ tbody {
 
 .hidden {
     display: none;
+}
+
+/**刪除彈窗樣式*/
+
+.popUp {
+    position: absolute;
+    width: 400px;
+    height: 150px;
+    background-color: #e2e1e1;
+    top: 200px;
+    left: 550px;
+    z-index: 12;
+
+}
+
+.delete_title {
+    position: absolute;
+    width: 100%;
+    justify-content: space-around;
+    border-bottom: 2px solid #fff;
+}
+
+.close_delete {
+    position: absolute;
+    font-size: 18px;
+    background-color: #fff;
+    border: 2px solid #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    left: 360px;
+    top: 10px;
+}
+
+.delete_content {
+    position: absolute;
+    top: 50px;
+    left: 90px;
+}
+
+.button_list {
+    position: absolute;
+    top: 120px;
+    left: 300px;
+}
+
+.button_list button {
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+.button_list button:hover {
+    background-color: #2d52cc;
+    cursor: pointer;
 }

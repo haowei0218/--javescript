@@ -276,6 +276,8 @@ print(1000, "first")
 
 /**
  * 当需要多次顺序执行异步操作的时候
+ * async function(異步函數)返回的是一個promise包裝的數據
+ * 如果async function沒有顯式返回值 一樣會返回一個包含undefined的promise
  * 例如，如果想通过异步方法先后检测用户名和密码，需要先异步检测用户名，然后再异步检测密码的情况下就很适合 Promise
  */
 
