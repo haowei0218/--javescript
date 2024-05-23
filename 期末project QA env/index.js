@@ -14,7 +14,6 @@ const Classification = document.querySelector(".classification");
 const PopUpDeleteWindow = document.querySelector(".popUp");
 let itempage = 0;
 /**-----------------------------------------------------------
- * 測試用的功能 
  * const classificationList = [
     "文學",
     "藝術",
@@ -33,8 +32,8 @@ let itempage = 0;
  * @async
  * @function DisplayContent
  * @todo 在頁面上顯示資料
- * @param {JSON} database
- * @return {HTMLElement}
+ * @param {Object} database
+ * @return {void}
  */
 function DisplayContent(database) {
   const displayInHtml = database
@@ -72,7 +71,7 @@ function DisplayContent(database) {
     );
     const bookId = item.book_id;
 
-    delete_btn.addEventListener("click", async function () {
+    delete_btn.addEventListener("click", async () => {
       try {
         console.log(bookId);
         await PopUpDeleteWindows(bookId);
@@ -94,8 +93,8 @@ function DisplayContent(database) {
 /**
  * @async
  * @function FetchApi
- * @param {string } url
- * @param {string} method
+ * @param {string } url 請求url
+ * @param {GET} method 請求方法
  * @returns {JSON}
  * @example FetchApi('http://localhost:3000/api,"GET")
  * 注意:不適用Post,Delete 因為不會回傳data
@@ -115,11 +114,10 @@ async function FetchApi(url, method) {
 /**
  * @async
  * @function PerpageDisplayData
- * @param {Number} page
- * @param {string} url
+ * @param {Number} Page 頁數
+ * @param {string} url 請求的url
  * @todo 分頁顯示資料(上一頁 / 下一頁)
  */
-
 async function PerpageDisplayData(Page, url) {
   try {
     DataTable.innerHTML = " ";
@@ -133,6 +131,10 @@ async function PerpageDisplayData(Page, url) {
     console.log(response_length);
     /**
      * 判斷回傳的資料長度是否大於limit
+     * @param {number} response_length
+     * @param {number} limit
+     * @returns {void}
+     * @todo
      * 1. 大於limit就執行分頁功能
      * 2. 小於limit直接顯示
      * 3. 等於0顯示no data
@@ -166,6 +168,8 @@ search_btn_inMenu.addEventListener("click", async () => {
     if (itempage > 0) {
       itempage -= 1;
       PerpageDisplayData(itempage, "http://localhost:3000/api/table");
+    } else {
+      itempage = 1;
     }
   });
 });
@@ -174,7 +178,6 @@ search_btn_inMenu.addEventListener("click", async () => {
  * @function DisplayLoading
  * @todo 用於網頁執行動作時的顯示動畫
  */
-
 function DisplayLoading() {
   loading.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -184,7 +187,6 @@ function DisplayLoading() {
  * @function HiddenLoading
  * @todo 用於執行完動作時隱藏動畫
  */
-
 function HiddenLoading() {
   loading.classList.add("hidden");
   overlay.classList.add("hidden");
@@ -220,8 +222,9 @@ function DisplayEditInput(title) {
 }
 /**
  * @async
- * @function CreateInfo()
+ * @function CreateInfo
  * @param {string} title
+ * @param {string} data
  * @todo 手動新增資料以及編輯資料
  * @returns {Promise}
  */
@@ -262,6 +265,7 @@ async function CreateInfo(title, data) {
       create_container.classList.add("hidden");
       console.log(response);
     } else if (title === "編輯資料") {
+      /** @type {Array.<string>} */
       let datalist = [];
       datalist.push(result_Id.value);
       datalist.push(result_Name.value);
@@ -330,10 +334,10 @@ function SelectOptionValue() {
  */
 async function SelectInfoValue() {
   try {
+    /**@type {string} */
     var Filter_input = FilterInput.value.trim();
+    /**@type {string} */
     var selectedOption = FilterSelect.options[FilterSelect.selectedIndex].value;
-    console.log(selectedOption);
-    console.log(Filter_input);
     if (
       selectedOption === "book_id" &&
       typeof Filter_input === "string" &&
@@ -393,7 +397,6 @@ search_btn.addEventListener("click", async () => {
   const Filter_input = FilterInput.value.trim();
   if (Filter_input === "") {
     let result = SelectOptionValue();
-    console.log(result);
     PerpageDisplayData(1, `http://localhost:3000/api/classification/${result}`);
     itempage += 1;
   } else {
@@ -404,12 +407,11 @@ search_btn.addEventListener("click", async () => {
 /**
  *
  * @function PopUpDeleteWindows
+ * @param {string} Popup_column
  * @todo 當點擊刪除後 會彈窗再次確認是否要刪除
  * 1. 點擊確認 -> 刪除
  * 2. 點擊取消 -> 隱藏彈窗 保留資料
- *
  */
-
 function PopUpDeleteWindows(Popup_column) {
   const delete_result = Popup_column;
   PopUpDeleteWindow.classList.remove("hidden");
@@ -428,6 +430,10 @@ function PopUpDeleteWindows(Popup_column) {
   DeleteApi(delete_result);
 }
 
+/**
+ * 刪除功能
+ * @param {string} delete_column
+ */
 function DeleteApi(delete_column) {
   const close_btn = document.querySelector(".close_delete");
   const disable_btn = document.querySelector(".disable");
@@ -450,7 +456,7 @@ function DeleteApi(delete_column) {
       await fetch(`http://localhost:3000/api/delete/book_id/${delete_column}`, {
         method: "DELETE",
       });
-      console.log("delete function pass");
+      console.log("delete success");
       PopUpDeleteWindow.classList.add("hidden");
       PerpageDisplayData(itempage, `http://localhost:3000/api/table`);
     } catch (error) {
@@ -463,7 +469,7 @@ function DeleteApi(delete_column) {
  * @async
  * @function UpdateApi
  * @param {string} filterdata
- * @param {Array} UpdateArray
+ * @param {Array.<string>} UpdateArray
  * @todo 更新資料庫內資料
  */
 async function UpdateApi(filterdata, UpdateArray = Array) {
@@ -474,6 +480,14 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
     );
 
     for (const item of response) {
+      /**
+       * @typedef {Object} BookData
+       * @property {string} id
+       * @property {string} bookName
+       * @property {string} author
+       * @property {string} classification
+       */
+      /**@type {BookData} */
       const data_object = {
         id: item.book_id,
         bookName: item.book_name,
@@ -483,12 +497,18 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
       console.log(data_object);
 
       /**檢查輸入匡內的值是否為空 */
-      UpdateArray[0] !== "" ? (data_object.id = UpdateArray[0]) : false;
-      UpdateArray[1] !== "" ? (data_object.bookName = UpdateArray[1]) : false;
-      UpdateArray[2] !== "" ? (data_object.author = UpdateArray[2]) : false;
+      UpdateArray[0] !== ""
+        ? (data_object.id = UpdateArray[0])
+        : console.log("輸入值為空");
+      UpdateArray[1] !== ""
+        ? (data_object.bookName = UpdateArray[1])
+        : console.log("輸入值為空");
+      UpdateArray[2] !== ""
+        ? (data_object.author = UpdateArray[2])
+        : console.log("輸入值為空");
       UpdateArray[3] !== ""
         ? (data_object.classification = UpdateArray[3])
-        : false;
+        : console.log("輸入值為空");
       console.log(data_object);
       const response = await fetch(
         `http://localhost:3000/api/${filterdata}/${data_object.id}/${data_object.bookName}/${data_object.author}/${data_object.classification}`,
