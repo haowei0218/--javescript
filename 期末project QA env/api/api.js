@@ -95,6 +95,28 @@ app.get("/api/:column/:searchdata", async (req, res) => {
  * 更新資料庫內資料
  * @route PUT /api/:book_id/:book_name/:author/:classification
  */
+app.put(
+  "/api/:filterId/:id/:bookName/:author/:Updateclass",
+  async (req, res) => {
+    try {
+      const { id, bookName, author, filterId } = req.params;
+      const Updateclass = decodeURI(req.params.Updateclass);
+      const { data, error } = await supabase
+        .from("booksdata")
+        .update({
+          book_id: id,
+          book_name: bookName,
+          author_name: author,
+          classification: Updateclass,
+        })
+        .eq("book_id", filterId)
+        .select();
+      res.json(data);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+);
 
 /**
  * 刪除資料庫內的資料
@@ -108,7 +130,7 @@ app.delete("/api/delete/:field/:bookData", async (req, res) => {
       .from("booksdata")
       .delete()
       .eq(field, bookData);
-    console.log("delete data success!!");
+    console.log("success!!");
     res.send({ success: true }).end();
   } catch (error) {
     res.status(500).json({ error: "have error" });

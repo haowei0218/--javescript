@@ -83,7 +83,7 @@ function DisplayContent(database) {
     edit_btn.addEventListener("click", () => {
       console.log("test");
       overlay.classList.remove("hidden");
-      CreateInfo("編輯資料");
+      CreateInfo("編輯資料", bookId);
     });
     record_btn.addEventListener("click", () => {
       console.log("test");
@@ -94,7 +94,6 @@ function DisplayContent(database) {
 /**
  * @async
  * @function FetchApi
- * @todo 串接api 發送request
  * @param {string } url
  * @param {string} method
  * @returns {JSON}
@@ -226,7 +225,7 @@ function DisplayEditInput(title) {
  * @todo 手動新增資料以及編輯資料
  * @returns {Promise}
  */
-async function CreateInfo(title) {
+async function CreateInfo(title, data) {
   DisplayEditInput(title);
   const create_btn = document.querySelector(".create-btn");
   const close_btn = document.querySelector(".close-btn");
@@ -241,17 +240,18 @@ async function CreateInfo(title) {
     create_container.classList.add("hidden");
   });
   create_btn.addEventListener("click", async () => {
-    if (
-      result_Id.value === "" ||
-      result_Name.value === "" ||
-      result_Author.value === "" ||
-      result_Class.value === ""
-    ) {
-      result_Id.style.border = "1px solid red";
-      result_Name.style.border = "1px solid red";
-      result_Author.style.border = "1px solid red";
-      result_Class.style.border = "1px solid red";
-    } else if (title === "新增資料") {
+    if (title === "新增資料") {
+      if (
+        result_Id.value === "" ||
+        result_Name.value === "" ||
+        result_Author.value === "" ||
+        result_Class.value === ""
+      ) {
+        result_Id.style.border = "1px solid red";
+        result_Name.style.border = "1px solid red";
+        result_Author.style.border = "1px solid red";
+        result_Class.style.border = "1px solid red";
+      }
       const response = await fetch(
         `http://localhost:3000/api/${result_Id.value}/${result_Name.value}/${
           result_Author.value
@@ -262,7 +262,12 @@ async function CreateInfo(title) {
       create_container.classList.add("hidden");
       console.log(response);
     } else if (title === "編輯資料") {
-      /**發送編輯功能的api */
+      let datalist = [];
+      datalist.push(result_Id.value);
+      datalist.push(result_Name.value);
+      datalist.push(result_Author.value);
+      datalist.push(result_Class.value);
+      UpdateApi(data, datalist);
     }
   });
 }
@@ -452,4 +457,52 @@ function DeleteApi(delete_column) {
       console.log(error);
     }
   });
+}
+
+/**
+ * @async
+ * @function UpdateApi
+ * @param {string} filterdata
+ * @param {Array} UpdateArray
+ * @todo 更新資料庫內資料
+ */
+async function UpdateApi(filterdata, UpdateArray = Array) {
+  try {
+    const response = await FetchApi(
+      `http://localhost:3000/api/book_id/${filterdata}`,
+      "GET"
+    );
+
+    for (const item of response) {
+      const data_object = {
+        id: item.book_id,
+        bookName: item.book_name,
+        author: item.author_name,
+        classification: item.classification,
+      };
+      console.log(data_object);
+
+      /**檢查輸入匡內的值是否為空 */
+      UpdateArray[0] !== "" ? (data_object.id = UpdateArray[0]) : false;
+      UpdateArray[1] !== "" ? (data_object.bookName = UpdateArray[1]) : false;
+      UpdateArray[2] !== "" ? (data_object.author = UpdateArray[2]) : false;
+      UpdateArray[3] !== ""
+        ? (data_object.classification = UpdateArray[3])
+        : false;
+      console.log(data_object);
+      const response = await fetch(
+        `http://localhost:3000/api/${filterdata}/${data_object.id}/${data_object.bookName}/${data_object.author}/${data_object.classification}`,
+        { method: "PUT" }
+      );
+      create_container.classList.add("hidden");
+      overlay.classList.add("hidden");
+      const Update_response = await FetchApi(
+        `http://localhost:3000/api/book_id/${data_object.id}`,
+        "GET"
+      );
+      DisplayContent(Update_response);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
