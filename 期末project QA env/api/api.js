@@ -195,3 +195,20 @@ app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
     res.status(400).send(error).end();
   }
 });
+
+/**
+ * @route GET /api/:column/:data
+ */
+
+app.get("/api/borrowRecord/:column/:Borrowdata", async (req, res) => {
+  try {
+    const { column, Borrowdata } = req.params;
+    const { data, error } = await supabase
+      .from("borrowrecord")
+      .select(column, Borrowdata);
+    res.status(200).json(data).send({ message: "search success!!" });
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
