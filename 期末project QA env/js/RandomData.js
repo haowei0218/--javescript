@@ -35,7 +35,7 @@ export default class RandomData {
     ];
     const number = this.DataRandom(11);
     console.log(number);
-    return classList[number];
+    return classList[this.DataRandom(classList.length) - 1];
   }
   /*---------------------------------------------------------------- */
   /*Borrow random data  */

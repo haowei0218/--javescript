@@ -43,9 +43,8 @@ let itempage = 0;
  * @param {Object} database
  * @return {void}
  */
-(function DisplayContent(database = Object) {
-  const displayInHtml = Object.values(database);
-  const new_displayInHtml = displayInHtml
+function DisplayContent(database) {
+  const displayInHtml = database
     .map((item) => {
       const { book_id, book_name, author_name, classification } = item;
       return `
@@ -64,7 +63,7 @@ let itempage = 0;
     `;
     })
     .join(" ");
-  DataTable.innerHTML = new_displayInHtml;
+  DataTable.innerHTML = displayInHtml;
 
   /**
    * 取得網頁的按鈕
@@ -97,7 +96,7 @@ let itempage = 0;
       console.log("test");
     });
   });
-})();
+}
 
 /**
  * @async
@@ -548,7 +547,7 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
  */
 async function ResetData() {
   let Empty = [];
-  await DisplayContent(Empty);
+  DisplayContent(Empty);
   data_status.classList.remove("hidden");
   Classification.selectedIndex = 0;
   FilterSelect.selectedIndex = 0;
