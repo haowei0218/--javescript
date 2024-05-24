@@ -1,3 +1,4 @@
+import RandomData from "./js/RandomData.js";
 const search_btn = document.querySelector(".search_btn");
 const search_btn_inMenu = document.querySelector(".search_book_list");
 const loading = document.querySelector(".loading");
@@ -15,7 +16,11 @@ const PopUpDeleteWindow = document.querySelector(".popUp");
 const borrowHistory = document.querySelector(".histroy");
 const forDivHidden = document.querySelector(".forHidden");
 const container = document.querySelector(".container");
+const reset_btn = document.querySelector(".reset_btn");
+const InsertData_btn = document.querySelector(".create_fast");
+const InsertRandomData = new RandomData();
 let itempage = 0;
+
 /**-----------------------------------------------------------
  * const classificationList = [
     "文學",
@@ -38,8 +43,9 @@ let itempage = 0;
  * @param {Object} database
  * @return {void}
  */
-function DisplayContent(database) {
-  const displayInHtml = database
+(function DisplayContent(database = Object) {
+  const displayInHtml = Object.values(database);
+  const new_displayInHtml = displayInHtml
     .map((item) => {
       const { book_id, book_name, author_name, classification } = item;
       return `
@@ -58,7 +64,7 @@ function DisplayContent(database) {
     `;
     })
     .join(" ");
-  DataTable.innerHTML = displayInHtml;
+  DataTable.innerHTML = new_displayInHtml;
 
   /**
    * 取得網頁的按鈕
@@ -91,7 +97,7 @@ function DisplayContent(database) {
       console.log("test");
     });
   });
-}
+})();
 
 /**
  * @async
@@ -218,7 +224,6 @@ function DisplayEditInput(title) {
   <label for="book_class">書籍分類</label>
   <input id="book_class" type="text" placeholder="classification">
   <button class="create-btn">create</button>
-  </div>
   `;
 }
 /**
@@ -349,8 +354,7 @@ async function SelectInfoValue() {
         `http://localhost:3000/api/book_id/${Filter_input}`,
         "GET"
       );
-      console.log(response);
-      DisplayContent(response);
+      datacheck(response);
     } else if (
       selectedOption === "book_name" &&
       typeof Filter_input === "string" &&
@@ -358,11 +362,10 @@ async function SelectInfoValue() {
     ) {
       data_status.classList.add("hidden");
       const response = await FetchApi(
-        `http://localhost:3000/api/book_id/${Filter_input}`,
+        `http://localhost:3000/api/book_name/${Filter_input}`,
         "GET"
       );
-      console.log(response);
-      DisplayContent(response);
+      datacheck(response);
     } else if (
       selectedOption === "author_name" &&
       typeof Filter_input === "string" &&
@@ -370,11 +373,10 @@ async function SelectInfoValue() {
     ) {
       data_status.classList.add("hidden");
       const response = await FetchApi(
-        `http://localhost:3000/api/book_id/${Filter_input}`,
+        `http://localhost:3000/api/author_name/${Filter_input}`,
         "GET"
       );
-      console.log(response);
-      DisplayContent(response);
+      datacheck(response);
     } else {
       FilterInput.style.border = "1px solid red";
       data_status.classList.remove("hidden");
@@ -382,6 +384,18 @@ async function SelectInfoValue() {
   } catch (error) {
     console.log(error);
   }
+}
+/**
+ * @function datacheck
+ * @param {Object} dataArray
+ * @todo 檢查回傳的資料是否為空值 並且顯示對應的狀態
+ */
+function datacheck(dataArray = Object) {
+  const new_response = Object.values(dataArray);
+  new_response.length === 0
+    ? data_status.classList.remove("hidden")
+    : data_status.classList.add("hidden"),
+    DisplayContent(dataArray);
 }
 
 /**
@@ -527,6 +541,69 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
     console.log(error);
   }
 }
+
+/**
+ * @function ResetData
+ * @todo 管理列表內所有元素恢復默認
+ */
+async function ResetData() {
+  let Empty = [];
+  await DisplayContent(Empty);
+  data_status.classList.remove("hidden");
+  Classification.selectedIndex = 0;
+  FilterSelect.selectedIndex = 0;
+  FilterInput.value = "";
+}
+reset_btn.addEventListener("click", () => {
+  ResetData();
+});
+
+/**
+ * @function InsertData
+ * @todo 快速新增資料
+ */
+
+async function InsertData() {
+  let book_id = InsertRandomData.RandomId();
+  let book_name = InsertRandomData.RandomBookName();
+  let author_name = InsertRandomData.RandomAuthorName();
+  let classification = InsertRandomData.Randomclassification();
+  const InsertBookData = {
+    id: book_id,
+    Name: book_name,
+    author: author_name,
+    classification: classification,
+  };
+
+  let borrow_id = InsertRandomData.BorrowId();
+  let user_id = InsertRandomData.UserId();
+  let borrow_status = InsertRandomData.BorrowStatus();
+  let borrow_date = InsertRandomData.BorrowDate();
+  console.log(borrow_id);
+
+  const InsertBorrowData = {
+    borrow_id: borrow_id,
+    book_id: book_id,
+    user_id: user_id,
+    borrow_status: borrow_status,
+    borrow_date: borrow_date,
+  };
+  const bookdata_response = await FetchApi(
+    `http://localhost:3000/api/${book_id}/${book_name}/${author_name}/${classification}`,
+    "POST"
+  );
+  console.log(InsertBookData, InsertBorrowData);
+  const borrowdata_response = await FetchApi(
+    `http://localhost:3000/api/${borrow_id}/${book_id}/${user_id}/${borrow_status}/${encodeURIComponent(
+      borrow_date
+    )}`,
+    "POST"
+  );
+  console.log("borrowdata insert success");
+}
+InsertData_btn.addEventListener("click", () => {
+  InsertData();
+});
 /**
  * 借閱紀錄頁面
  */

@@ -161,3 +161,37 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`listen ${PORT}`);
 });
+
+/**
+ * @todo 新增一筆借閱紀錄
+ * @route POST /api/borrow_id/book_id/user_id/status/date
+ */
+app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
+  try {
+    const { BrNum, Bid, user, status } = req.params;
+    const new_date = decodeURIComponent(req.params.date);
+    const { data, error } = await supabase
+      .from("borrowrecord")
+      .insert([
+        {
+          record_id: BrNum,
+          book_id: Bid,
+          user_id: user,
+          borrow_status: status,
+          borrow_date: new_date,
+        },
+      ])
+      .select();
+    console.log({
+      record_id: BrNum,
+      book_id: Bid,
+      user_id: user,
+      borrow_status: status,
+      borrow_date: new_date,
+    });
+    res.status(200).send({ message: "Insert Success!!" }).end();
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error).end();
+  }
+});

@@ -1,5 +1,4 @@
 const search_btn = document.querySelector(".search_btn");
-const search_btn_inMenu = document.querySelector(".search_book_list");
 const loading = document.querySelector(".loading");
 const overlay = document.querySelector(".overlay");
 const DataTable = document.querySelector(".data_table");
@@ -11,9 +10,7 @@ const FilterInput = document.querySelector(".searchInput");
 //const last_btn = document.querySelector(".perpage-2");
 const Classification = document.querySelector(".classification");
 const PopUpDeleteWindow = document.querySelector(".popUp");
-const borrowHistory = document.querySelector(".histroy");
-const forDivHidden = document.querySelector(".forHidden");
-const container = document.querySelector(".container");
+const reset_btn = document.querySelector(".reset_btn");
 let itempage = 0;
 /**-----------------------------------------------------------
  * const classificationList = [
@@ -341,8 +338,7 @@ async function SelectInfoValue() {
         `http://localhost:3000/api/book_id/${Filter_input}`,
         "GET"
       );
-      console.log(response);
-      DisplayContent(response);
+      datacheck(response);
     } else if (
       selectedOption === "book_name" &&
       typeof Filter_input === "string" &&
@@ -350,11 +346,10 @@ async function SelectInfoValue() {
     ) {
       data_status.classList.add("hidden");
       const response = await FetchApi(
-        `http://localhost:3000/api/book_id/${Filter_input}`,
+        `http://localhost:3000/api/book_name/${Filter_input}`,
         "GET"
       );
-      console.log(response);
-      DisplayContent(response);
+      datacheck(response);
     } else if (
       selectedOption === "author_name" &&
       typeof Filter_input === "string" &&
@@ -362,11 +357,10 @@ async function SelectInfoValue() {
     ) {
       data_status.classList.add("hidden");
       const response = await FetchApi(
-        `http://localhost:3000/api/book_id/${Filter_input}`,
+        `http://localhost:3000/api/author_name/${Filter_input}`,
         "GET"
       );
-      console.log(response);
-      DisplayContent(response);
+      datacheck(response);
     } else {
       FilterInput.style.border = "1px solid red";
       data_status.classList.remove("hidden");
@@ -374,6 +368,18 @@ async function SelectInfoValue() {
   } catch (error) {
     console.log(error);
   }
+}
+/**
+ * @function datacheck
+ * @param {Object} dataArray
+ * @todo 檢查回傳的資料是否為空值 並且顯示對應的狀態
+ */
+function datacheck(dataArray = Object) {
+  const new_response = Object.values(dataArray);
+  new_response.length === 0
+    ? data_status.classList.remove("hidden")
+    : data_status.classList.add("hidden"),
+    DisplayContent(dataArray);
 }
 
 /**
@@ -519,3 +525,18 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
     console.log(error);
   }
 }
+/**
+ * @function ResetData
+ * @todo 資料刷新
+ */
+function ResetData() {
+  let Empty = [];
+  DisplayContent(Empty);
+  data_status.classList.remove("hidden");
+  Classification.selectedIndex = 0;
+  FilterSelect.selectedIndex = 0;
+  FilterInput.value = "";
+}
+reset_btn.addEventListener("click", () => {
+  ResetData();
+});
