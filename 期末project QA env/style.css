@@ -85,7 +85,7 @@ body {
 /*整個網頁下半部的內容 包含container以及左側功能列表*/
 .main-container {
     display: flex;
-    margin-top: 40px;
+    /*margin-top: 15px;*/
     margin-right: 50px;
 
 }
@@ -202,6 +202,65 @@ body {
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
 }
+
+/*搜尋全部按鈕*/
+
+.search_all {
+    width: 80px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    text-align: center;
+}
+
+.search_all:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+/*上一頁 / 下一頁*/
+.perpage-1 {
+    width: 80px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    text-align: center;
+}
+
+.perpage-1:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+.perpage-2 {
+    width: 80px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    text-align: center;
+}
+
+.perpage-2:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+
 
 /*分頁顯示內容*/
 .booklist {

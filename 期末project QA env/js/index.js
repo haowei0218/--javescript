@@ -3,13 +3,12 @@ const search_btn_inMenu = document.querySelector(".search_book_list");
 const loading = document.querySelector(".loading");
 const overlay = document.querySelector(".overlay");
 const DataTable = document.querySelector(".data_table");
-const Create_btn = document.querySelector(".create");
 const create_container = document.querySelector(".create_info");
 const data_status = document.querySelector(".data_status");
 const FilterSelect = document.querySelector(".filter_info");
 const FilterInput = document.querySelector(".searchInput");
-const next_btn = document.querySelector(".perpage-1");
-const last_btn = document.querySelector(".perpage-2");
+//const next_btn = document.querySelector(".perpage-1");
+//const last_btn = document.querySelector(".perpage-2");
 const Classification = document.querySelector(".classification");
 const PopUpDeleteWindow = document.querySelector(".popUp");
 const borrowHistory = document.querySelector(".histroy");
@@ -131,6 +130,7 @@ async function PerpageDisplayData(Page, url) {
     const end = start + limit;
     let response_length = Object.values(response).length;
     let new_response = Object.values(response);
+    console.log(response_length);
     /**
      * 判斷回傳的資料長度是否大於limit
      * @param {number} response_length
@@ -157,18 +157,15 @@ async function PerpageDisplayData(Page, url) {
 }
 
 /**
- * @todo 查詢所有書籍資料 並且利用NextButton以及LastButton實現分頁顯示
+ * @todo 利用NextButton以及LastButton實現分頁顯示
  */
-search_btn_inMenu.addEventListener("click", async () => {
-  forDivHidden.classList.add("hidden");
-  container.innerHTML = `
-  <iframe src="./page/bookData.html" frameborder="no" scrolling="no" allowtransparency="yes" width="1050px" height="1000px" />`;
-  /*itempage = 1;
+/*
+  itempage = 1;
   PerpageDisplayData(itempage, "http://localhost:3000/api/table");
   next_btn.addEventListener("click", async () => {
     itempage += 1;
     PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-  });
+
   last_btn.addEventListener("click", async () => {
     if (itempage > 0) {
       itempage -= 1;
@@ -176,8 +173,8 @@ search_btn_inMenu.addEventListener("click", async () => {
     } else {
       itempage = 1;
     }
-  });*/
-});
+  });
+*/
 
 /**
  * @function DisplayLoading
@@ -210,13 +207,13 @@ function DisplayEditInput(title) {
   <button class="close-btn">X</button>
   <div class="create-list">
   <label for="book_id">書籍編號</label>
-  <input id="book_id" type="text" placeholder="id">
+  <input id="book_id" name="book_id" type="text" >
   <label for="book_name">書籍名稱</label>
-  <input id="book_name" type="text" placeholder="name">
+  <input id="book_name" name="book_name" type="text" >
   <label for="book_author">書籍作者</label>
-  <input id="book_author" type="text" placeholder="author">
+  <input id="book_author" name="book_author" type="text" >
   <label for="book_class">書籍分類</label>
-  <input id="book_class" type="text" placeholder="classification">
+  <input id="book_class" name="book_class" type="text" >
   <button class="create-btn">create</button>
   </div>
   `;
@@ -276,11 +273,6 @@ async function CreateInfo(title, data) {
     }
   });
 }
-
-Create_btn.addEventListener("click", () => {
-  CreateInfo("新增資料");
-  overlay.classList.remove("hidden");
-});
 
 /**
  * @async
@@ -527,11 +519,3 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
     console.log(error);
   }
 }
-/**
- * 借閱紀錄頁面
- */
-borrowHistory.addEventListener("click", () => {
-  forDivHidden.classList.add("hidden");
-  container.innerHTML = `
-  <iframe src="./page/borrowPage.html" frameborder="no" scrolling="no" allowtransparency="yes" width="1200px" height="1000px" />`;
-});

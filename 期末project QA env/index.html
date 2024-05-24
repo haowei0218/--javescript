@@ -19,6 +19,7 @@
             <div class="title">
                 <div class="icon"><i class="fa-solid fa-computer"></i></div>
                 <h2>圖書管理系統</h2>
+
             </div>
 
             <div class="btn">
@@ -45,64 +46,63 @@
                 </ul>
 
             </div>
-            <div class="container">
-                <h3>管理列表</h3>
 
-                <div class="allbutton">
-                    <div class="filter_book">
-                        <select name="" class="filter_info">
-                            <option value="book_id">書籍編號</option>
-                            <option value="book_name">書籍名稱</option>
-                            <option value="author_name">書籍作者</option>
+            <div class="container ">
+                <div class="forHidden">
+                    <h3>管理列表</h3>
+
+                    <div class="allbutton">
+                        <div class="filter_book">
+                            <select name="" class="filter_info">
+                                <option value="book_id">書籍編號</option>
+                                <option value="book_name">書籍名稱</option>
+                                <option value="author_name">書籍作者</option>
+                            </select>
+
+                            <input class="searchInput" type="text" placeholder="搜尋" value=""
+                                oninput="if(value>999999999)value=999999999;if(value<0)value=0">
+                        </div>
+                        <select name="classification" class="classification">
+                            <option disabled selected>請選擇書籍的分類</option>
+                            <option value="文學">文學</option>
+                            <option value="藝術">藝術</option>
+                            <option value="人文">人文</option>
+                            <option value="歷史">歷史</option>
+                            <option value="體育">體育</option>
+                            <option value="奇幻">奇幻</option>
+                            <option value="武俠">武俠</option>
+                            <option value="漫畫">漫畫</option>
+                            <option value="雜誌">雜誌</option>
+                            <option value="愛情">愛情</option>
+                            <option value="恐怖">恐怖</option>
                         </select>
-
-                        <input class="searchInput" type="text" placeholder="搜尋" value=""
-                            oninput="if(value>999999999)value=999999999;if(value<0)value=0">
                     </div>
-                    <select name="classification" class="classification">
-                        <option disabled selected>請選擇書籍的分類</option>
-                        <option value="文學">文學</option>
-                        <option value="藝術">藝術</option>
-                        <option value="人文">人文</option>
-                        <option value="歷史">歷史</option>
-                        <option value="體育">體育</option>
-                        <option value="奇幻">奇幻</option>
-                        <option value="武俠">武俠</option>
-                        <option value="漫畫">漫畫</option>
-                        <option value="雜誌">雜誌</option>
-                        <option value="愛情">愛情</option>
-                        <option value="恐怖">恐怖</option>
-                    </select>
-                </div>
-                <div class="search__book_btn">
-                    <button class="search_btn">搜尋</button>
-                    <button class="reset_btn">重設</button>
-
-                </div>
-                <ul class="tableTitle">
-                    <li class="table_id">書本編號</li>
-                    <li class="table_name">書名</li>
-                    <li class="table_author_name">作者</li>
-                    <li class="table_classification">書本分類</li>
-                    <li class="table_action">執行的動作</li>
-                </ul>
-                <div class="Datalist">
-
-                    <div class="data_status">
-                        <div class="data_icon"><i class="fa-solid fa-robot"></i></div>
-                        <p>No data</p>
+                    <div class="search__book_btn">
+                        <button class="search_btn">搜尋</button>
+                        <button class="reset_btn">重設</button>
+                        <button class="perpage-1">next</button>
+                        <button class="perpage-2">last</button>
                     </div>
-                    <table class="data_table">
-
-                    </table>
-                </div>
-                <nav class="pageList">
-                    <ul class="booklist">
-                        <li class="perpage-2">last</li>
-                        <li class="perpage-1">next</li>
+                    <ul class="tableTitle">
+                        <li class="table_id">書本編號</li>
+                        <li class="table_name">書名</li>
+                        <li class="table_author_name">作者</li>
+                        <li class="table_classification">書本分類</li>
+                        <li class="table_action">執行的動作</li>
                     </ul>
+                    <div class="Datalist">
 
-                </nav>
+                        <div class="data_status">
+                            <div class="data_icon"><i class="fa-solid fa-robot"></i></div>
+                            <p>No data</p>
+                        </div>
+                        <table class="data_table">
+
+                        </table>
+                    </div>
+
+
+                </div>
 
             </div>
         </div>
