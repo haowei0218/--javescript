@@ -203,6 +203,41 @@ body {
     -o-border-radius: 5px;
 }
 
+/*上一頁 下一頁*/
+.next_btn:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+.next_btn {
+    width: 80px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.last_btn:hover {
+    cursor: pointer;
+    background-color: #859ce7;
+}
+
+.last_btn {
+    width: 80px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 2px solid rgba(68, 66, 66, 0.913);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
 /*搜尋全部按鈕*/
 
 .search_all {

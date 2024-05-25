@@ -65,7 +65,7 @@ app.post(
  */
 app.get("/api/table", async (req, res) => {
   try {
-    const { data, error } = await supabase.from("booksdata").select("*");
+    let { data, error } = await supabase.from("booksdata").select("*");
     res.json(data);
     console.log(data);
   } catch (error) {
@@ -80,7 +80,7 @@ app.get("/api/table", async (req, res) => {
 app.get("/api/:column/:searchdata", async (req, res) => {
   try {
     const { column, searchdata } = req.params;
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("booksdata")
       .select("*")
       .eq(column, searchdata);
@@ -126,7 +126,7 @@ app.put(
 app.delete("/api/delete/:field/:bookData", async (req, res) => {
   try {
     const { field, bookData } = req.params;
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("booksdata")
       .delete()
       .eq(field, bookData);
@@ -144,7 +144,7 @@ app.delete("/api/delete/:field/:bookData", async (req, res) => {
 app.get("/api/borrow_record", async (req, res) => {
   try {
     const record_id = 5050;
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("borrow_record")
       .select("record_id, book_id, user_id, borrow_status, borrow_date")
       .eq("book_id", `${record_id}`);
@@ -170,7 +170,7 @@ app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
   try {
     const { BrNum, Bid, user, status } = req.params;
     const new_date = decodeURIComponent(req.params.date);
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("borrowrecord")
       .insert([
         {
@@ -197,18 +197,31 @@ app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
 });
 
 /**
- * @route GET /api/:column/:data
+ * @route GET /api/borrowRecord:column/:Borrowdata
  */
-
 app.get("/api/borrowRecord/:column/:Borrowdata", async (req, res) => {
   try {
     const { column, Borrowdata } = req.params;
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("borrowrecord")
-      .select(column, Borrowdata);
-    res.status(200).json(data).send({ message: "search success!!" });
-    console.log(data);
+      .select("*")
+      .eq(column, Borrowdata);
+    res.json(data);
   } catch (error) {
+    console.log(error);
+  }
+});
+
+/**
+ * @route GET /api/borrowRecord
+ */
+app.get("/api/borrowRecord", async (req, res) => {
+  try {
+    let { data, error } = await supabase.from("borrowrecord").select("*");
+    console.log("success!!");
+    res.json(data);
+  } catch (error) {
+    res.status(400).send(error);
     console.log(error);
   }
 });
