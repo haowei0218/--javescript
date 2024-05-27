@@ -53,11 +53,48 @@ export default class RandomData {
   }
   BorrowStatus() {
     const JudgmentStatus = this.DataRandom() % 2 === 0 ? true : false;
-    const Status = JudgmentStatus ? "已借出" : "尚未借出";
+    const Status = JudgmentStatus ? "已歸還" : "尚未歸還";
     return Status;
   }
   BorrowDate() {
     const dateObject = new Date().toLocaleString("en-US", { timeZone: "UTC" }); // 5/12/2020, 6:50:21 PM
     return dateObject;
+  }
+}
+
+export class BorrowFunction {
+  constructor() {}
+
+  async PopUpBorrowRecordWindows(result) {
+    const new_response = Object.values(result).map((item) => {
+      const { record_id, book_id, user_id, borrow_status, borrow_date } = item;
+      return `
+    <div>
+      <div class="bor_title">
+        <h3>title</h3>
+      </div>
+      <div class="record">
+        <h4>RecordId</h4>
+        <p>${record_id}</p>
+      </div>
+      <div class="book_id">
+        <h4>BookId</h4>
+        <p>${book_id}</p>
+      </div>
+      <div class="UserId">
+        <h4>${user_id}</h4>
+        <p></p>
+      </div>
+      <div class="status">
+        <h4>${borrow_status}</h4>
+        <p></p>
+      </div>
+      <div class="date">
+        <h4>${borrow_date}</h4>
+        <p></p>
+      </div>
+    </div>  
+    `;
+    });
   }
 }

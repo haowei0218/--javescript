@@ -84,11 +84,10 @@ async function CreateBooksData() {
 /**
  * @async
  * @function DisplayContent 在頁面顯示書本的基本資料
- * @param {JSON} database
- * @return {HTMLElement}
+ * @param {Array} database
  */
 async function DisplayBookInfo(database) {
-  const displayInHtml = await database
+  const displayInHtml = Object.values(database)
     .map((item) => {
       const { book_id, book_name, author_name, classification } = item;
       return `
@@ -110,7 +109,7 @@ async function DisplayBookInfo(database) {
  * @function DisplayBorrowInfo 在頁面顯示借閱資料
  */
 async function DisplayBorrowInfo(borrowData) {
-  const displayInHtml = await borrowData
+  const displayInHtml = Object.values(borrowData)
     .map((item) => {
       const { record_id, book_id, user_id, borrow_status, borrow_date } = item;
       return `
@@ -402,8 +401,7 @@ async function SelectDifferentApi(option) {
 }
 
 test_borrow.addEventListener("click", async () => {
-  const Option = SelectClassificationValue();
-  SelectDifferentApi(Option);
+  SearchBorrowRecord();
 });
 /**
  * 根據書籍編號 書籍作者 書籍名稱查詢

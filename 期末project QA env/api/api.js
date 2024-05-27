@@ -141,13 +141,13 @@ app.delete("/api/delete/:field/:bookData", async (req, res) => {
  * 查詢指定書籍的借閱紀錄
  * @route GET /api/borrow_record
  */
-app.get("/api/borrow_record", async (req, res) => {
+app.get("/api/borrow_record/:record_id", async (req, res) => {
   try {
-    const record_id = 5050;
+    const recordId = req.params.record_id;
     let { data, error } = await supabase
       .from("borrow_record")
       .select("record_id, book_id, user_id, borrow_status, borrow_date")
-      .eq("book_id", `${record_id}`);
+      .eq("book_id", `${recordId}`);
     res.json(data);
     res.status(200);
     console.log(data);
@@ -197,23 +197,8 @@ app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
 });
 
 /**
- * @route GET /api/borrowRecord:column/:Borrowdata
- */
-app.get("/api/borrowRecord/:column/:Borrowdata", async (req, res) => {
-  try {
-    const { column, Borrowdata } = req.params;
-    let { data, error } = await supabase
-      .from("borrowrecord")
-      .select("*")
-      .eq(column, Borrowdata);
-    res.json(data);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-/**
  * @route GET /api/borrowRecord
+ * @todo 查詢所有書籍的借閱紀錄
  */
 app.get("/api/borrowRecord", async (req, res) => {
   try {
@@ -223,5 +208,25 @@ app.get("/api/borrowRecord", async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
     console.log(error);
+  }
+});
+
+/**
+ * @route GET /api/borrowRecord/:book_id
+ */
+
+app.get("/api/v2/borrowRecord/book_id=:bookId", async (req, res) => {
+  try {
+    const book_Id = req.params.bookId;
+    const { data, error } = await supabase
+      .from("borrowrecord")
+      .select(
+        `record_id, user_id, borrow_status, borrow_date ,booksdata(book_id)`
+      )
+      .eq("book_id", book_Id);
+    console.log(data);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 });

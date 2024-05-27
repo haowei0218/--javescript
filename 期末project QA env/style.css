@@ -28,7 +28,7 @@ body {
     box-shadow: 10px;
     position: fixed;
     top: 0;
-    z-index: 8;
+    z-index: 20;
 }
 
 /*圖書管理系統title*/
@@ -673,4 +673,77 @@ tbody {
 .button_list button:hover {
     background-color: #2d52cc;
     cursor: pointer;
+}
+
+/*借閱紀錄的視窗*/
+.borrowData {
+    display: none;
+    position: absolute;
+    top: 200px;
+    left: 350px;
+    width: 800px;
+    height: 600px;
+    border: 1px solid #b1b1b1;
+    box-shadow: 8px 8px 8px 8px #7c7c7c;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.borrowData h3 {
+    position: absolute;
+    left: 350px;
+    font-size: 20px;
+}
+
+
+
+.borrowData .close {
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    position: absolute;
+    left: 750px;
+    top: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.borrowData .close:hover {
+    cursor: pointer;
+    color: #2d52cc;
+}
+
+.Borrow_title {
+    position: absolute;
+    left: 40px;
+    top: 70px;
+}
+
+.Borrow_title th {
+    width: 120px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.borrow_table {
+    display: grid;
+    position: absolute;
+    width: 750px;
+    height: 550px;
+    top: 120px;
+    left: 68px;
+}
+
+.borrow_table td {
+    width: 80px;
+    height: 40px;
+    font-size: 20px;
+    padding-right: 30px;
+}
+
+.borrow_table th {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
 }

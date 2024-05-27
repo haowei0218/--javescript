@@ -136,13 +136,16 @@ app.listen(PORT, () => {
  */
 app.get("/api/borrow_record", async (req, res) => {
   try {
-    const record_id = 5050;
+    const record_id = "6602897";
     const { data, error } = await supabase
-      .from("borrow_record")
-      .select("record_id, book_id, user_id, borrow_status, borrow_date")
-      .eq("book_id", `${record_id}`);
-    res.json(data);
+      .from("borrowrecord")
+      .select(
+        "record_id, user_id, borrow_status, borrow_date ,booksdata(book_id)"
+      )
+      .eq("book_id", record_id);
     res.status(200);
+    res.json(data);
+
     console.log(data);
   } catch (error) {
     res.status(500);

@@ -1,4 +1,5 @@
-import RandomData from "./js/RandomData.js";
+import RandomData from "./js/Function.js";
+import { BorrowFunction } from "./js/Function.js";
 const search_btn = document.querySelector(".search_btn");
 const search_btn_inMenu = document.querySelector(".search_book_list");
 const loading = document.querySelector(".loading");
@@ -18,9 +19,13 @@ const forDivHidden = document.querySelector(".forHidden");
 const container = document.querySelector(".container");
 const reset_btn = document.querySelector(".reset_btn");
 const InsertData_btn = document.querySelector(".create_fast");
+const BorrowWindows = document.querySelector(".borrowData");
+const Borrow_container = document.querySelector(".borrow_table");
 const InsertRandomData = new RandomData();
+const BorrowHookFunction = new BorrowFunction();
+const Borrowclose_btn = document.querySelector(".close");
 let itempage = 0;
-
+let Judgment = true;
 /**-----------------------------------------------------------
  * const classificationList = [
     "文學",
@@ -92,8 +97,38 @@ function DisplayContent(database) {
       overlay.classList.remove("hidden");
       CreateInfo("編輯資料", bookId);
     });
-    record_btn.addEventListener("click", () => {
-      console.log("test");
+    record_btn.addEventListener("click", async () => {
+      Judgment = true;
+      const response = await FetchApi(
+        `http://localhost:3000/api/v2/borrowRecord/book_id=${bookId}`,
+        "GET"
+      );
+      const DataArray = Object.values(response)
+        .map((item) => {
+          const { record_id, book_id, user_id, borrow_status, borrow_date } =
+            item;
+          return `
+         
+        <tr>
+          <td>${record_id}</td>
+          <td>${bookId}</td>
+          <td>${user_id}</td>
+          <td>${borrow_status}</td>
+          <th>${borrow_date}</th>
+        </tr>
+        `;
+        })
+        .join("");
+      BorrowWindows.style.display = "grid";
+      SwitchDisplayOrHidden(overlay, Judgment);
+      Borrowclose_btn.addEventListener("click", () => {
+        Judgment = false;
+        BorrowWindows.style.display = "none";
+        SwitchDisplayOrHidden(overlay, Judgment);
+      });
+      Borrow_container.innerHTML = DataArray;
+      console.log(DataArray);
+      console.log("test", response);
     });
   });
 }
@@ -162,29 +197,6 @@ async function PerpageDisplayData(Page, url) {
 }
 
 /**
- * @todo 查詢所有書籍資料 並且利用NextButton以及LastButton實現分頁顯示
- */
-search_btn_inMenu.addEventListener("click", async () => {
-  forDivHidden.classList.add("hidden");
-  container.innerHTML = `
-  <iframe src="./page/bookData.html" frameborder="no" scrolling="no" allowtransparency="yes" width="1050px" height="1000px" />`;
-  /*itempage = 1;
-  PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-  next_btn.addEventListener("click", async () => {
-    itempage += 1;
-    PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-  });
-  last_btn.addEventListener("click", async () => {
-    if (itempage > 0) {
-      itempage -= 1;
-      PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-    } else {
-      itempage = 1;
-    }
-  });*/
-});
-
-/**
  * @function DisplayLoading
  * @todo 用於網頁執行動作時的顯示動畫
  */
@@ -200,6 +212,16 @@ function DisplayLoading() {
 function HiddenLoading() {
   loading.classList.add("hidden");
   overlay.classList.add("hidden");
+}
+
+/**
+ * @function SwitchDisplayOrHidden
+ * @todo 顯示或隱藏
+ */
+function SwitchDisplayOrHidden(HtmlElement, style1 = "hidden", Judgment) {
+  Judgment
+    ? HtmlElement.classList.remove(style1)
+    : HtmlElement.classList.add(style1);
 }
 
 /**
@@ -610,4 +632,13 @@ borrowHistory.addEventListener("click", () => {
   forDivHidden.classList.add("hidden");
   container.innerHTML = `
   <iframe src="./page/borrowPage.html" frameborder="no" scrolling="no" allowtransparency="yes" width="1200px" height="1000px" />`;
+});
+
+/**
+ * @todo 查詢書籍資料頁面
+ */
+search_btn_inMenu.addEventListener("click", async () => {
+  forDivHidden.classList.add("hidden");
+  container.innerHTML = `
+  <iframe src="./page/bookData.html" frameborder="no" scrolling="no" allowtransparency="yes" width="1050px" height="1000px" />`;
 });

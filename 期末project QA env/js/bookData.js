@@ -83,8 +83,8 @@ function DisplayContent(database) {
       overlay.classList.remove("hidden");
       CreateInfo("編輯資料", bookId);
     });
-    record_btn.addEventListener("click", () => {
-      console.log("test");
+    record_btn.addEventListener("click", async () => {
+      const result = console.log("test");
     });
   });
 }
