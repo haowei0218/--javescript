@@ -1,5 +1,4 @@
 import RandomData from "./js/Function.js";
-import { BorrowFunction } from "./js/Function.js";
 const search_btn = document.querySelector(".search_btn");
 const search_btn_inMenu = document.querySelector(".search_book_list");
 const loading = document.querySelector(".loading");
@@ -22,7 +21,6 @@ const InsertData_btn = document.querySelector(".create_fast");
 const BorrowWindows = document.querySelector(".borrowData");
 const Borrow_container = document.querySelector(".borrow_table");
 const InsertRandomData = new RandomData();
-const BorrowHookFunction = new BorrowFunction();
 const Borrowclose_btn = document.querySelector(".close");
 let itempage = 0;
 let Judgment = true;
@@ -100,7 +98,7 @@ function DisplayContent(database) {
     record_btn.addEventListener("click", async () => {
       Judgment = true;
       const response = await FetchApi(
-        `http://localhost:3000/api/v2/borrowRecord/book_id=${bookId}`,
+        `http://localhost:3000/api/v1/borrowRecord/book_id=${bookId}`,
         "GET"
       );
       const DataArray = Object.values(response)
@@ -120,11 +118,10 @@ function DisplayContent(database) {
         })
         .join("");
       BorrowWindows.style.display = "grid";
-      SwitchDisplayOrHidden(overlay, Judgment);
+      overlay.classList.remove("hidden");
       Borrowclose_btn.addEventListener("click", () => {
-        Judgment = false;
+        overlay.classList.add("hidden");
         BorrowWindows.style.display = "none";
-        SwitchDisplayOrHidden(overlay, Judgment);
       });
       Borrow_container.innerHTML = DataArray;
       console.log(DataArray);
@@ -450,6 +447,7 @@ search_btn.addEventListener("click", async () => {
  */
 function PopUpDeleteWindows(Popup_column) {
   const delete_result = Popup_column;
+  overlay.classList.remove("hidden");
   PopUpDeleteWindow.classList.remove("hidden");
   PopUpDeleteWindow.innerHTML = `
   <div class="delete_title">
@@ -475,15 +473,27 @@ function DeleteApi(delete_column) {
   const disable_btn = document.querySelector(".disable");
   const check_btn = document.querySelector(".check_btn");
   close_btn.addEventListener("click", () => {
+    overlay.classList.add("hidden");
     PopUpDeleteWindow.classList.add("hidden");
   });
   disable_btn.addEventListener("click", async () => {
+    overlay.classList.add("hidden");
     PopUpDeleteWindow.classList.add("hidden");
     await PerpageDisplayData(itempage, "http://localhost:3000/api/table");
   });
   check_btn.addEventListener("click", async () => {
     try {
-      console.log(delete_column);
+      const get_borrow_response = await FetchApi(
+        `http://localhost:3000/api/v1/borrowRecord/book_id=${delete_column}`,
+        "GET"
+      );
+      console.log(Object.values(get_borrow_response)[0].record_id);
+      await fetch(
+        `http://localhost:3000/api/delete/v1/borrowRecord/${
+          Object.values(get_borrow_response)[0].record_id
+        }`,
+        { method: "DELETE" }
+      );
       const get_response = await FetchApi(
         `http://localhost:3000/api/book_id/${delete_column}`,
         "GET"

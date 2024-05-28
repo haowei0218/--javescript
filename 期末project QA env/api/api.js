@@ -17,6 +17,13 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-type": "text/plain" });
   res.end("hello world\n");
 });
+
+/**監聽端口 */
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`listen ${PORT}`);
+});
+
 /*
  * 提醒:每次改code前 先停止後端運作 改完後再啟動
  */
@@ -122,7 +129,6 @@ app.put(
  * 刪除資料庫內的資料
  * @route Delete /api/:column/:book_data
  */
-
 app.delete("/api/delete/:field/:bookData", async (req, res) => {
   try {
     const { field, bookData } = req.params;
@@ -135,31 +141,6 @@ app.delete("/api/delete/:field/:bookData", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "have error" });
   }
-});
-
-/**
- * 查詢指定書籍的借閱紀錄
- * @route GET /api/borrow_record
- */
-app.get("/api/borrow_record/:record_id", async (req, res) => {
-  try {
-    const recordId = req.params.record_id;
-    let { data, error } = await supabase
-      .from("borrow_record")
-      .select("record_id, book_id, user_id, borrow_status, borrow_date")
-      .eq("book_id", `${recordId}`);
-    res.json(data);
-    res.status(200);
-    console.log(data);
-  } catch (error) {
-    res.status(500);
-    console.log(error);
-  }
-});
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`listen ${PORT}`);
 });
 
 /**
@@ -213,9 +194,9 @@ app.get("/api/borrowRecord", async (req, res) => {
 
 /**
  * @route GET /api/borrowRecord/:book_id
+ * @todo 查詢指定書籍的借閱紀錄
  */
-
-app.get("/api/v2/borrowRecord/book_id=:bookId", async (req, res) => {
+app.get("/api/v1/borrowRecord/book_id=:bookId", async (req, res) => {
   try {
     const book_Id = req.params.bookId;
     const { data, error } = await supabase
@@ -226,6 +207,22 @@ app.get("/api/v2/borrowRecord/book_id=:bookId", async (req, res) => {
       .eq("book_id", book_Id);
     console.log(data);
     res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+/**
+ * @route DELETE /api/v1/borrowRecord/:column=$:borrowData
+ */
+app.delete("/api/delete/v1/borrowRecord/:borrowData", async (req, res) => {
+  try {
+    const { borrowData } = req.params;
+    const { error } = await supabase
+      .from("borrowrecord")
+      .delete()
+      .eq("record_id", borrowData);
+    res.status(200).send("delete success!!");
   } catch (error) {
     res.status(500).json({ error });
   }

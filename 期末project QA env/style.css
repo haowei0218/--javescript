@@ -747,3 +747,27 @@ tbody {
     height: 40px;
     font-size: 20px;
 }
+
+/*借閱紀錄頁面的table*/
+.all_borrow_data {
+    position: relative;
+    width: 1100px;
+    top: -50px;
+    left: 10px;
+}
+
+.all_borrow_data td {
+    width: 150px;
+    height: 30px;
+    padding-left: 20px;
+    text-decoration: 20px;
+}
+
+.all_borrow_data span {
+    font-size: 20px;
+}
+
+.all_borrow_data th {
+    width: 150px;
+    height: 30px;
+}

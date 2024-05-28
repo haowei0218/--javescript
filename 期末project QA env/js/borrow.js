@@ -2,7 +2,7 @@ const reset_btn = document.querySelector(".reset_btn");
 const InputBox = document.querySelector(".searchInput");
 const filterSelect = document.querySelector(".filter_info");
 const data_status = document.querySelector(".data_status");
-const data_table = document.querySelector(".data_table");
+const data_table = document.querySelector(".all_borrow_data");
 const search_btn = document.querySelector(".search_btn");
 const search_all = document.querySelector(".search_all");
 const next_btn = document.querySelector(".next_btn");
@@ -30,11 +30,11 @@ function DisplayData(database) {
     .map((item) => {
       const { record_id, book_id, user_id, borrow_status, borrow_date } = item;
       return `<tr>
-      <td>${record_id}</td>
-      <td>${book_id}</td>
-      <td>${user_id}</td>
-      <td>${borrow_status}</td>
-      <td>${borrow_date}</td>
+      <td><span>${record_id}</span></td>
+      <td><span>${book_id}</span></td>
+      <td><span>${user_id}</span></td>
+      <td><span>${borrow_status}</span></td>
+      <th><span>${borrow_date}</span></th>
     </tr>
     `;
     })
@@ -82,7 +82,7 @@ async function SearchAPi() {
   ) {
     console.log(filterSelect.value);
     const response = await FetchApi(
-      `http://localhost:3000/api/borrowRecord/${filterSelect.value}/${InputBox.value}`,
+      `http://localhost:3000/api/v1/borrowRecord/${filterSelect.value}/${InputBox.value}`,
       "GET"
     );
     DisplayData(response);
