@@ -96,9 +96,8 @@ function DisplayContent(database) {
       CreateInfo("編輯資料", bookId);
     });
     record_btn.addEventListener("click", async () => {
-      Judgment = true;
       const response = await FetchApi(
-        `http://localhost:3000/api/v1/borrowRecord/book_id=${bookId}`,
+        `http://localhost:3000/api/v2/borrowRecord/book_id=${bookId}`,
         "GET"
       );
       const DataArray = Object.values(response)
@@ -168,6 +167,7 @@ async function PerpageDisplayData(Page, url) {
     const end = start + limit;
     let response_length = Object.values(response).length;
     let new_response = Object.values(response);
+    console.log(new_response)
     /**
      * 判斷回傳的資料長度是否大於limit
      * @param {number} response_length
@@ -280,8 +280,7 @@ async function CreateInfo(title, data) {
         result_Class.style.border = "1px solid red";
       }
       const response = await fetch(
-        `http://localhost:3000/api/${result_Id.value}/${result_Name.value}/${
-          result_Author.value
+        `http://localhost:3000/api/${result_Id.value}/${result_Name.value}/${result_Author.value
         }/${encodeURI(result_Class.value)}`,
         { method: "POST" }
       );
@@ -347,6 +346,9 @@ function SelectOptionValue() {
     case "恐怖":
       console.log("分類為恐怖");
       break;
+    case "雜誌":
+      console.log("分類為雜誌");
+      break;
     default:
       console.log("未知分類");
   }
@@ -410,6 +412,7 @@ async function SelectInfoValue() {
  */
 function datacheck(dataArray = Object) {
   const new_response = Object.values(dataArray);
+  console.log('1 ')
   new_response.length === 0
     ? data_status.classList.remove("hidden")
     : data_status.classList.add("hidden"),
@@ -446,7 +449,7 @@ search_btn.addEventListener("click", async () => {
  * 2. 點擊取消 -> 隱藏彈窗 保留資料
  */
 function PopUpDeleteWindows(Popup_column) {
-  const delete_result = Popup_column;
+  console.log(Popup_column)
   overlay.classList.remove("hidden");
   PopUpDeleteWindow.classList.remove("hidden");
   PopUpDeleteWindow.innerHTML = `
@@ -461,7 +464,7 @@ function PopUpDeleteWindows(Popup_column) {
     <button class="check_btn">確認</button>
   </div>
   `;
-  DeleteApi(delete_result);
+  DeleteApi(Popup_column);
 }
 
 /**
@@ -483,27 +486,14 @@ function DeleteApi(delete_column) {
   });
   check_btn.addEventListener("click", async () => {
     try {
-      const get_borrow_response = await FetchApi(
-        `http://localhost:3000/api/v1/borrowRecord/book_id=${delete_column}`,
-        "GET"
+      const get_borrow_response = await fetch(
+        `http://localhost:3000/api/v2/borrowRecord/book_id=${delete_column}`,
       );
-      console.log(Object.values(get_borrow_response)[0].record_id);
-      await fetch(
-        `http://localhost:3000/api/delete/v1/borrowRecord/${
-          Object.values(get_borrow_response)[0].record_id
-        }`,
-        { method: "DELETE" }
-      );
-      const get_response = await FetchApi(
-        `http://localhost:3000/api/book_id/${delete_column}`,
-        "GET"
-      );
-      console.log(get_response);
-      await fetch(`http://localhost:3000/api/delete/book_id/${delete_column}`, {
-        method: "DELETE",
-      });
+      console.log(get_borrow_response)
+      get_borrow_response.status === 200 ? await fetch(`http://localhost:3000/api/delete/v1/borrowRecord/${delete_column}`, { method: "DELETE" }) : false;
       console.log("delete success");
       PopUpDeleteWindow.classList.add("hidden");
+      overlay.classList.add('hidden');
       PerpageDisplayData(itempage, `http://localhost:3000/api/table`);
     } catch (error) {
       console.log(error);
@@ -557,27 +547,20 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
         : console.log("輸入值為空");
       console.log(data_object);
     }
+    create_container.classList.add('hidden');
+    overlay.classList.add('hidden');
     const book_response = await fetch(
-      `http://localhost:3000/api/update/${filterdata}/${UpdateArray[0]}/${
-        UpdateArray[1]
+      `http://localhost:3000/api/update/${filterdata}/${UpdateArray[0]}/${UpdateArray[1]
       }/${UpdateArray[2]}/${encodeURI(UpdateArray[3])}`,
       { method: "PUT" }
-    );
-    create_container.classList.add("hidden");
-    overlay.classList.add("hidden");
-    const Update_response = await FetchApi(
-      `http://localhost:3000/api/book_id/${data_object.id}`,
-      "GET"
-    );
-    DisplayContent(Update_response);
+    )
+    const UpdateApiData = await FetchApi(`http://localhost:3000/api/book_id/${UpdateArray[0]}`,"GET");
+    console.log(UpdateApiData);
+    DisplayContent(UpdateApiData)
   } catch (error) {
     console.log(error);
   }
 }
-/**
- * @function SupaUpdateApi()
- */
-async function SupaUpdateApi(filterValue, updateData, table, column) {}
 
 /**
  * @function ResetData
@@ -626,12 +609,12 @@ async function InsertData() {
     borrow_date: borrow_date,
   };
   const bookdata_response = await FetchApi(
-    `http://localhost:3000/api/${book_id}/${book_name}/${author_name}/${classification}`,
+    `http://localhost:3000/api/post/book/${book_id}/${book_name}/${author_name}/${encodeURIComponent(classification)}`,
     "POST"
   );
   console.log(InsertBookData, InsertBorrowData);
   const borrowdata_response = await FetchApi(
-    `http://localhost:3000/api/${borrow_id}/${book_id}/${user_id}/${borrow_status}/${encodeURIComponent(
+    `http://localhost:3000/api/post/borrowRecord/${borrow_id}/${book_id}/${user_id}/${encodeURIComponent(borrow_status)}/${encodeURIComponent(
       borrow_date
     )}`,
     "POST"

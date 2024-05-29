@@ -32,7 +32,7 @@ app.listen(PORT, () => {
  * @route 創建一筆完整的資料
  */
 app.post(
-  "/api/:book_id/:book_name/:author_name/:classification",
+  "/api/post/book/:book_id/:book_name/:author_name/:classification",
   async (req, res) => {
     try {
       const classification = decodeURI(req.params.classification);
@@ -88,7 +88,7 @@ app.get("/api/table", async (req, res) => {
 app.get("/api/:column/:searchdata", async (req, res) => {
   try {
     const { column, searchdata } = req.params;
-    let { data, error } = await supabase
+    const { data, error } = await supabase
       .from("booksdata")
       .select("*")
       .eq(column, searchdata);
@@ -109,27 +109,16 @@ app.put(
     try {
       const { id, bookName, author, filterId } = req.params;
       const updateclass = decodeURI(req.params.Updateclass);
-      const { data, error } = await supabase
-        .from("booksdata")
-        .update({
-          book_id: id,
-          //book_name: bookName,
-          //author_name: author,
-          //classification: updateclass,
-        })
-        .eq("book_id", filterId)
-        .select();
-      /*const { data: borrow, error: borrowError } = await supabase
-        .from("borrowrecord")
-        .update({ id: id })
-        .eq("id", filterId)
-        .select();*/
+      await supabase.from("booksdata").insert([{book_id: id,book_name:bookName,author_name:author,classification:updateclass}]);
+      await supabase.from('borrowrecord').update({id:id}).eq('id',filterId)
+      let data = await supabase.from('booksdata').select('*').eq('id',filterId)
       console.log({
         book_id: id,
         book_name: bookName,
         author_name: author,
         classification: updateclass,
       });
+      res.status(204).send({data});
     } catch (error) {
       res.status(500).send(error);
     }
@@ -137,39 +126,22 @@ app.put(
 );
 
 /**
- * 刪除資料庫內的資料
- * @route Delete /api/:column/:book_data
- */
-app.delete("/api/delete/:field/:bookData", async (req, res) => {
-  try {
-    const { field, bookData } = req.params;
-    let { data, error } = await supabase
-      .from("booksdata")
-      .delete()
-      .eq(field, bookData);
-    console.log("success!!");
-    res.send({ success: true }).end();
-  } catch (error) {
-    res.status(500).json({ error: "have error" });
-  }
-});
-
-/**
  * @todo 新增一筆借閱紀錄
  * @route POST /api/borrow_id/book_id/user_id/status/date
  */
-app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
+app.post("/api/post/borrowRecord/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
   try {
-    const { BrNum, Bid, user, status } = req.params;
+    const { BrNum, Bid, user} = req.params;
+    const new_status = decodeURIComponent(req.params.status)
     const new_date = decodeURIComponent(req.params.date);
     let { data, error } = await supabase
       .from("borrowrecord")
       .insert([
         {
           record_id: BrNum,
-          book_id: Bid,
+          id: Bid,
           user_id: user,
-          borrow_status: status,
+          borrow_status: new_status,
           borrow_date: new_date,
         },
       ])
@@ -178,7 +150,7 @@ app.post("/api/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
       record_id: BrNum,
       id: Bid,
       user_id: user,
-      borrow_status: status,
+      borrow_status: new_status,
       borrow_date: new_date,
     });
     res.status(200).send({ message: "Insert Success!!" }).end();
@@ -218,7 +190,7 @@ app.get("/api/v2/borrowRecord/book_id=:bookId", async (req, res) => {
       )
       .eq("id", book_Id);
     console.log(data);
-    res.status(200).json(data);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -230,34 +202,12 @@ app.get("/api/v2/borrowRecord/book_id=:bookId", async (req, res) => {
 app.delete("/api/delete/v1/borrowRecord/:borrowData", async (req, res) => {
   try {
     const { borrowData } = req.params;
-    const { error } = await supabase
-      .from("borrowrecord")
-      .delete()
-      .eq("record_id", borrowData);
+    await supabase.from("borrowrecord").delete().eq("id", borrowData);
+    await supabase.from('booksdata').delete().eq("book_id",borrowData);
     res.status(200).send("delete success!!");
   } catch (error) {
     res.status(500).json({ error });
   }
 });
 
-/**
- * @route PUT /api/v1/put/borrowRecord/book_id/:book_id
- */
-app.patch("/api/v1/put/borrowRecord/:filterId/:book_id", async (req, res) => {
-  try {
-    const { book_id, filterId } = req.params;
-    const { error: borrowError } = await supabase
-      .from("booksdata")
-      .update({ book_id: book_id })
-      .eq("book_id", filterId)
-      .select();
 
-    /*const { error } = await supabase
-      .from("borrowrecord")
-      .update({ id: book_id })
-      .eq("id", filterId);*/
-    console.log("success");
-  } catch (error) {
-    res.status(500).send({ error });
-  }
-});
