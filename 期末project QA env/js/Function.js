@@ -52,7 +52,7 @@ export default class RandomData {
     return UserId;
   }
   BorrowStatus() {
-    const JudgmentStatus = this.DataRandom() % 2 === 0 ? true : false;
+    const JudgmentStatus = this.DataRandom(10) % 2 === 0 ? true : false;
     const Status = JudgmentStatus ? "已歸還" : "尚未歸還";
     return Status;
   }
@@ -62,39 +62,24 @@ export default class RandomData {
   }
 }
 
-export class BorrowFunction {
-  constructor() {}
-
-  async PopUpBorrowRecordWindows(result) {
-    const new_response = Object.values(result).map((item) => {
-      const { record_id, book_id, user_id, borrow_status, borrow_date } = item;
-      return `
-    <div>
-      <div class="bor_title">
-        <h3>title</h3>
-      </div>
-      <div class="record">
-        <h4>RecordId</h4>
-        <p>${record_id}</p>
-      </div>
-      <div class="book_id">
-        <h4>BookId</h4>
-        <p>${book_id}</p>
-      </div>
-      <div class="UserId">
-        <h4>${user_id}</h4>
-        <p></p>
-      </div>
-      <div class="status">
-        <h4>${borrow_status}</h4>
-        <p></p>
-      </div>
-      <div class="date">
-        <h4>${borrow_date}</h4>
-        <p></p>
-      </div>
-    </div>  
-    `;
-    });
+export class MainApiFunction {
+  constructor() {
+    this.get = "GET";
+    this.post = "POST";
+    this.put = "PUT";
+    this.delete = "DELETE";
+  }
+  FetchApi(url, ReqMethod) {
+    try {
+      const response = fetch(url, { method: ReqMethod });
+      if (ReqMethod === this.get) {
+        return response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  GetData(url) {
+    const response = this.FetchApi(url, this.get);
   }
 }

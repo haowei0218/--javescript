@@ -17,7 +17,10 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-type": "text/plain" });
   res.end("hello world\n");
 });
-/**TEST CREATE API */
+/**
+ * POST /api/id/book_id/book_name/author_name/classification
+ * @todo 新增一筆書籍資料
+ */
 app.post(
   "/api/id/:book_id/name/:book_name/author/:author_name/class/:class",
   async (req, res) => {
@@ -58,7 +61,6 @@ app.post(
  *
  * 提醒:每次改code前 先停止後端運作 改完後再啟動
  */
-
 app.get("/api/:book_column/:book_info/:page", async (req, res) => {
   const limitData = 10;
   const pageNumber = Number(req.params.page);

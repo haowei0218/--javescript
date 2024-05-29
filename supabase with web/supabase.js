@@ -349,7 +349,7 @@ async function supaFilterApi(filterValue) {
 async function supaUpdateApi(filterValue, updateData) {
   const { data, error } = await _supabase
     .from("accountdata")
-    .update({ account_name: `${updateData}` })
+    .update({ account_name: updateData })
     .eq("account_name", `${filterValue}`)
     .select();
   displayContent(data);
