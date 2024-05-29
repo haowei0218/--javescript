@@ -23,7 +23,7 @@ const Borrow_container = document.querySelector(".borrow_table");
 const InsertRandomData = new RandomData();
 const Borrowclose_btn = document.querySelector(".close");
 let itempage = 0;
-let Judgment = true;
+
 /**-----------------------------------------------------------
  * const classificationList = [
     "文學",
@@ -556,22 +556,28 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
         ? (data_object.classification = UpdateArray[3])
         : console.log("輸入值為空");
       console.log(data_object);
-      const response = await fetch(
-        `http://localhost:3000/api/${filterdata}/${data_object.id}/${data_object.bookName}/${data_object.author}/${data_object.classification}`,
-        { method: "PUT" }
-      );
-      create_container.classList.add("hidden");
-      overlay.classList.add("hidden");
-      const Update_response = await FetchApi(
-        `http://localhost:3000/api/book_id/${data_object.id}`,
-        "GET"
-      );
-      DisplayContent(Update_response);
     }
+    const book_response = await fetch(
+      `http://localhost:3000/api/update/${filterdata}/${UpdateArray[0]}/${
+        UpdateArray[1]
+      }/${UpdateArray[2]}/${encodeURI(UpdateArray[3])}`,
+      { method: "PUT" }
+    );
+    create_container.classList.add("hidden");
+    overlay.classList.add("hidden");
+    const Update_response = await FetchApi(
+      `http://localhost:3000/api/book_id/${data_object.id}`,
+      "GET"
+    );
+    DisplayContent(Update_response);
   } catch (error) {
     console.log(error);
   }
 }
+/**
+ * @function SupaUpdateApi()
+ */
+async function SupaUpdateApi(filterValue, updateData, table, column) {}
 
 /**
  * @function ResetData
@@ -614,7 +620,7 @@ async function InsertData() {
 
   const InsertBorrowData = {
     borrow_id: borrow_id,
-    book_id: book_id,
+    id: book_id,
     user_id: user_id,
     borrow_status: borrow_status,
     borrow_date: borrow_date,

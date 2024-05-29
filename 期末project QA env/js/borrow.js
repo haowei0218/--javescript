@@ -28,10 +28,10 @@ async function FetchApi(url, method) {
 function DisplayData(database) {
   const Innertable = database
     .map((item) => {
-      const { record_id, book_id, user_id, borrow_status, borrow_date } = item;
+      const { record_id, id, user_id, borrow_status, borrow_date } = item;
       return `<tr>
       <td><span>${record_id}</span></td>
-      <td><span>${book_id}</span></td>
+      <td><span>${id}</span></td>
       <td><span>${user_id}</span></td>
       <td><span>${borrow_status}</span></td>
       <th><span>${borrow_date}</span></th>
