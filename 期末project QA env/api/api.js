@@ -214,7 +214,6 @@ app.get("/api/borrowRecord", async (req, res) => {
 /**
  * @route GET /api/borrowRecord/:book_id
  */
-
 app.get("/api/v2/borrowRecord/book_id=:bookId", async (req, res) => {
   try {
     const book_Id = req.params.bookId;

@@ -4,7 +4,7 @@ interface SupabaseClient {
   url: string;
   api: string;
 }
-const DataTable: Htmlelement = document.querySelector(".data_table");
+const DataTable: HTMLElement | null = document.querySelector(".data_table");
 
 /**
  * 連結資料庫
@@ -109,7 +109,7 @@ function displayDate<T, U>(database: U[]): void {
     `;
     })
     .join(" ");
-  DataTable.innerHTML = HtmlContent;
+  
 }
 
 const createData = new Data("test", "test", "test", 10000);
