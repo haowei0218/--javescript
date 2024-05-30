@@ -110,22 +110,20 @@ app.put(
     try {
       const { id, bookName, author, filterId } = req.params;
       const updateclass = decodeURI(req.params.Updateclass);
-      await supabase
-        .from("booksdata")
-        .insert([
-          {
-            book_id: id,
-            book_name: bookName,
-            author_name: author,
-            classification: updateclass,
-          },
-        ]);
+      await supabase.from("booksdata").insert([
+        {
+          book_id: id,
+          book_name: bookName,
+          author_name: author,
+          classification: updateclass,
+        },
+      ]);
       await supabase.from("borrowrecord").update({ id: id }).eq("id", filterId);
       await supabase.from("booksdata").delete().eq("book_id", filterId);
       let { data } = await supabase
         .from("booksdata")
         .select("*")
-        .eq("id", filterId);
+        .eq("book_id", id);
       console.log({
         book_id: id,
         book_name: bookName,
