@@ -266,6 +266,7 @@ async function CreateInfo(title, data) {
         }/${encodeURI(result_Class.value)}`,
         { method: "POST" }
       );
+      loading.classList.add("hidden");
       overlay.classList.add("hidden");
       create_container.classList.add("hidden");
       console.log(response);
@@ -295,8 +296,6 @@ Create_btn.addEventListener("click", () => {
 function SelectOptionValue() {
   var selectedOption =
     Classification.options[Classification.selectedIndex].value;
-
-  // Use a switch statement to handle different classification values
   switch (selectedOption) {
     case "文學":
       console.log("分類為文學");
@@ -352,10 +351,12 @@ async function SelectInfoValue() {
       Filter_input !== ""
     ) {
       data_status.classList.add("hidden");
+      DisplayLoading();
       const response = await FetchApi(
         `http://localhost:3000/api/book_id/${Filter_input}`,
         "GET"
       );
+      HiddenLoading();
       datacheck(response);
     } else if (
       selectedOption === "book_name" &&
@@ -363,10 +364,12 @@ async function SelectInfoValue() {
       Filter_input !== ""
     ) {
       data_status.classList.add("hidden");
+      DisplayLoading();
       const response = await FetchApi(
         `http://localhost:3000/api/book_name/${Filter_input}`,
         "GET"
       );
+      HiddenLoading();
       datacheck(response);
     } else if (
       selectedOption === "author_name" &&
@@ -374,10 +377,12 @@ async function SelectInfoValue() {
       Filter_input !== ""
     ) {
       data_status.classList.add("hidden");
+      DisplayLoading();
       const response = await FetchApi(
         `http://localhost:3000/api/author_name/${Filter_input}`,
         "GET"
       );
+      HiddenLoading();
       datacheck(response);
     } else {
       FilterInput.style.border = "1px solid red";
@@ -415,7 +420,11 @@ search_btn.addEventListener("click", async () => {
   const Filter_input = FilterInput.value.trim();
   if (Filter_input === "") {
     let result = SelectOptionValue();
-    PerpageDisplayData(1, `http://localhost:3000/api/classification/${result}`);
+    const response = await FetchApi(
+      `http://localhost:3000/api/classification/${result}`,
+      "GET"
+    );
+    PerpageDisplayData(1, response);
     itempage += 1;
   } else {
     SelectInfoValue();

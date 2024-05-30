@@ -18,6 +18,8 @@ const Classification = document.querySelector(".classification");
 const test_borrow = document.querySelector(".test_borrow");
 const search_btn = document.querySelector(".search");
 const FilterSelect = document.querySelector(".filter_info");
+const DownButton = document.querySelector(".down");
+const testBlock = document.querySelector(".testBlock");
 /**-----------------------------------------------------------
  * 測試用的功能
  */
