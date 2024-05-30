@@ -14,6 +14,7 @@ const supabase = createClient(supabase_url, supabase_api);
 
 /**創建HTTP伺服器 */
 const http = require("http");
+const { filter } = require("lodash");
 const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-type": "text/plain" });
   res.end("hello world\n");
@@ -109,16 +110,29 @@ app.put(
     try {
       const { id, bookName, author, filterId } = req.params;
       const updateclass = decodeURI(req.params.Updateclass);
-      await supabase.from("booksdata").insert([{book_id: id,book_name:bookName,author_name:author,classification:updateclass}]);
-      await supabase.from('borrowrecord').update({id:id}).eq('id',filterId)
-      let {data} = await supabase.from('booksdata').select('*').eq('id',filterId)
+      await supabase
+        .from("booksdata")
+        .insert([
+          {
+            book_id: id,
+            book_name: bookName,
+            author_name: author,
+            classification: updateclass,
+          },
+        ]);
+      await supabase.from("borrowrecord").update({ id: id }).eq("id", filterId);
+      await supabase.from("booksdata").delete().eq("book_id", filterId);
+      let { data } = await supabase
+        .from("booksdata")
+        .select("*")
+        .eq("id", filterId);
       console.log({
         book_id: id,
         book_name: bookName,
         author_name: author,
         classification: updateclass,
       });
-      res.status(204).send({data});
+      res.status(204).send({ data });
     } catch (error) {
       res.status(500).send(error);
     }
@@ -129,36 +143,39 @@ app.put(
  * @todo 新增一筆借閱紀錄
  * @route POST /api/borrow_id/book_id/user_id/status/date
  */
-app.post("/api/post/borrowRecord/:BrNum/:Bid/:user/:status/:date", async (req, res) => {
-  try {
-    const { BrNum, Bid, user} = req.params;
-    const new_status = decodeURIComponent(req.params.status)
-    const new_date = decodeURIComponent(req.params.date);
-    let { data, error } = await supabase
-      .from("borrowrecord")
-      .insert([
-        {
-          record_id: BrNum,
-          id: Bid,
-          user_id: user,
-          borrow_status: new_status,
-          borrow_date: new_date,
-        },
-      ])
-      .select();
-    console.log({
-      record_id: BrNum,
-      id: Bid,
-      user_id: user,
-      borrow_status: new_status,
-      borrow_date: new_date,
-    });
-    res.status(200).send({ message: "Insert Success!!" }).end();
-  } catch (error) {
-    console.log(error);
-    res.status(400).send(error).end();
+app.post(
+  "/api/post/borrowRecord/:BrNum/:Bid/:user/:status/:date",
+  async (req, res) => {
+    try {
+      const { BrNum, Bid, user } = req.params;
+      const new_status = decodeURIComponent(req.params.status);
+      const new_date = decodeURIComponent(req.params.date);
+      let { data, error } = await supabase
+        .from("borrowrecord")
+        .insert([
+          {
+            record_id: BrNum,
+            id: Bid,
+            user_id: user,
+            borrow_status: new_status,
+            borrow_date: new_date,
+          },
+        ])
+        .select();
+      console.log({
+        record_id: BrNum,
+        id: Bid,
+        user_id: user,
+        borrow_status: new_status,
+        borrow_date: new_date,
+      });
+      res.status(200).send({ message: "Insert Success!!" }).end();
+    } catch (error) {
+      console.log(error);
+      res.status(400).send(error).end();
+    }
   }
-});
+);
 
 /**
  * @route GET /api/borrowRecord
@@ -203,20 +220,23 @@ app.delete("/api/delete/v1/borrowRecord/:borrowData", async (req, res) => {
   try {
     const { borrowData } = req.params;
     await supabase.from("borrowrecord").delete().eq("id", borrowData);
-    await supabase.from('booksdata').delete().eq("book_id",borrowData);
+    await supabase.from("booksdata").delete().eq("book_id", borrowData);
     res.status(200).send("delete success!!");
   } catch (error) {
     res.status(500).json({ error });
   }
 });
 
-app.get('/api/v3/borrowReocrd/:column/:result', async (req,res)=>{
+app.get("/api/v3/borrowReocrd/:column/:result", async (req, res) => {
   try {
     const { column, result } = req.params;
-    const {data} = await supabase.from("borrowrecord").select("*").eq(column, result);
+    const { data } = await supabase
+      .from("borrowrecord")
+      .select("*")
+      .eq(column, result);
     res.json(data);
   } catch (error) {
     console.log(error);
     res.status(500);
   }
-})
+});

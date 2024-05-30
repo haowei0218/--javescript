@@ -6,27 +6,17 @@ const create_container = document.querySelector(".create_info");
 const data_status = document.querySelector(".data_status");
 const FilterSelect = document.querySelector(".filter_info");
 const FilterInput = document.querySelector(".searchInput");
-//const next_btn = document.querySelector(".perpage-1");
-//const last_btn = document.querySelector(".perpage-2");
+const next_btn = document.querySelector(".perpage-1");
+const last_btn = document.querySelector(".perpage-2");
 const Classification = document.querySelector(".classification");
 const PopUpDeleteWindow = document.querySelector(".popUp");
 const reset_btn = document.querySelector(".reset_btn");
+const BorrowWindows = document.querySelector(".borrowData_bookPage");
+const Borrow_container = document.querySelector(".borrow_table");
+const close_btn = document.querySelector(".close");
 let itempage = 0;
 /**-----------------------------------------------------------
- * const classificationList = [
-    "文學",
-    "藝術",
-    "人文",
-    "歷史",
-    "體育",
-    "奇幻",
-    "武俠",
-    "漫畫",
-    "愛情",
-    "恐怖",
-  ];
- */
-/**---------------------------------------------------------- */
+
 /**
  * @async
  * @function DisplayContent
@@ -40,10 +30,10 @@ function DisplayContent(database) {
       const { book_id, book_name, author_name, classification } = item;
       return `
     <tr>
-      <td>${book_id}</td>
-      <td>${book_name}</td>
-      <td>${author_name}</td>
-      <td>${classification}</td>
+      <td><span>${book_id}</span></td>
+      <td><span>${book_name}</span></td>
+      <td><span>${author_name}</span></td>
+      <td><span>${classification}</span></td>
       <th>
       <button class="delete${book_id}" width="20px" height="10px">刪除</button>
       <button class="edit${book_id}" width="20px" height="10px">編輯</button>
@@ -84,7 +74,35 @@ function DisplayContent(database) {
       CreateInfo("編輯資料", bookId);
     });
     record_btn.addEventListener("click", async () => {
-      const result = console.log("test");
+      const response = await FetchApi(
+        `http://localhost:3000/api/v2/borrowRecord/book_id=${bookId}`,
+        "GET"
+      );
+      const DataArray = Object.values(response)
+        .map((item) => {
+          const { record_id, book_id, user_id, borrow_status, borrow_date } =
+            item;
+          return `
+         
+        <tr>
+          <td>${record_id}</td>
+          <td>${bookId}</td>
+          <td>${user_id}</td>
+          <td>${borrow_status}</td>
+          <th>${borrow_date}</th>
+        </tr>
+        `;
+        })
+        .join("");
+      BorrowWindows.style.display = "grid";
+      overlay.classList.remove("hidden");
+      close_btn.addEventListener("click", () => {
+        overlay.classList.add("hidden");
+        BorrowWindows.style.display = "none";
+      });
+      Borrow_container.innerHTML = DataArray;
+      console.log(DataArray);
+      console.log("test", response);
     });
   });
 }
@@ -117,17 +135,13 @@ async function FetchApi(url, method) {
  * @param {string} url 請求的url
  * @todo 分頁顯示資料(上一頁 / 下一頁)
  */
-async function PerpageDisplayData(Page, url) {
+async function PerpageDisplayData(Page, data) {
   try {
-    DataTable.innerHTML = " ";
-    const response = await FetchApi(url, "GET");
     const limit = 10;
-    const total = Math.ceil(response % limit);
     const start = (Page - 1) * limit;
-    const end = start + limit;
-    let response_length = Object.values(response).length;
-    let new_response = Object.values(response);
-    console.log(response_length);
+    const end = start * limit;
+    let response_length = Object.values(data).length;
+    let new_response = Object.values(data);
     /**
      * 判斷回傳的資料長度是否大於limit
      * @param {number} response_length
@@ -138,40 +152,15 @@ async function PerpageDisplayData(Page, url) {
      * 2. 小於limit直接顯示
      * 3. 等於0顯示no data
      */
-    if (response_length >= limit) {
+    response_length > limit
+      ? DisplayContent(new_response.slice(start, end))
+      : DisplayContent(new_response),
       data_status.classList.add("hidden");
-      DisplayContent(new_response.slice(start, end));
-      console.log(response_length);
-    } else if (response_length <= limit) {
-      data_status.classList.add("hidden");
-      DisplayContent(response);
-    } else if (response_length === 0) {
-      data_status.classList.remove("hidden");
-    }
+    new_response.length === 0 ? data_status.classList.remove("hidden") : false;
   } catch (error) {
     alert(error);
   }
 }
-
-/**
- * @todo 利用NextButton以及LastButton實現分頁顯示
- */
-/*
-  itempage = 1;
-  PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-  next_btn.addEventListener("click", async () => {
-    itempage += 1;
-    PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-
-  last_btn.addEventListener("click", async () => {
-    if (itempage > 0) {
-      itempage -= 1;
-      PerpageDisplayData(itempage, "http://localhost:3000/api/table");
-    } else {
-      itempage = 1;
-    }
-  });
-*/
 
 /**
  * @function DisplayLoading
@@ -280,8 +269,6 @@ async function CreateInfo(title, data) {
 function SelectOptionValue() {
   var selectedOption =
     Classification.options[Classification.selectedIndex].value;
-
-  // Use a switch statement to handle different classification values
   switch (selectedOption) {
     case "文學":
       console.log("分類為文學");
@@ -312,6 +299,9 @@ function SelectOptionValue() {
       break;
     case "恐怖":
       console.log("分類為恐怖");
+      break;
+    case "雜誌":
+      console.log("分類為雜誌");
       break;
     default:
       console.log("未知分類");
@@ -396,7 +386,11 @@ search_btn.addEventListener("click", async () => {
   const Filter_input = FilterInput.value.trim();
   if (Filter_input === "") {
     let result = SelectOptionValue();
-    PerpageDisplayData(1, `http://localhost:3000/api/classification/${result}`);
+    const response = await FetchApi(
+      `http://localhost:3000/api/classification/${result}`,
+      "GET"
+    );
+    PerpageDisplayData(1, response);
     itempage += 1;
   } else {
     SelectInfoValue();
@@ -509,27 +503,30 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
         ? (data_object.classification = UpdateArray[3])
         : console.log("輸入值為空");
       console.log(data_object);
-      const response = await fetch(
-        `http://localhost:3000/api/${filterdata}/${data_object.id}/${data_object.bookName}/${data_object.author}/${data_object.classification}`,
-        { method: "PUT" }
-      );
-      create_container.classList.add("hidden");
-      overlay.classList.add("hidden");
-      const Update_response = await FetchApi(
-        `http://localhost:3000/api/book_id/${data_object.id}`,
-        "GET"
-      );
-      DisplayContent(Update_response);
     }
+    create_container.classList.add("hidden");
+    overlay.classList.add("hidden");
+    const book_response = await fetch(
+      `http://localhost:3000/api/update/${filterdata}/${UpdateArray[0]}/${
+        UpdateArray[1]
+      }/${UpdateArray[2]}/${encodeURI(UpdateArray[3])}`,
+      { method: "PUT" }
+    );
+    const UpdateApiData = await FetchApi(
+      `http://localhost:3000/api/book_id/${UpdateArray[0]}`,
+      "GET"
+    );
+    console.log(UpdateApiData);
+    DisplayContent(UpdateApiData);
   } catch (error) {
     console.log(error);
   }
 }
 /**
  * @function ResetData
- * @todo 資料刷新
+ * @todo 管理列表內所有元素恢復默認
  */
-function ResetData() {
+async function ResetData() {
   let Empty = [];
   DisplayContent(Empty);
   data_status.classList.remove("hidden");

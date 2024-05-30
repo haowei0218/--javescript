@@ -350,8 +350,6 @@ tbody {
     position: relative;
     width: 95%;
     left: 50px;
-
-
 }
 
 .data_table {
@@ -361,6 +359,10 @@ tbody {
     display: grid;
     gap: 10px;
     height: 68vh;
+}
+
+.data_table td span {
+    font-size: 20px;
 }
 
 .Datalist tr {
@@ -375,8 +377,9 @@ tbody {
 
 }
 
+
 .Datalist tr td {
-    width: 80px;
+    width: 100px;
     height: 40px;
     font-size: 18px;
     font-weight: 600;
@@ -770,4 +773,77 @@ tbody {
 .all_borrow_data th {
     width: 150px;
     height: 30px;
+}
+
+/**bookData page borrow record style**/
+.borrowData_bookPage {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 800px;
+    height: 400px;
+    border: 1px solid #b1b1b1;
+    box-shadow: 8px 8px 8px 8px #7c7c7c;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.borrowData_bookPage h3 {
+    position: absolute;
+    left: 350px;
+    font-size: 20px;
+}
+
+
+
+.borrowData_bookPage .close {
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    position: absolute;
+    left: 750px;
+    top: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.borrowData_bookPage .close:hover {
+    cursor: pointer;
+    color: #2d52cc;
+}
+
+.Borrow_title {
+    position: absolute;
+    left: 40px;
+    top: 70px;
+}
+
+.Borrow_title th {
+    width: 120px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.borrow_table {
+    display: grid;
+    position: absolute;
+    width: 750px;
+    height: 550px;
+    top: 120px;
+    left: 68px;
+}
+
+.borrow_table td {
+    width: 80px;
+    height: 40px;
+    font-size: 20px;
+    padding-right: 30px;
+}
+
+.borrow_table th {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
 }

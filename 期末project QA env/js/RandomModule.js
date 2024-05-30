@@ -61,25 +61,3 @@ export default class RandomData {
     return dateObject;
   }
 }
-
-export class MainApiFunction {
-  constructor() {
-    this.get = "GET";
-    this.post = "POST";
-    this.put = "PUT";
-    this.delete = "DELETE";
-  }
-  FetchApi(url, ReqMethod) {
-    try {
-      const response = fetch(url, { method: ReqMethod });
-      if (ReqMethod === this.get) {
-        return response.json();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  GetData(url) {
-    const response = this.FetchApi(url, this.get);
-  }
-}

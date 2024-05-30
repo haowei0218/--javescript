@@ -75,60 +75,38 @@ reset_btn.addEventListener("click", () => {
 });
 
 async function SearchAPi() {
-  if (
-    filterSelect.value === "user_id" &&
-    InputBox.value !== ""
-  ) {
+  if (filterSelect.value === "user_id" && InputBox.value !== "") {
     console.log(filterSelect.value);
     const response = await FetchApi(
-      `http://localhost:3000/api/v3/borrowReocrd/${filterSelect.value}/${InputBox.value}`,"GET");
-    console.log(response)
-    data_status.classList.add('hidden');
-    DisplayData(response)
-   
-  } else if (
-    filterSelect.value === "id" &&
-    InputBox.value !== ""
-  ) {
-    const response = await FetchApi(
-      `http://localhost:3000/api/v3/borrowReocrd/${filterSelect.value}/${InputBox.value}`,"GET"
-      
+      `http://localhost:3000/api/v3/borrowReocrd/${filterSelect.value}/${InputBox.value}`,
+      "GET"
     );
-    
-    console.log(response)
-    data_status.classList.add('hidden');
-    DisplayData(response)
+    console.log(response);
+    data_status.classList.add("hidden");
+    DisplayData(response);
+  } else if (filterSelect.value === "id" && InputBox.value !== "") {
+    const response = await FetchApi(
+      `http://localhost:3000/api/v3/borrowReocrd/${filterSelect.value}/${InputBox.value}`,
+      "GET"
+    );
 
-  
-  } else if (
-    filterSelect.value === "borrow_status" &&
-    InputBox.value !== ""
-  ) {
+    console.log(response);
+    data_status.classList.add("hidden");
+    DisplayData(response);
+  } else if (filterSelect.value === "borrow_status" && InputBox.value !== "") {
     const response = await FetchApi(
-      `http://localhost:3000/api/v3/borrowReocrd/${filterSelect.value}/${encodeURIComponent(InputBox.value)}`,"GET"
-      
+      `http://localhost:3000/api/v3/borrowReocrd/${
+        filterSelect.value
+      }/${encodeURIComponent(InputBox.value)}`,
+      "GET"
     );
-    console.log(response)
-    data_status.classList.add('hidden');
-    DisplayData(response)
+    console.log(response);
+    data_status.classList.add("hidden");
+    DisplayData(response);
   } else {
     InputBox.style.border = "1px solid red";
   }
 }
-
-/**
- *
- * @function checkReturnData
- * @param {object} response_data
- * @todo 檢查回傳值是否為空
- */
-function checkReturnData(response_data) {
-  const JudgmentData = Object.values(response_data);
-  JudgmentData.length === 0
-    ? data_status.classList.add("hidden")
-    : DisplayData(JudgmentData);
-}
-
 search_btn.addEventListener("click", () => {
   console.log("test");
   SearchAPi();
@@ -145,7 +123,6 @@ async function SearchAll() {
   );
   return response;
 }
-
 /**實現分頁功能 */
 search_all.addEventListener("click", async () => {
   console.log("test");
