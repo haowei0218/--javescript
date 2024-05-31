@@ -261,14 +261,15 @@ async function CreateInfo(title, data) {
         result_Class.style.border = "1px solid red";
       }
       const response = await fetch(
-        `http://localhost:3000/api/${result_Id.value}/${result_Name.value}/${
-          result_Author.value
-        }/${encodeURI(result_Class.value)}`,
+        `http://localhost:3000/api/post/book/${result_Id.value}/${
+          result_Name.value
+        }/${result_Author.value}/${encodeURI(result_Class.value)}`,
         { method: "POST" }
       );
-      loading.classList.add("hidden");
-      overlay.classList.add("hidden");
-      create_container.classList.add("hidden");
+      response.status !== 200 ? false : loading.classList.add("hidden"),
+        overlay.classList.add("hidden"),
+        create_container.classList.add("hidden");
+
       console.log(response);
     } else if (title === "編輯資料") {
       /** @type {Array.<string>} */

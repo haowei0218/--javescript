@@ -446,9 +446,12 @@ function DeleteApi(delete_column) {
         "GET"
       );
       console.log(get_response);
-      await fetch(`http://localhost:3000/api/delete/book_id/${delete_column}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `http://localhost:3000/api/delete/v1/borrowRecord/${delete_column}`,
+        {
+          method: "DELETE",
+        }
+      );
       console.log("delete success");
       PopUpDeleteWindow.classList.add("hidden");
       PerpageDisplayData(itempage, `http://localhost:3000/api/table`);
