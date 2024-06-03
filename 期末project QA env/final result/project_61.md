@@ -1,6 +1,6 @@
-[My Github URL](https://github.com/htchung/1122-js-demo-xx)
+[my github repo URL('https://github.com/haowei212410061/1122-js-1N-61')]
 
-[My Vercel Homepage](https://1122-js-demo-xx.vercel.app/)
+[My Vercel Homepage('https://1122-js-1-n-61.vercel.app/')]
 
 ## API Project 簡要說明
 
@@ -262,7 +262,7 @@ app.get("/api/borrowRecord", async (req, res) => {
 
 ###### 新增一筆資料: 先新增priamry key那張表數據 再新增foreign key那張表數據
 
-###### 刪除一筆資料: 先刪除foreign key那張表的數據 在刪除parmary Key那張表的數據
+###### 刪除一筆資料: 先刪除foreign key那張表的數據 再刪除parmary Key那張表的數據
 
 ```
 app.delete("/api/delete/v1/borrowRecord/:borrowData", async (req, res) => {
