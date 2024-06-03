@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  top: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.all_container {
+  display: grid;
+  grid-template-rows: 30fr 70fr;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+.all_container .nav-bar {
+  position: fixed;
+  top: -20px;
+  width: 100%;
+  height: 25%;
+  background-color: #fff;
+}
+.all_container .nav-bar .title {
+  width: 100%;
+  height: 40%;
+  padding-top: 15px;
+  background-color: rgb(163, 162, 162);
+  text-align: center;
+  letter-spacing: 2px;
+}
+.all_container .nav-bar .title:hover {
+  cursor: pointer;
+  color: rgb(70, 132, 168);
+}
+.all_container .nav-bar .search_function {
+  width: 100%;
+  height: 60%;
+  background-color: rgb(235, 235, 235);
+}
+.all_container .nav-bar .search_function .SearchSelect {
+  position: relative;
+  top: 20px;
+  left: 270px;
+  display: flex;
+  width: 100%;
+  height: 40%;
+}
+.all_container .nav-bar .search_function .SearchSelect #select_food {
+  width: 60%;
+  height: 40px;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+}
+.all_container .nav-bar .search_function .SearchSelect .search_btn {
+  width: 50px;
+  height: 35px;
+  border: rgb(235, 235, 235);
+  background-color: rgb(235, 235, 235);
+  font-size: 35px;
+  color: gray;
+}
+.all_container .nav-bar .search_function .SearchSelect .search_btn:hover {
+  cursor: pointer;
+  color: rgb(58, 144, 193);
+}
+.all_container .nav-bar .search_function .SearchSelect .favorite {
+  position: relative;
+  left: 190px;
+  width: 50px;
+  height: 35px;
+  border: rgb(235, 235, 235);
+  background-color: rgb(235, 235, 235);
+  font-size: 35px;
+  color: gray;
+}
+.all_container .nav-bar .search_function .SearchSelect .favorite:hover {
+  cursor: pointer;
+  color: rgb(58, 144, 193);
+}
+.all_container .nav-bar .search_function .SearchSelect .button_list a {
+  position: relative;
+  left: 90px;
+  width: 50px;
+  height: 35px;
+  border: rgb(235, 235, 235);
+  background-color: rgb(235, 235, 235);
+  font-size: 35px;
+  color: gray;
+}
+.all_container .nav-bar .search_function .SearchSelect .button_list a:hover {
+  cursor: pointer;
+  color: rgb(58, 144, 193);
+}
+
+/*# sourceMappingURL=style_28.css.map */
