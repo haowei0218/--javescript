@@ -34,25 +34,36 @@ function DisplayContent(database) {
   const InnerHtmlData = database
     .map((item) => {
       const { name, id, category, calories, image_url } = item;
+      console.log(encodeURIComponent(name));
       return `
-    <div class="card">
+    <div class="card" data-id="${name}">
          <div class="image" style="height:200px" width="300px">
                   <img src="${image_url}" height="100%" width="100%">
          </div>
          <div class="card_container"
                   <div class="card_title">
-                           <h3>${name}</h3>
+                           <span id="food_name">${name}</span>
                   </div>
                   <div class="category">
-                           <span>Category:${category}</span>
+                           <span >Category:${category}</span>
                            <span>Calories:${calories}</span>
+                           <div class="plus_btn">
+                                    <i class="fa-solid fa-plus"></i>
+                           </div>
                   </div>
-         </div>   
+                  
+                               
+         </div> 
+         
+           
     </div>
     `;
     })
     .join("");
   Data_container.innerHTML = InnerHtmlData;
+  Object.values(database).map((item) => {
+    console.log(item.name);
+  });
 }
 
 /**點擊搜尋按鈕 顯示data */
