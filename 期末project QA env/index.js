@@ -22,7 +22,7 @@ const BorrowWindows = document.querySelector(".borrowData");
 const Borrow_container = document.querySelector(".borrow_table");
 const InsertRandomData = new RandomData();
 const Borrowclose_btn = document.querySelector(".close");
-let itempage = 0;
+let itemPage = 1;
 
 /**-----------------------------------------------------------
 Note:
@@ -157,13 +157,12 @@ async function FetchApi(url, method) {
  * @param {string} url 請求的url
  * @todo 分頁顯示資料(上一頁 / 下一頁)
  */
-async function PerpageDisplayData(Page, data) {
+async function PerpageDisplayData(Page = Number, data) {
   try {
     const limit = 10;
     const start = (Page - 1) * limit;
     const end = start * limit;
-    let response_length = Object.values(data).length;
-    let new_response = Object.values(data);
+    const new_response = Object.values(data);
     /**
      * 判斷回傳的資料長度是否大於limit
      * @param {number} response_length
@@ -174,7 +173,7 @@ async function PerpageDisplayData(Page, data) {
      * 2. 小於limit直接顯示
      * 3. 等於0顯示no data
      */
-    response_length > limit
+    new_response.length > limit
       ? DisplayContent(new_response.slice(start, end))
       : DisplayContent(new_response),
       data_status.classList.add("hidden");
@@ -426,7 +425,7 @@ search_btn.addEventListener("click", async () => {
       "GET"
     );
     PerpageDisplayData(1, response);
-    itempage += 1;
+    itemPage += 1;
   } else {
     SelectInfoValue();
   }
@@ -474,7 +473,7 @@ function DeleteApi(delete_column) {
   disable_btn.addEventListener("click", async () => {
     overlay.classList.add("hidden");
     PopUpDeleteWindow.classList.add("hidden");
-    await PerpageDisplayData(itempage, "http://localhost:3000/api/table");
+    await PerpageDisplayData(itemPage, "http://localhost:3000/api/table");
   });
   check_btn.addEventListener("click", async () => {
     try {
@@ -491,7 +490,20 @@ function DeleteApi(delete_column) {
       console.log("delete success");
       PopUpDeleteWindow.classList.add("hidden");
       overlay.classList.add("hidden");
-      PerpageDisplayData(itempage, `http://localhost:3000/api/table`);
+      const get_all_data = await FetchApi("http://localhost:3000/api/table");
+      console.log(get_all_data);
+      let page = 1;
+      PerpageDisplayData(page, get_all_data);
+
+      next_btn.addEventListener("click", () => {
+        console.log("test");
+        page += 1;
+        PerpageDisplayData(page, get_all_data);
+      });
+      last_btn.addEventListener("click", () => {
+        page -= 1;
+        PerpageDisplayData(page, get_all_data);
+      });
     } catch (error) {
       console.log(error);
     }
