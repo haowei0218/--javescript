@@ -492,18 +492,6 @@ function DeleteApi(delete_column) {
       overlay.classList.add("hidden");
       const get_all_data = await FetchApi("http://localhost:3000/api/table");
       console.log(get_all_data);
-      let page = 1;
-      PerpageDisplayData(page, get_all_data);
-
-      next_btn.addEventListener("click", () => {
-        console.log("test");
-        page += 1;
-        PerpageDisplayData(page, get_all_data);
-      });
-      last_btn.addEventListener("click", () => {
-        page -= 1;
-        PerpageDisplayData(page, get_all_data);
-      });
     } catch (error) {
       console.log(error);
     }
