@@ -453,3 +453,8 @@ async function SearchBorrowRecord() {
     console.log(error);
   }
 }
+
+function createUID(max) {
+  const random = Math.floor(Math.random() * max);
+  return random;
+}
