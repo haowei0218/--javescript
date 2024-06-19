@@ -76,3 +76,17 @@
 .data .test-4 {
          background-color: rgb(53, 184, 188);
 }
+
+.swiper {
+         position: flex;
+         width: 800px;
+         height: 500px;
+}
+
+.swiper-wrapper {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+
+
+}

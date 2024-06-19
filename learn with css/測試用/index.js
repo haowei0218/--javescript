@@ -13,3 +13,14 @@ window.setTimeout(() => {
     }
   });
 }, 1000);
+
+const swiper = new Swiper('.swiper', {
+  autoplay: {
+    delay: 3 * 1000
+  },
+  loop: true,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  }
+})
