@@ -151,4 +151,4 @@ function pivot(arr, start = 0, end = arr.length - 1) {
                   array[index2] = temp;
          }
 }
-console.log(pivot([5, 13, 22, 1, 55]));
+console.log(pivot([5, 134, 22, 1, 55]));
