@@ -137,7 +137,7 @@ function pivot(arr, start = 0, end = arr.length - 1) {
          let pivot = arr[start];
          let swapIdx = start;
          for (let i = start + 1; i <= end; i++) {
-                  if (prvot < arr[i]) {
+                  if (pivot < arr[i]) {
                            swapIdx++;
                            swapIdx(arr.swapIdx, i)
                   }
