@@ -1,5 +1,3 @@
-const { sum } = require("lodash");
-
 var person = {}; //建立一個空物件
 var person1 = {
          name: {
@@ -86,6 +84,7 @@ function Person(first, last, age, gender, interests) {
 }
 let person1 = new Person('Tammi', 'Smith', 32, 'neutral', ['music', 'skiing', 'kickboxing']);
 
+
 /**物件導向程式設計 */
 class Person1 {
          constructor(name) {
@@ -134,7 +133,7 @@ summers.canStudyArchery();
 // summers.#year; 這行會報錯
 
 
-/**JSON是一種遵循Javascript物件語法的基於文字的資料格式 */
+2/**JSON是一種遵循Javascript物件語法的基於文字的資料格式 */
 /**JSON結構 */
 const Json = {
          "squadName": "Super hero squad",
@@ -194,3 +193,95 @@ const JSON_Array = [
                   ]
          }
 ]
+
+/**物件的內建方法 */
+/**Object.create()：建立一個新對象 使用現有對象作為新創建對象的原型*/
+const person22 = {
+         isHuman: false,
+         printIntroduction: function () {
+                  console.log(`my name is ${this.name} . Am I human? ${this.isHuman}`)
+         }
+}
+const me = Object.create(person22);
+me.name = "John";
+me.isHuman = true;
+me.printIntroduction();
+
+/**使用Object.create()進行繼承 */
+function shape() {
+         this.x = 0;
+         this.y = 0;
+}
+shape.prototype.move = function (x, y) {
+         this.x += x;
+         this.y += y;
+         console.info("shape moved");
+}
+function Rectangle() {
+         shape.call(this);
+}
+Rectangle.prototype = Object.create(shape.prototype, {
+         constructor: {
+                  value: Rectangle,
+                  enumerable: false,
+                  writable: true,
+                  configurable: true,
+         }
+})
+const rect = new Rectangle();
+console.log('Is rect an instance of rectangle? ', rect instanceof Rectangle);
+console.log('Is rect an instance of shape? ', rect instanceof shape);
+rect.move(1, 1)
+
+
+const o = {};
+o = Object.create(Object.prototype);
+o = Object.create(Object.prototype, {
+         foo: {
+                  writable: true,
+                  configurable: true,
+                  value: "hello"
+         },
+         bar: {
+                  configurable: false,
+                  get() {
+                           return 10;
+                  },
+                  set(value) {
+                           console.log("Setting `o.bar` to", value);
+                  }
+         }
+})
+o = Object.create({}, { p: { value: 42 } });
+
+/**Object.defineProperties():直接在物件上定義新屬性或修改現有屬性 然後傳回該物件 */
+/**Object.defineProperties(obj,props) obj:要定義或修改屬性的物件 props：一個對象,其鍵表示要定義或修改的屬性名稱*/
+/**
+ * 資料描述符號和存取器描述符號可以選擇包含以下鍵
+ * 1. configurable : true 代表該屬性可以更改且該屬性可以從相應的物件中刪除 預設為false
+ * 2. enumerable:true當該屬性在對應物件的屬性枚舉期間出現 預設為false
+ * 3. value:與屬性關聯的值 可以是任何有效的Javascript值（數字,物件,函數) 預設undefined
+ */
+const object1 = {};
+Object.defineProperties(object1, {
+         property1: {
+                  value: 42,
+                  writable: true, //定義為可寫的屬性
+         },
+         property2: {}
+})
+console.log(object1.property1);
+
+/**Object.fromEntries():將鍵值對列表轉換為物件 回傳一個對象*/
+const entries = new Map(['foo', 'bar'], ['baz', 42]);
+const obj = Object.fromEntries(entries);
+console.log(obj); //output {foo:"bar",baz:42}
+
+
+const array1 = [
+         ['0', 'a'],
+         ['1', 'b'],
+         ['2', 'c']
+]
+const obj1 = Object.fromEntries(array1);
+console.log(obj1); //output {0:'a',1:'b',2:'c'}
