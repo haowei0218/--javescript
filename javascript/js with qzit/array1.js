@@ -391,3 +391,311 @@ function solution(string) {
 const a = 'abc'
 
 console.log('abc' === 'ABC' ? true : false);
+
+
+function solution1(string) {
+         const string1 = string.toLowerCase();
+         if (string === string1) {
+                  return string
+         } else if (string === "") {
+                  return ""
+         } else {
+                  const finalResult = string.split('').map((item) => {
+                           return item >= 'A' && item <= 'Z' ? " " + item : item
+                  })
+                  return finalResult.join('')
+         }
+}
+console.log(solution1("adjectivesBadGoAdjectivesHave"))
+
+
+function uniqueInOrder(string) {
+         const NewSet = new Set();
+         const final = []
+         string.split('').forEach((e) => NewSet.add(e));
+         for (let item of NewSet) {
+                  final.push(item);
+         }
+         return final
+}
+
+console.log(uniqueInOrder('AAAABBBCCDAABBB'))
+
+function getMiddle(s) {
+         //Code goes here!
+         const middle = Math.ceil((s.length) / 2);
+
+         if (s.length % 2 === 0) {
+                  return s[middle - 1] + s[middle];
+         } else {
+                  return s[middle - 1];
+         }
+}
+console.log(getMiddle('test'))
+
+
+function squareSum(numbers) {
+         return numbers.length === 0 ? 0 : numbers.map(e => e * e).reduce((a, b) => a + b);
+}
+console.log(squareSum([1, 2, 4]))
+
+
+function findShort(s) {
+         const final = s.split(' ').map((item) => item.length)
+         return Math.max(...final)
+}
+console.log(findShort('bitcoin take over the world maybe who knows perhaps'))
+
+const aObject = {};
+const property1 = 'a'
+aObject[property1] = 2;
+console.log(aObject[property1])
+
+
+
+function StrCount(string) {
+         const newSet = new Set();
+         const final = {};
+         let count = 0;
+         for (let i = 0; i < string.length; i++) {
+                  newSet.add(string[i]);
+         }
+         newSet.forEach((char) => {
+                  count = 0
+                  for (let k = 0; k < string.length; k++) {
+                           if (char === string[k]) {
+                                    count += 1
+                                    final[char] = count
+                           }
+                  }
+
+         })
+         return final;
+}
+
+console.log(StrCount('aba'));
+
+
+
+function comp(array1, array2) {
+         if (array1 === null || array2 === null) {
+                  return false
+         }
+
+         else if (array1.length === 0 || array2.length === 0) {
+                  return true;
+         } else {
+                  array1.sort((a, b) => a - b);
+                  array2.sort((a, b) => a - b);
+
+                  // Check if array2 contains the squares of elements in array1
+                  for (let i = 0; i < array1.length; i++) {
+                           if (array2[i] !== array1[i] * array1[i]) {
+                                    return false;
+                           }
+                  }
+
+                  return true;
+
+         }
+
+}
+
+
+let a1 = [10, 3, 1, 8, 5, 3, 7, 7, 10, 7, 6, 4, 0, 1, 7, 4, 6, 3];
+let a2 = [36, 16, 64, 49, 100, 49, 1, 9, 100, 1, 9, 9, 49, 36, 17, 25, 49, 0];
+console.log(comp(a1, a2));
+console.log(Math.sqrt(100));
+console.log(a2.map((e) => Math.sqrt(e)));
+
+
+function dnaStrand(dna) {
+         let final = '';
+         for (let i = 0; i < dna.length; i++) {
+                  if (dna[i] === 'A') {
+                           final += 'T';
+                  } else if (dna[i] === 'T') {
+                           final += 'A';
+                  } else if (dna[i] === 'C') {
+                           final += 'G'
+                  } else if (dna[i] === 'G') {
+                           final += 'C'
+                  } else {
+                           final += dna[i]
+                  }
+         }
+         return final
+
+}
+console.log(dnaStrand('ATTGC'))
+
+function countSmileys(arr) {
+         const effectSmiley = [':)', ";D", ";)", ":D", ":-)", ":-D", ":~)", ":~D", ";-)", ";-D", ";~)", ";~D"]
+         let count = 0;
+         effectSmiley.forEach((e) => {
+                  arr.forEach(k => {
+                           if (e === k) {
+                                    count += 1
+                           }
+                  })
+         })
+         return count;
+}
+function findOdd(A) {
+         let oddSet = new Set();
+         let oddobject = {}
+         let count = 0;
+         let final = 0;
+         A.forEach(e => oddSet.add(e));
+         oddSet.forEach(k => {
+                  count = 0;
+                  A.forEach((j) => {
+                           if (k === j) {
+                                    count += 1
+                                    oddobject[k] = count;
+                           }
+                  })
+
+         })
+         for (let item in oddobject) {
+                  oddobject[item] % 2 !== 0 ? final = item : false
+         }
+         return Number(final)
+
+}
+console.log(findOdd([7]))
+
+function getGrade(s1, s2, s3) {
+         // Code here
+         let Avg = (s1 + s2 + s3) / 3
+         console.log(Avg)
+         let final = ""
+         if (Avg >= 90 && Avg <= 100) {
+                  return "A"
+         } else if (Avg >= 80 && Avg < 90) {
+                  return "B"
+         } else if (Avg >= 70 && Avg < 80) {
+                  return "C"
+         } else if (Avg >= 60 && Avg < 70) {
+                  return "D"
+         } else {
+                  return "F"
+         }
+
+}
+
+console.log(getGrade(70, 70, 100))
+
+function longestConsec(strarr, k) {
+         // your code
+         let count = [];
+         let lengthArr;
+         if (strarr.length < k || strarr.length === 0 || k <= 0) return ""
+         else {
+                  if (k === 1) {
+                           lengthArr = Math.max(...strarr.map((e) => e.length));
+                           return strarr.filter(e => e.length === lengthArr).join('')
+                  } else {
+                           for (let i = 0; i < strarr.length; i++) {
+                                    count.push(strarr.slice(i, k).join(''))
+                                    k += 1
+                           }
+
+                           lengthArr = Math.max(...count.map((e) => e.length));
+
+                           return count.filter(e => e.length === lengthArr)[0]
+                  }
+
+         }
+}
+console.log(longestConsec(["tree", "foling", "trashy", "blue", "abcdef", "uvwxyz"], 2))
+
+function reverseWords(str) {
+         // Go for it
+         return str.split(' ').map((e) => e.split('').reverse().join('')).join(' ')
+}
+
+console.log(reverseWords('The quick brown fox jumps over the lazy dog.'))
+
+function duplicateEncode(word) {
+         let set1 = new Set();
+         let code = {};
+         let arr1 = [];
+         let arr2 = [];
+         const word2 = word.toLowerCase();
+         console.log(word2)
+         for (let i = 0; i < word2.length; i++) {
+                  set1.add(word2[i]);
+         }
+         if (set1.size === word2.length) {
+                  let word1 = "";
+                  for (let i = 0; i < word.length; i++) {
+                           word1 += "(";
+                  }
+                  return word1;
+         } else {
+                  let count = 0;
+                  set1.forEach(e => {
+                           count = 0;
+                           for (let i = 0; i < word.length; i++) {
+                                    if (e === word2[i]) {
+                                             count += 1
+                                    }
+                           }
+                           if (count === 1) {
+                                    arr1.push(e)
+                                    code[e] = "("
+
+                           } else {
+                                    arr2.push(e)
+                                    code[e] = ")"
+
+                           }
+
+                  })
+                  console.log(code)
+                  return word2.split('').map(e => code[e]).join('')
+
+         }
+}
+console.log(duplicateEncode("CodeWarrior"))
+
+function arrayDiff(a, b) {
+         if (a.length === 0) return b;
+         if (b.length === 0) return a;
+         let arr = []
+         let count = 0;
+         for (let i = 0; i < b.length; i++) {
+                  for (let k = 0; k < a.length; k++) {
+                           if (b[i] === a[k]) {
+                                    count += 1
+                                    a.fill("*", k, k + 1)
+
+                           }
+                  }
+         }
+         console.log(a);
+         a.map((e, index) => e === '*' ? a.splice(index, count) : false)
+         return a
+}
+console.log(arrayDiff([4, -4, -8, 11, 12, 16, -13, 13, 13, 15, 4, 10, -9], [4, -4, -8, 11, 12, 16, -13]))
+let str = 'abc1'
+console.log(str.includes(1))
+
+
+
+function order(words) {
+         // ...
+         let final = []
+         arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+         const newWord = words.split(' ');
+         for (let i = 0; i < 9; i++) {
+                  console.log(newWord[i])
+                  if (newWord[i].includes(i)) {
+                           final[i - 1] = newWord[i];
+                  }
+         }
+         return final
+
+}
+console.log(order("is2 Thi1s T4est 3a"))
