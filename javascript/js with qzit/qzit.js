@@ -1,3 +1,4 @@
+
 const string1 = "hello world";
 console.log(string1.indexOf(" "));
 
@@ -689,13 +690,162 @@ function order(words) {
          let final = []
          arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
          const newWord = words.split(' ');
-         for (let i = 0; i < 9; i++) {
-                  console.log(newWord[i])
-                  if (newWord[i].includes(i)) {
-                           final[i - 1] = newWord[i];
-                  }
-         }
-         return final
+         newWord.map((item) => {
+                  item.split('').map((e) => {
+                           arr.forEach((num) => {
+                                    if (String(e) === String(num)) {
+                                             final[num - 1] = item
+                                    }
+                           })
+                  })
+         })
+         return final.join(' ')
+
 
 }
+let word = 'word1'
 console.log(order("is2 Thi1s T4est 3a"))
+console.log(word.includes(1));
+
+//最佳解答
+function Bestorder(words) {
+         return words && words.split(' ')
+                  .map(word => word.match(/\d/) + word)
+                  .sort()
+                  .map(word => word.slice(1))
+                  .join(' ');
+}
+
+/**
+ * 在正則表達式中
+ * /\d+/: \d = 匹配任意數字(0-9) , +代表與一個或多個前面的元素相符的量詞
+ */
+
+
+function domainName(url) {
+         if (url.includes('http://')) {
+                  if (url.includes('www')) {
+                           const start = url.indexOf('www.') + 4
+                           const end = url.indexOf('.co')
+                           console.log(url.substring(start, end))
+                           return url.substring(start, end)
+                  } else {
+                           const end = url.indexOf('.')
+                           console.log(url.substring(7, end))
+                           return url.substring(7, end)
+                  }
+
+         } else if (url.includes('https://')) {
+                  if (url.includes('www')) {
+                           console.log('good')
+                           const start = url.indexOf('www.') + 4
+                           const end = url.indexOf('.co')
+                           console.log(url.substring(start, end))
+                           return url.substring(start, end)
+                  } else {
+                           const end = url.indexOf('.')
+                           console.log(url.substring(8, end))
+                           return String(url.substring(8, end))
+                  }
+         }
+         else {
+                  const start = url.indexOf('www') + 4
+                  const end = url.lastIndexOf('.')
+                  const text = url.substring(start, end)
+                  return text
+         }
+
+
+
+}
+console.log(domainName('https://youtube.com'))
+
+function removeSmallest(numbers) {
+         if (numbers.length === 0) return []
+         let finalResult = []
+         let final = numbers.forEach((item) => { finalResult.push(item) })
+         let min = Math.min(...numbers)
+         let index = finalResult.indexOf(min);
+         finalResult.splice(index, 1);
+         return finalResult
+
+}
+console.log(removeSmallest([164, 214, 236, 291, 302, 319, 335]))
+
+function firstNonConsecutive(arr) {
+         console.log(typeof arr)
+         if (arr.length === 0 || arr.length === 1) {
+                  return null
+         }
+         else {
+
+                  for (let i = 0; i < arr.length - 1; i++) {
+                           if (arr[i + 1] - arr[i] !== 1) {
+                                    return arr[i + 1]
+                           }
+                  }
+                  return null
+         }
+}
+arr = -5, -4, -3, -2, -1, 0, 1, 2, 3, 4
+console.log(firstNonConsecutive([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]))
+
+function positiveSum1(arr) {
+         if (arr.length === 0) {
+                  return 0
+         } else {
+                  let final = 0;
+                  arr.forEach((item) => {
+                           if (item >= 0) {
+                                    final += item
+                           }
+                  })
+                  return final;
+         }
+
+
+}
+console.log(positiveSum1([-1, -2, -3, -4, -5]))
+
+
+function getDivisorsCnt(n) {
+         // todo
+         let count = 0;
+         for (let i = 0; i <= n; i++) {
+                  for (let j = 0; j <= i; j++) {
+                           if (n % i === 0) {
+                                    count += 1
+                           }
+                  }
+
+         }
+         return count
+}
+
+function sumDigPow1(a, b) {
+         // Your code here
+         let final = [];
+         let finalArr = [];
+         for (let i = a; i < b; i++) {
+                  final = [];
+                  let result = String(i);
+                  for (let j = 0; j < result.length; j++) {
+                           final.push(result[j]);
+                  }
+                  let total = 0;
+                  for (let k = 0; k < final.length; k++) {
+                           let NumItem = Number(final[k])
+                           let PowNum = Math.pow(NumItem, k + 1);
+                           total += PowNum;
+                           if (total === Number(result)) {
+                                    finalArr.push(Number(result));
+                           }
+                  }
+
+         }
+         return finalArr.length === 0 ? [] : finalArr
+
+}
+
+
+console.log((sumDigPow1(90, 100)))
