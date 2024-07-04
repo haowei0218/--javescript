@@ -701,7 +701,6 @@ function order(words) {
          })
          return final.join(' ')
 
-
 }
 let word = 'word1'
 console.log(order("is2 Thi1s T4est 3a"))
@@ -849,3 +848,338 @@ function sumDigPow1(a, b) {
 
 
 console.log((sumDigPow1(90, 100)))
+
+function basicOp(operation, value1, value2) {
+         if (operation === "+") return value1 + value2
+         if (operation === "-") return value1 - value2
+         if (operation === "*") return value1 * value2
+         if (operation === "/") return value1 / value2
+
+}
+
+function removeEveryOther(arr) {
+         //your code here
+         return arr.filter((e, index) => index % 2 === 0)
+}
+
+function toJadenCase(str) {
+         return str.split(' ').map((item) => {
+                  let NewStr = ""
+                  for (let i = 0; i < item.length; i++) {
+                           if (i === 0) {
+                                    NewStr += item[0].toUpperCase();
+                           } else {
+                                    NewStr += item[i];
+                           }
+                  }
+                  return NewStr
+         }).join(' ')
+
+}
+
+console.log(toJadenCase("How can mirrors be real if our eyes aren't real"))
+
+String.prototype.toJadenCase = function () {
+         //...
+         return this.split(' ').map((item) => {
+                  let NewStr = ""
+                  for (let i = 0; i < item.length; i++) {
+                           if (i === 0) {
+                                    NewStr += item[0].toUpperCase();
+                           } else {
+                                    NewStr += item[i];
+                           }
+                  }
+                  return NewStr
+         }).join(' ')
+};
+
+let str12 = "How can mirrors be real if our eyes aren't real"
+console.log(str12.toJadenCase())
+
+function XO(str) {
+         //code here
+         let count = 0;
+         let count1 = 0;
+         for (let i = 0; i < str.length; i++) {
+                  if (str[i].toLowerCase() === "o") { count += 1 }
+                  else if (str[i].toLowerCase() === 'x') { count1 += 1 }
+                  else { continue }
+         }
+         return count === count1
+}
+console.log(XO('xxoO'))
+
+function TwoSum(numbers, target) {
+         let indexArr = [];
+         let final = []
+
+         for (let i = 0; i < numbers.length; i++) {
+
+                  for (let j = 0; j <= numbers.length; j++) {
+                           if (i === j) {
+                                    continue
+                           }
+                           if (numbers[i] + numbers[j] === target) {
+                                    indexArr.push(j)
+                                    indexArr.push(i)
+
+                           }
+                  }
+         }
+         return indexArr
+}
+console.log(TwoSum([172, 386, 943, -890, -848, 18, -296, -216, 710, -529, -748, 803, -423, 79, 507, -571, 544, -613, 219, 750, 603, 487, 11, -262, 220, -403, -240, 922, 89, -734, 843, 149, -370, 371, -210, 93, -895, -876, 502, -754, 904, 40, 821, -208, 76, -919], -723))
+console.log(-919 + 172)
+
+function StringToNum(str) {
+         let arr = []
+         let str1 = 'abcdefghijklmnopqrstuvwxyz';
+         str.toLowerCase().replace(/[a-z]/g, function (matchStr) {
+                  console.log(matchStr)
+
+                  for (let i = 0; i <= str1.length; i++) {
+                           if (matchStr === str1[i]) {
+                                    arr.push(i + 1)
+                                    break
+                           }
+
+                  }
+         })
+         return arr
+}
+
+console.log(StringToNum("The sunset sets at twelve o' clock."))
+let str33 = "The sunset sets at twelve o' clock."
+console.log(str33[3])
+
+
+
+//返回n次 x的倍數
+function countBy(x, n) {
+         let result = x * n;
+         let arr = []
+         for (let i = 1; i <= result; i++) {
+                  if (i % x === 0) {
+                           arr.push(i)
+                  }
+         }
+         return arr
+}
+console.log(countBy(2, 5))
+
+
+function high(x) {
+         const result = x.toLowerCase().split(' ')
+         let arr = []
+         let total = 0;
+         let max = 0;
+         let maxWord = ""
+         result.forEach((item) => {
+                  total = 0
+                  for (let i = 0; i < item.length; i++) {
+                           total += (item.charCodeAt(i) - 96);
+                  }
+                  arr.push(total)
+                  if (total > max) {
+                           max = total;
+                           maxWord = item
+                  }
+
+         })
+         return maxWord
+}
+console.log(high('what time are we climbing up the volcano'))
+
+function longest(s1, s2) {
+         let letter = new Set()
+         let final = [];
+         let ss1 = s1.toLowerCase();
+         let ss2 = s2.toLowerCase();
+         for (let i = 0; i < ss1.length; i++) {
+                  if (ss1[i] === ' ') {
+                           continue
+                  }
+                  letter.add(ss1[i]);
+         }
+         for (let i = 0; i < ss2.length; i++) {
+                  if (ss2[i] === " ") {
+                           continue
+                  }
+                  letter.add(ss2[i]);
+         }
+         for (let item of letter) {
+                  final.push(item)
+         }
+         return final.sort().join('')
+}
+console.log(longest("aretheyhere", "yestheyarehere"))
+
+String.prototype.isUpperCase = function () {
+         // your code here
+         return this === this.toUpperCase()
+}
+
+console.log('C'.isUpperCase())
+
+function isTriangle(a, b, c) {
+         if (a === 0 || b === 0 || c === 0) {
+                  return false
+         } else if (a + b > c && a + c > b && b + c > a) {
+                  return true
+         } else {
+                  return false
+         }
+
+}
+
+function setAlarm(employed, vacation) {
+         return employed !== vacation ? true : false
+}
+function stray(numbers) {
+         numbers.sort((a, b) => a - b)
+         if (numbers[0] !== numbers[1]) return numbers[0]
+         if (numbers[numbers.length - 1] !== numbers[1]) return numbers[numbers.length - 1]
+}
+
+
+function getAge(inputString) {
+         return inputString.match(/\d/g).join('')
+}
+
+
+
+var number = function (busStops) {
+         // Good Luck!
+         return busStops.map((item) => item.reduce((a, b) => a - b)).reduce((a, b) => a + b)
+}
+
+function gooseFilter(birds) {
+         var geese = ["African", "Roman Tufted", "Toulouse", "Pilgrim", "Steinbacherd"]
+         let countArr = []
+         let count = 0;
+         birds.forEach((item, index) => {
+                  count = 0;
+                  geese.forEach((itemB, index) => {
+                           if (item !== itemB) {
+                                    count += 1
+                           }
+                  })
+                  if (count === 5) {
+                           countArr.push(item)
+                  }
+
+         })
+
+         return countArr
+
+         // return an array containing all of the strings in the input array except those that match strings in geese
+};
+
+console.log(gooseFilter(['African']))
+
+
+function persistence(num) {
+         let Action = -1;
+         let count = 0;
+         if (num < 10) return 0
+         while (count > 10) {
+                  count = String(num).split('').reduce((a, b) => Number(a) * Number(b))
+                  num = count
+                  Action += 1
+         }
+         return Action
+
+
+
+}
+
+console.log(persistence(999))
+
+
+function nbDig(n, d) {
+         // your code
+         let arr = ""
+         let count = 0
+         for (let i = 0; i <= n; i++) {
+                  arr += i * i;
+         }
+         for (let i = 0; i < arr.length; i++) {
+                  if (arr[i] === String(d)) {
+                           count += 1
+                  }
+         }
+         return count
+
+}
+console.log(nbDig(10, 1))
+
+function sumArray(array1) {
+
+         if (array1 === undefined || array1 === null || typeof array1 !== 'object' || array1.length <= 1) {
+                  return 0
+         }
+         else {
+                  const max = Math.max(...array1);
+                  const min = Math.min(...array1);
+                  return array1.reduce((a, b) => a + b) - (max + min)
+         }
+}
+console.log(sumArray())
+
+let string11 = 'aaca';
+console.log(string11.slice(0, 2))
+console.log(string11.slice(2, string11.length).split('').reverse().join(''))
+
+let middle = Math.round(string11.length / 2)
+console.log(middle)
+
+function isPalindrome(x) {
+         if (x.length === "" || x.lnegth === 1) {
+                  return true
+         } else {
+                  if (x.length % 2 === 0) {
+                           let middle = x.length / 2
+                           let prefix = x.toLowerCase().slice(0, middle);
+                           let suffix = x.toLowerCase().slice(middle, x.length)
+
+                           if (prefix === suffix.split('').reverse().join('')) {
+                                    return true
+                           } else {
+                                    return false
+                           }
+                  } else {
+                           let middle = Math.round(x.length / 2)
+                           let prefix = x.toLowerCase().slice(0, middle - 1);
+                           let suffix = x.toLowerCase().slice(middle, x.length)
+                           if (prefix === suffix.split('').reverse().join('')) {
+                                    return true
+                           }
+                           else {
+                                    return false
+                           }
+                  }
+         }
+
+
+}
+
+console.log(isPalindrome('Madam'))
+function queueTime(customers, n) {
+
+         if (customers.length === 0) {
+                  return 0
+         }
+         else {
+                  return customers.map(e => { return e / n })
+
+         }
+
+}
+console.log(queueTime([2, 2, 3, 3, 4, 4], 4))
+function correct(string1) {
+         // your code here
+         return string1.replace(/5/g, 'S').replace(/1/g, 'I').replace(/0/g, 'O');
+}
+
+console.log(correct("L0ND0N"))
