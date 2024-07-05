@@ -1183,3 +1183,162 @@ function correct(string1) {
 }
 
 console.log(correct("L0ND0N"))
+
+function finalGrade(exam, projects) {
+         if (exam > 90 || projects > 10) {
+                  return 100
+         } else if (exam > 75 && projects >= 5) {
+                  return 90
+         } else if (exam > 50 && projects >= 2) {
+                  return 75
+         } else {
+                  return 0
+         }
+
+}
+console.log(finalGrade(0, 11))
+
+function gimme(triplet) {
+         const max = Math.max(...triplet);
+         const min = Math.min(...triplet);
+
+         const index = parseFloat(triplet.filter(e => e !== max && e !== min));
+         return triplet.indexOf(index)
+}
+console.log(gimme([-5.2, -10.6, 14]));
+
+function sumStr(a, b) {
+         if (a === "") {
+                  a = 0
+
+         }
+         if (b === "") {
+                  b = 0
+         }
+         return String(parseInt(a) + parseInt(b))
+}
+var isAnagram = function (test, original) {
+         const str1 = test.toLowerCase().split('').sort().join('');
+         const str2 = original.toLowerCase().split('').sort().join('')
+         console.log(str1, str2)
+         return str1 === str2 && str1.length === str2.length
+};
+console.log(isAnagram("Buckethead", "DeathCubeK"))
+
+
+function findOutLier(integers) {
+         let odd = []
+         let even = []
+
+         for (let i = 0; i < integers.length; i++) {
+                  if (integers[i] % 2 === 0) {
+                           even.push(integers[i]);
+                  } else {
+                           odd.push(integers[i])
+                  }
+         }
+         console.log(odd, even)
+         return odd.length > even.length ? Number(even.join('')) : Number(odd.join(''))
+
+
+}
+console.log(findOutLier([0, 1, 2]))
+
+function solution2(number) {
+         if (number < 0) return 0
+         let arr = []
+         for (let i = 1; i < number; i++) {
+                  if (i % 3 === 0 || i % 5 === 0) {
+                           arr.push(i)
+                  }
+         }
+         return arr.reduce((a, b) => a + b)
+}
+console.log(solution2(10))
+function filter_list(l) {
+         // Return a new array with the strings filtered out
+         return l.filter(e => typeof e === 'number');
+}
+
+function arrayPlusArray(arr1, arr2) {
+         let arr = [...arr1, ...arr2]
+         return arr.reduce((a, b) => a + b) //something went wrong
+}
+
+console.log(arrayPlusArray([1, 2], [4, 5]))
+
+function solutionStr(str) {
+         let newStr;
+         let arr = []
+         if (str.length % 2 !== 0) {
+                  newStr = str + "_"
+
+                  for (let i = 0; i < newStr.length; i += 2) {
+                           arr.push(newStr.slice(i, i + 2))
+                  }
+         } else {
+                  for (let i = 0; i < str.length; i += 2) {
+                           arr.push(str.slice(i, i + 2))
+                  }
+         }
+         return arr
+}
+
+console.log(solutionStr('abcdef'))
+
+function StrtoCamelCase(str) {
+         if (str === "") return ""
+         if (str.toUpperCase() === str) return str.replace(/[-_]/g, "")
+         let index = []
+         let test = []
+         let test1 = []
+         for (let i = 0; i < str.length; i++) {
+                  if (i === 0) {
+                           index.push(0)
+                  }
+                  if (str[i] === '_' || str[i] === '-') {
+                           index.push(i)
+
+                  }
+
+         }
+         for (let i = 0; i < index.length; i++) {
+                  test.push(str.substring(index[i], index[i + 1]))
+         }
+         console.log(test)
+         for (let i = 0; i < test.length; i++) {
+                  if (test[i].includes('-')) {
+                           let finalStr = ""
+                           const newStr = test[i].replace(/-/g, "")
+                           for (let k = 0; k < newStr.length; k++) {
+                                    if (k === 0) {
+                                             const Upper = newStr[0].toUpperCase()
+                                             finalStr += Upper
+                                    } else {
+                                             finalStr += newStr[k]
+                                    }
+                           }
+                           test1.push(finalStr)
+                  } else if (test[i].includes("_")) {
+                           const newStr = test[i].replace(/_/g, "")
+                           let finalStr = ""
+                           for (let k = 0; k < newStr.length; k++) {
+                                    if (k === 0) {
+                                             const Upper = newStr[0].toUpperCase()
+                                             finalStr += Upper
+                                    } else {
+                                             finalStr += newStr[k]
+                                    }
+                           }
+                           test1.push(finalStr)
+                  }
+                  else {
+                           test1.push(test[i])
+                  }
+
+         }
+         return test1.join('')
+
+}
+
+console.log(StrtoCamelCase("the_tealth-warrior"))
