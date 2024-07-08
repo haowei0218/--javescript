@@ -1342,3 +1342,102 @@ function StrtoCamelCase(str) {
 }
 
 console.log(StrtoCamelCase("the_tealth-warrior"))
+
+function wave(str) {
+         // Code here
+         let final = []
+         let word = "";
+         for (let i = 0; i < str.length; i++) {
+                  word = ""
+                  if (str[i] === " ") {
+                           continue
+                  }
+                  for (let j = 0; j < str.length; j++) {
+                           if (j === i) {
+                                    word += str[j].toUpperCase();
+                           } else {
+                                    word += str[j]
+                           }
+
+                  }
+                  final.push(word);
+         }
+         return final
+}
+console.log(wave('Two words'))
+
+function validatePIN(pin) {
+         return pin.match(/\d/g).length === 4 || pin.match(/\d/g).length === 6
+}
+
+let num = 's1234'
+console.log(num.match(/\d/g))
+
+function titleCase(title, minorWords) {
+         if (title === "") return ""
+         if (minorWords === undefined) {
+                  return title.split(' ').map((item) => { return item.split('').map((item, index) => { return index === 0 ? item.toUpperCase() : item.toLowerCase() }).join('') }).join(' ');
+         } else {
+                  let minorWordArr = minorWords.split(' ').map((item) => { return item.toLowerCase() })
+                  let titleArr = title.split(' ').map((item) => { return item.split('').map((item, index) => { return index === 0 ? item.toUpperCase() : item.toLowerCase() }).join('') });
+                  for (let i = 0; i < minorWordArr.length; i++) {
+                           for (let j = 0; j < titleArr.length; j++) {
+                                    if (j === 0) {
+                                             continue
+                                    }
+                                    if (minorWordArr[i] === titleArr[j].toLowerCase()) {
+                                             titleArr[j] = titleArr[j].toLowerCase();
+                                    } else {
+                                             continue
+                                    }
+                           }
+                  }
+
+                  return titleArr
+         }
+}
+console.log(titleCase('aBC deF Ghi'))
+
+
+function deleteNth(arr, n) {
+         let set = new Set();
+         let count = 0;
+         let final = [];
+         if (n === 1) {
+                  arr.forEach((item) => {
+                           set.add(item)
+                  })
+                  for (let item of set) {
+                           final.push(item)
+                  }
+                  return final
+
+         } else {
+                  arr.forEach(item => set.add(item));
+                  console.log(set)
+                  for (let item of set) {
+                           console.log(item)
+                           count = 0
+                           for (let i = 0; i < arr.length; i++) {
+                                    if (item === arr[i]) {
+                                             count += 1
+                                             if (count >= n) {
+                                                      continue
+                                             } else {
+
+                                                      final.push(arr[i])
+                                             }
+                                    } else {
+                                             continue
+                                    }
+                           }
+                  }
+                  return final
+         }
+
+
+
+}
+
+
+console.log(deleteNth([20, 37, 20, 21], 1))
