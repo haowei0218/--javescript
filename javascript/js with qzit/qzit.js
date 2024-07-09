@@ -1441,3 +1441,265 @@ function deleteNth(arr, n) {
 
 
 console.log(deleteNth([20, 37, 20, 21], 1))
+
+function noBoringZeros1(n) {
+         // your code
+         let count = n
+         let str = String(count);
+         for (let i = 0; i < str.length; i++) {
+                  if (String(count).lastIndexOf('0') !== -1) {
+                           const index = String(count).lastIndexOf('0');
+                           if (index === String(count).length - 1) {
+                                    count = String(count).slice(0, index)
+                           }
+
+                  }
+         }
+         return count
+}
+console.log(noBoringZeros1(1405000))
+
+function repeatStr(n, s) {
+         let str = ""
+         for (let i = 0; i < s; i++) {
+                  str += n
+         }
+         return str
+
+}
+console.log(repeatStr("*", 3))
+
+
+function incrementString12(string) {
+         // return incrementedString
+         const newStr = string.replace(/\d/g, "*");
+         if (newStr.lastIndexOf("*") !== newStr.length - 1) {
+                  return string + "1"
+         } else {
+                  let str = ""
+                  let str1 = ""
+                  for (let i = string.length - 1; i >= 0; i--) {
+                           if ((string[i] >= 'a' && string[i] <= 'z') || (string[i] >= 'A' && string[i] <= 'Z') || (Number(string[i]) === 0)) {
+                                    str += string.slice(0, i + 1);
+                                    break
+                           } else {
+                                    str1 += string[i]
+                           }
+
+                  }
+                  let NumStr = str1.split('').sort((a, b) => Number(a) - Number(b)).join('')
+                  let NumStr1 = String(Number(str1.split('').sort((a, b) => Number(a) - Number(b)).join('')) + 1)
+
+                  /**
+                   * 1. str最後一個字符串為0 因為str1數字加一後有進位 所以要捨棄一個0
+                   * 2. str最後一個字符串不為0 且因為str1數字加一後有進位 直接相加
+                   * 3. str最後一個字符串為0 且沒有進位 直接相加
+                   * 4. str最後一個字符串不為0 且沒有進位 直接相加
+                   */
+
+                  if (NumStr.length !== NumStr1.length && str[str.length - 1] === '0') {
+                           console.log(str.slice(0, str.length - 1))
+                           return str.slice(0, str.length - 1) + NumStr1
+                  } else if (NumStr.length === NumStr1.length && str[length - 1] === '0') {
+                           return str + NumStr1
+                  } else if (str[length - 1] !== '0') {
+                           return str + NumStr1
+                  }
+         }
+
+}
+console.log(incrementString12('foobar'))
+function twoSort(s) {
+         let indexA = s.sort()[0].length - 1
+         return s.sort()[0].split('').map((item, index) => { return index === indexA ? item : item + "***" }).join('')
+}
+
+console.log(twoSort(["bitcoin", "take", "over", "the", "world", "maybe", "who", "knows", "perhaps"]))
+
+
+function smallEnough(a, limit) {
+         return a.filter(e => e > limit).length > 0 ? false : true
+}
+console.log(smallEnough([101, 45, 75, 105, 99, 107], 107))
+
+function minMax(arr) {
+         if (arr.length === 1) {
+                  return [arr[0], arr[0]]
+         } else {
+                  let max = Math.max(...arr);
+                  let min = Math.min(...arr);
+                  return [min, max]
+         }
+
+}
+
+console.log(Math.round(Math.sqrt(121)) === Math.sqrt(121))
+
+function findNextSquare(sq) {
+         // Return the next square if sq is a perfect square, -1 otherwise
+         return Math.round(Math.sqrt(sq)) !== Math.sqrt(sq) ? -1 : Math.pow(Math.sqrt(sq) + 1, 2)
+}
+console.log(findNextSquare(114))
+
+
+function expandedForm(num) {
+         let arr = String(num).split('');
+         let arr1 = [];
+
+         for (let i = 0; i < arr.length; i++) {
+                  let str = ""
+                  if (arr[i] === '0') {
+                           continue
+                  }
+                  for (let j = arr.length - 1 - i; j > 0; j--) {
+                           str += '0'
+                  }
+                  arr1.push(arr[i] + str)
+         }
+         return arr1.join('+')
+
+
+}
+
+
+function sumDigits1(number) {
+         return number >= 0 ? String(number).split('').map((item) => Number(item)).reduce((a, b) => a + b) : String(-number).split('').map((item) => Number(item)).reduce((a, b) => a + b)
+}
+console.log(sumDigits1(-32))
+function factorial(n) {
+         try {
+                  if (n <= 12 && n >= 0) {
+                           if (n === 0 || n === 1) return 1
+                           // Calculate the factorial here
+                           let count = [];
+                           for (let i = 1; i <= n; i++) {
+                                    count.push(i)
+                           }
+                           return count.reduce((a, b) => a * b)
+                  } else {
+                           throw new Error(RangeError)
+                  }
+
+
+         } catch (error) {
+                  console.log(error)
+         }
+}
+
+console.log(factorial(5))
+
+function nbYear(p0, percent, aug, p) {
+         // your code
+         let count = p0;
+         let final = 0
+         while (count < p) {
+                  count = count + percent + aug
+                  final += 1
+         }
+         return final
+}
+
+console.log(nbYear(1500, 5, 100, 5000))
+
+
+
+
+function findMissingLetter(array) {
+         let str = 'abcdefghijklmnopqrstuvwxyz';
+         let str1 = str.toLocaleUpperCase();
+
+         if (array[0] >= 'A' && array[0] <= 'Z') {
+                  let start = str1.indexOf(array[0])
+                  let end = str1.indexOf(array[array.length - 1])
+                  let str1Slice = str1.slice(start, end + 1).split('')
+
+                  let missLetter = ""
+                  for (let i = 0; i < str1Slice.length; i++) {
+                           if (!array.includes(str1Slice[i])) {
+                                    missLetter += str1Slice[i]
+                           }
+                  }
+                  return missLetter
+         } else {
+                  let start = str.indexOf(array[0])
+                  let end = str.indexOf(array[array.length - 1])
+                  let strSlice = str.slice(start, end + 1).split('')
+
+                  let missLetter = ""
+                  for (let i = 0; i < strSlice.length; i++) {
+                           if (!array.includes(strSlice[i])) {
+                                    missLetter += strSlice[i]
+                           }
+                  }
+                  return `${start} ${end} ${strSlice} ${missLetter}`
+         }
+
+}
+
+console.log(findMissingLetter(['O', 'P', 'R', "S"]))
+
+function isPrime(num) {
+         //TODO
+
+}
+
+console.log(Math.round(62 / 60), Math.round(62 % 60))
+
+function formatDuration(seconds) {
+         // Complete this function
+         if (seconds < 60) {
+                  return `${seconds} second`
+         } else if (seconds >= 60 && seconds < 3600) {
+                  if (seconds % 60 === 0) {
+                           return `${seconds / 60} minutes`
+                  } else {
+                           return `${Math.round(seconds / 60)} minute and ${Math.round(seconds % 60)} seconds`
+                  }
+         } else if (seconds >= 3600) {
+                  if (seconds % 3600 === 0) {
+                           return `${seconds / 3600} hour`
+                  } else {
+                           let hours = Math.round(seconds / 3600);
+                           let minute = Math.round((seconds % 3600) / 60);
+                           let second = Math.round((seconds % 3600) % 60)
+                           return `${hours}hours, ${minute} minute and ${second} seconds`
+                  }
+         }
+}
+
+console.log(formatDuration(3600))
+
+function findEvenIndex(arr) {
+         //Code goes here!
+         for (let i = 0; i < arr.length; i++) {
+                  let left = arr.slice(0, i);
+                  let right = arr.slice(i + 1, arr.length);
+                  console.log(left, right)
+                  if (left.length === 0) {
+                           let leftSum = 0
+                           let rightSum = arr.slice(i + 1, arr.length).reduce((a, b) => a + b)
+                           console.log(leftSum, rightSum)
+                           if (leftSum === rightSum) {
+                                    return i
+                           }
+                  } else if (right.length === 0) {
+                           let leftSum = arr.slice(0, i).reduce((a, b) => a + b)
+                           let rightSum = 0
+                           console.log(leftSum, rightSum)
+                           if (leftSum === rightSum) {
+                                    return i
+                           }
+                  }
+                  else {
+                           let leftSum = arr.slice(0, i).reduce((a, b) => a + b)
+                           let rightSum = arr.slice(i + 1, arr.length).reduce((a, b) => a + b)
+                           console.log(leftSum, rightSum)
+                           if (leftSum === rightSum) {
+                                    return i
+                           }
+                  }
+
+         }
+         return -1
+}
+console.log(findEvenIndex([20, 10, 30, 10, 10, 15, 35, 50]))
