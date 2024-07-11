@@ -1879,3 +1879,145 @@ console.log(
 
          )
 );
+
+
+function onlyDuplicates(str) {
+         let count = 0;
+         let final = ""
+         for (let i = 0; i < str.length; i++) {
+                  count = 0;
+                  for (let j = 0; j < str.length; j++) {
+                           if (str[i] === str[j]) {
+                                    count += 1
+                           }
+                  }
+                  if (count >= 2) {
+                           final += str[i]
+                  }
+         }
+         return final
+}
+
+console.log(onlyDuplicates('foundersandcoders'));
+
+function maxAndMin(arr1, arr2) {
+         let max = [];
+         let min = [];
+         for (let i = 0; i < arr1.length; i++) {
+                  for (let j = 0; j < arr2.length; j++) {
+                           if (arr1[i] > arr2[j]) {
+                                    max.push(arr1[i] - arr2[j]);
+                                    min.push(arr1[i] - arr2[j]);
+                           } else {
+                                    max.push(arr2[j] - arr1[i]);
+                                    min.push(arr2[j] - arr1[i]);
+                           }
+                  }
+
+         }
+         return [Math.max(...max), Math.min(...min)];
+}
+
+console.log(maxAndMin([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]))
+
+//最佳解答 
+/**
+ * Math.abs() => 返回一個數的絕對值
+ */
+function maxAndMin1(arr1, arr2) {
+         return [
+                  Math.max(...arr1.map(n => Math.max(...arr2.map(m => Math.abs(n - m))))),
+                  Math.min(...arr1.map(n => Math.min(...arr2.map(m => Math.abs(n - m)))))
+         ]
+}
+
+function uniqueInOrder(interable) {
+         let arr = []
+         for (let i = 0; i < interable.length; i++) {
+                  if (interable[i] === interable[i + 1]) {
+                           continue
+                  } else {
+                           arr.push(interable[i])
+
+                  }
+         }
+         return arr
+
+}
+console.log(uniqueInOrder('AAAABBBCCDAABBB'))
+
+function isPrime(num) {
+         //TODO
+         let Prime = new Set()
+         if (Math.abs(num) === 0 || num === 1 || num < 0) return false
+         for (let i = 1; i <= Math.round(Math.sqrt(num)); i++) {
+                  if (num % i === 0) {
+                           Prime.add(i)
+                           Prime.add(num / i)
+                  }
+         }
+         console.log(Prime)
+         if (Prime.size <= 2) {
+                  return true
+         } else {
+                  return false
+         }
+}
+
+console.log(isPrime(4))
+
+
+function sortArrayOdd(array) {
+         let oddNumbers = array.filter(num => num % 2 !== 0).sort((a, b) => a - b);
+
+
+         let oddIndex = 0;
+
+
+         for (let i = 0; i < array.length; i++) {
+                  if (array[i] % 2 !== 0) {
+                           array[i] = oddNumbers[oddIndex++];
+                  }
+         }
+
+         return array;
+}
+//最佳解答
+function sortArray(array) {
+         const odd = array.filter((x) => x % 2).sort((a, b) => a - b);
+         return array.map((x) => x % 2 ? odd.shift() : x);
+}
+
+console.log(sortArrayOdd([5, 3, 2, 8, 1, 4]))
+String.prototype.camelCase = function () {
+         return this.split(' ').map((item) => { return item.split('').map((e, index) => { return index === 0 ? e.toUpperCase() : e }).join('') }).join('')
+}
+console.log('camel Case method'.camelCase())
+
+function toWeirdCase(string) {
+         return string.split(' ').map((item) => { return item.split("").map((e, index) => { return index % 2 === 0 ? e.toUpperCase() : e }).join('') }).join(' ')
+}
+console.log(toWeirdCase('Weird string case'));
+function parse(data) {
+         let count = 0
+         let arr = []
+         for (let i = 0; i < data.length; i++) {
+                  if (data[i] === 'i') {
+                           count += 1
+                  } else if (data[i] === 'd') {
+                           count -= 1
+                  } else if (data[i] === 's') {
+                           count *= count
+                  } else if (data[i] === 'o') {
+                           arr.push(count)
+                  } else {
+                           continue
+                  }
+                  if (i === data.length) {
+                           arr.push(count)
+                  }
+         }
+         return arr
+}
+
+console.log(parse('iiisdoso'))
