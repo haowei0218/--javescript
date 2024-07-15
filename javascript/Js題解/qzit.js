@@ -2274,4 +2274,155 @@ function highhestRank(arr) {
 
 
 }
-console.log(highhestRank([4, 27, 21, 19, 23, 8, 8, 8, 18, 25, 10, 10, 10, 15, 29, 15, 15]))
+
+
+function numberOfPairs(gloves) {
+         let newArr = [...gloves].sort();
+         let index = 0;
+         let NumSet = new Set();
+         newArr.forEach(item => NumSet.add(item));
+         let final = [];
+         for (let item of NumSet) {
+                  final.push(newArr.slice(index, newArr.lastIndexOf(item) + 1))
+                  index = newArr.lastIndexOf(item) + 1;
+         }
+         return final.map((item) => { return Math.floor(item.length / 2) }).reduce((a, b) => a + b)
+
+}
+
+
+
+function dashatize(num) {
+         if (num < 0 && String(-num).length === 1) {
+                  return String(-num);
+         }
+         if (num < 0) {
+                  let finalNum = String(-(num)).split('').map((item, index) => {
+                           if (Number(item) % 2 !== 0) {
+                                    if (index !== String(-num).length - 1 && index !== 0) {
+                                             return `-${item}-`
+                                    } else if (index === 0) {
+                                             return `${item}-`
+                                    } else {
+                                             return `-${item}`
+                                    }
+
+                           } else {
+                                    return item
+                           }
+                  })
+
+                  return finalNum.join('').replace(/--/g, '-')
+         }
+         let finalNum = String(num).split('').map((item, index) => {
+                  if (Number(item) % 2 !== 0) {
+                           if (index !== String(num).length - 1 && index !== 0) {
+                                    return `-${item}-`
+                           } else if (index === 0) {
+                                    return `${item}-`
+                           } else {
+                                    return `-${item}`
+                           }
+
+                  } else {
+                           return item
+                  }
+         })
+
+         return finalNum.join('').replace(/--/g, '-')
+
+
+}
+
+
+function solve(str) {
+         let newWord = str.replace(/[aeiou]/g, " ");
+         let arr = newWord.split(' ').map((item) => {
+                  if (item !== "") {
+                           return item.split('').map((char) => { return char.charCodeAt(0) - 96 }).reduce((a, b) => a + b)
+                  } else {
+                           return 0
+                  }
+         })
+         return Math.max(...arr)
+}
+
+function tripledouble(num1, num2) {
+         let str1 = String(num1).split('');
+         let str2 = String(num2);
+         let triple = [];
+         for (let i = 0; i < str1.length - 2; i++) {
+                  if (str1[i] === str1[i + 1] && str1[i] === str1[i + 2] && str1[i + 1] === str1[i + 2]) {
+                           triple.push(str1[i] + str1[i + 1] + str1[i + 2])
+
+                  } else {
+                           continue
+                  }
+         }
+         if (triple.length === 0) {
+                  return 0
+         } else {
+                  for (let i = 0; i < triple.length; i++) {
+                           if (str2.includes(triple[i][0] + triple[i][1])) {
+                                    return 1
+                           } else {
+                                    continue
+                           }
+                  }
+                  return 0
+         }
+}
+
+
+function revrot(str, sz) {
+         let arr = [];
+         let index = 0
+         let word = ""
+         let sum = 0
+         let finalArr = [];
+         if (sz === 0 || str === "" || str.length < sz) return ""
+         for (let i = 0; i < Math.floor(str.length / sz); i++) {
+                  arr.push(str.slice(index, index + sz))
+                  index = index + sz
+         }
+         console.log(arr)
+         let final = arr.map((item) => {
+                  return item.split('')
+         })
+
+
+         for (let i = 0; i < final.length; i++) {
+                  let firstWord = ""
+                  sum = 0
+                  firstWord = final[i][0];
+                  word = ""
+                  for (let j = 0; j < final[i].length; j++) {
+                           sum += Math.pow(Number(final[i][j]), 3)
+                  }
+
+                  if (sum % 2 !== 0) {
+                           for (let k = 1; k < final[i].length; k++) {
+                                    word += final[i][k]
+                           }
+                           finalArr.push(word + firstWord)
+                  } else {
+                           finalArr.push(final[i].reverse().join(''))
+                  }
+         }
+         return finalArr.join('')
+}
+function longestPalindrome(s) {
+         let arr = []
+         if (s.length === 1) return 1
+         if (s.length === 2 && s[0] === s[1]) return 2
+         for (let i = 0; i < s.length; i++) {
+                  for (let j = 1; j <= s.length; j++) {
+                           if (s.slice(i, j).split('').reverse().join('') === s.slice(i, j)) {
+                                    arr.push(s.slice(i, j))
+                           }
+                  }
+         }
+         console.log(arr.filter(e => e !== ""))
+         return Math.max(...arr.filter(e => e !== "").map((item) => { return item.length }))
+}
+console.log(longestPalindrome("baablkj12345432133d"))
