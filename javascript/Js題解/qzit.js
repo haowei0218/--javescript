@@ -2603,24 +2603,155 @@ console.log(aaaaaa.replace(/\d/g,))
 
 function sumConsefcutives(s) {
          let arr1 = [];
-         let count = 0;
          let word = 0
+         let count = 1;
          for (let i = 0; i < s.length; i++) {
 
-                  word = s[i]
-                  if (s[i] === word) {
-                           count += 1
-                           arr1.push(count * s[i])
-                  }
-                  else {
-                           count = 0
-                           arr1.push(s[i])
-                           continue
-                  }
+                  if (s[i] === s[i + 1]) {
 
-
+                  } else {
+                  }
          }
          return arr1
 }
 
 console.log(sumConsefcutives([1, 4, 4, 4, 0, 4, 3, 3, 1]))
+
+function scramble(str1, str2) {
+         let count = 0;
+         if (str1.length > str2.length) {
+                  count = 0
+                  for (let i = 0; i < str2.length; i++) {
+                           if (str1.includes(str2[i])) {
+                                    count += 1
+                           } else {
+                                    contiuned
+                           }
+                  }
+                  console.log()
+                  return count === str2.length
+         } else if (str1.length === str2.length) {
+                  return str1.split('').sort().join('') === str2.split('').sort().join('');
+         }
+         else {
+                  return false
+         }
+
+}
+
+console.log(scramble('tmxwsgpxibbotobxwfjfxkopojspxkmpsgygkojnrltshjqwxtybkmllpkdntivzzhhyxqwpkjmktecaaneurwwhqkwfovrmqsmvkcvlnuwvksllpkuvmfjdejdpxawzybzjhtpujeubcbizenfbnohgjcuoknovqwfugydvipelobxakzfaclmaiyyybumknewugtjlftkhuzvrztpsnnwwuacuryqbpieneecbtoslsfjfchejnbotdacserfklurplpbfrefqghzuumriwygfnptgkxfvzpawyjesszfrqjtqfonhbzwzqhsjyzbslhaxkmezhxhtmgi', 'fzgnsulemszchkfrwzlagmgzbofayjdricqmgyuqzhuzvuahvxtejpguxxtrdepkwlafmxcjtgjdhehqweftpmgpkwudrubqmeknrzohpjlfcpukobylkghojsngwqthmjoqfwmkzvjbdqmfrwwxtwzjgwgezydipoacpyqelye'))
+
+
+
+function decipherThis(str) {
+         let str1 = str.split(' ');
+         let final = []
+         let numStr = '';
+         let engStr = ''
+         for (let i = 0; i < str1.length; i++) {
+                  numStr = "";
+                  engStr = ""
+                  for (let j = 0; j < str1[i].length; j++) {
+                           if (str1[i][j] <= '9' && str1[i][j] >= '0') {
+                                    numStr += str1[i][j]
+                           } else {
+                                    engStr += str1[i][j]
+                           }
+                  }
+                  final.push(String.fromCharCode(Number(numStr)) + engStr)
+
+         }
+         return final.map((item) => {
+                  if (item.length <= 2) {
+                           return item
+                  } else {
+                           return item.split("").map((char, index, arr) => {
+
+                                    if (index === 1) {
+                                             return arr[item.length - 1]
+                                    } else if (index === item.length - 1) {
+                                             return arr[1]
+
+                                    } else {
+                                             return char
+                                    }
+                           }).join("")
+                  }
+
+         }).join(' ')
+}
+
+console.log(decipherThis('72eva 97 103o 97t 116sih 97dn 115ee 104wo 121uo 100o'))
+
+function dup(s) {
+         let arr1 = [];
+         let word = ""
+         for (let i = 0; i < s.length; i++) {
+                  word = ""
+                  for (let j = 0; j < s[i].length; j++) {
+                           if (s[i][j] === s[i][j + 1]) {
+                                    continue
+                           } else {
+                                    word += s[i][j]
+                           }
+                  }
+                  arr1.push(word)
+         }
+         return arr1
+
+
+}
+/**最佳解答 */
+/**
+ * 
+ * 正则表达式 /(.)\1+/g:
+/(.)\1+/：(.) 捕获任意一个字符，这个字符会被记作捕获组 1。
+\1：表示重复前面捕获组 1 的字符。
++：表示重复一次或多次。
+因此，这个正则表达式匹配任意连续重复的字符序列。
+'$1'：
+表示用捕获组 1 的内容来替换匹配的部分。
+换句话说，就是只保留一个字符，删除其余的连续重复字符} s 
+ * @returns 
+ */
+function dup1(s) {
+         return s.map(x => x.replace(/(.)\1+/g, '$1'))
+};
+
+function isIntArray(arr) {
+         return arr.filter((e) => Math.round(e) !== e || typeof e !== 'number' || Number.isNaN(e)).length > 0 ? false : true
+}
+function twosDifference(input) {
+         let arr1 = input.sort((a, b) => a - b).reverse()
+         let final = []
+         for (let i = 0; i < arr1.length; i++) {
+                  for (let j = 1; j < arr1.length; j++) {
+                           if (arr1[i] - arr1[j] === 2) {
+                                    final.push([arr1[i], arr1[j]])
+                           } else {
+                                    continue
+                           }
+                  }
+         }
+         return final.sort((a, b) => a.reduce((a, b) => a + b) - b.reduce((a, b) => a + b)).map((item) => item.sort((a, b) => a - b))
+}
+console.log(twosDifference([4, 3, 1, 5, 6]))
+
+function formatWords(words) {
+         if (!Array.isArray(words)) return ""
+         let newWords = words.filter(e => e !== "");
+         if (newWords.length === 0) return ""
+         if (newWords.length === 1) return newWords.join('')
+         if (newWords.length === 2) return newWords.join(' and ')
+         return newWords.slice(0, newWords.length - 1).join(', ') + " and " + newWords.slice(newWords.length - 1, newWords.length)
+}
+console.log(formatWords(['one', '', 'three']))
+
+let sortme = function (names) {
+         return names.sort((a, b) => a.toLowerCase().charCodeAt(0) - b.toLowerCase().charCodeAt(0))
+}
+
+function removeParentheses(s) {
+         return s.replace(/\(.*\)/g, "")
+}
+console.log(removeParentheses("RdPwJeFe(RDyQDKuBUNilzMQwcdRtka L)LdyRAVhhPsxjCKkswaL MCrRnSIBdXiPfceiFQQBWdaZoBmOLFN PusLzgjo dEXg osuyYBgtxZYmcEApUUxFyxjlgGL VABTLoNQaXGHlNAjZlL OfineJWiIghPQsccdiyGGW(FHlZuGjIWVK)JUWXwyamfNSvvFkMRGX(jtRrqcX)XvRHhyBzGUAbJ wUxkpQrkFgWXyLQPwDUceZoBorumCBFhYrXysSwVekwuFim(CPhjPX)KytGECyruXStTBMc LFxYfzETn temHzJCABqqFWsRPgBHn FEQXzsdh(EysisOq(MCeBdwtBSVrSdHXEUe d)nKKDbeACisaR Ysx)yJQLMjIqIBVAzzYHQnhEJOHgJcvJDNbqnYpUDloXWBxCIUJtutJyzybDYSh KleNtd(Kri pomj)NUuKtZAewlceBDQqzsg Eeh mwqyyF"))
