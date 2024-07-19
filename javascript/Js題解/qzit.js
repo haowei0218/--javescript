@@ -676,7 +676,7 @@ str.includes(1);
 function order(words) {
          // ...
          let final = [];
-         arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+         let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
          const newWord = words.split(" ");
          newWord.map((item) => {
                   item.split("").map((e) => {
@@ -770,7 +770,6 @@ function firstNonConsecutive(arr) {
                   return null;
          }
 }
-(arr = -5), -4, -3, -2, -1, 0, 1, 2, 3, 4;
 firstNonConsecutive([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]);
 
 function positiveSum1(arr) {
@@ -2755,3 +2754,235 @@ function removeParentheses(s) {
          return s.replace(/\(.*\)/g, "")
 }
 console.log(removeParentheses("RdPwJeFe(RDyQDKuBUNilzMQwcdRtka L)LdyRAVhhPsxjCKkswaL MCrRnSIBdXiPfceiFQQBWdaZoBmOLFN PusLzgjo dEXg osuyYBgtxZYmcEApUUxFyxjlgGL VABTLoNQaXGHlNAjZlL OfineJWiIghPQsccdiyGGW(FHlZuGjIWVK)JUWXwyamfNSvvFkMRGX(jtRrqcX)XvRHhyBzGUAbJ wUxkpQrkFgWXyLQPwDUceZoBorumCBFhYrXysSwVekwuFim(CPhjPX)KytGECyruXStTBMc LFxYfzETn temHzJCABqqFWsRPgBHn FEQXzsdh(EysisOq(MCeBdwtBSVrSdHXEUe d)nKKDbeACisaR Ysx)yJQLMjIqIBVAzzYHQnhEJOHgJcvJDNbqnYpUDloXWBxCIUJtutJyzybDYSh KleNtd(Kri pomj)NUuKtZAewlceBDQqzsg Eeh mwqyyF"))
+
+function solve(arr) {
+         let arr1 = [];
+         let final = [];
+         let newArr = arr.sort((a, b) => a - b);
+         let count = 0
+         let obj = {};
+         let newSet = new Set();
+         arr.forEach((item) => newSet.add(item));
+         for (let item of newSet) {
+                  obj = {};
+                  count = 0;
+                  for (let j = 0; j < newArr.length; j++) {
+                           if (item === newArr[j]) {
+                                    count += 1
+                           }
+
+                  }
+                  obj['num'] = item;
+                  obj['count'] = count
+                  arr1.push(obj)
+         }
+         arr1.sort((a, b) => {
+                  if (a.count === b.count) {
+                           return a.num - b.num
+                  } else {
+                           return b.count - a.count
+                  }
+         }).forEach((item) => {
+                  for (let i = 0; i < item.count; i++) {
+                           final.push(item.num)
+                  }
+         })
+         return final
+
+}
+
+console.log(solve([0, 1, 5, 6, 8, 14, 16, 17, 27, 27, 38, 38, 42, 46, 46]))
+
+let arr11111 = [1, 1, 3, 3, 4, 5, 5];
+let un = /\d+/
+console.log(Object.prototype.toString.call(un))
+
+function amountOfPages(summary) {
+         let num = ""
+         let final = 0
+
+         for (let i = 1; ; i++) {  // Continue indefinitely until we break out
+                  num += String(i);
+                  if (num.length === summary) {
+                           final = i;
+                           break;
+                  }
+         }
+
+         return final;
+
+}
+
+console.log(amountOfPages(5))
+
+function santaSort(unsortedNames) {
+         let arr1 = [];
+         let arr2 = [];
+         let arr3 = [];
+         let final = []
+
+         unsortedNames.forEach((item) => {
+                  if (item === 'Charlie') {
+                           arr1.push(item)
+                  } else if (item === 'Mo') {
+                           arr2.push(item)
+
+                  } else {
+                           arr3.push(item)
+                  }
+         })
+
+         for (let i = 0; i < unsortedNames.length / 3; i++) {
+                  final.push(arr1.shift());
+                  final.push(arr2.shift());
+                  final.push(arr3.shift())
+         }
+         return final.filter((e) => typeof e !== 'undefined')
+}
+
+console.log(santaSort(["Sarah", "Sarah", "Charlie", "Charlie", "Charlie", "Mo", "Mo"]))
+
+function averageString(str) {
+         // Code away
+         let sum = Math.floor(str.split(' ').map((item) => {
+                  switch (item) {
+                           case 'zero':
+                                    return 0
+                           case 'one':
+                                    return 1;
+                           case "two":
+                                    return 2
+                           case "three":
+                                    return 3
+                           case "four":
+                                    return 4
+                           case "five":
+                                    return 5
+                           case "six":
+                                    return 6
+                           case 'seven':
+                                    return 7
+                           case 'eight':
+                                    return 8
+                           case 'nine':
+                                    return 9
+                           default:
+                                    return "n/a"
+
+                  }
+         }).reduce((a, b) => a + b))
+
+         if (sum === 0) {
+                  return 'zero'
+         } else {
+                  let avg = Math.floor(sum / str.split(' ').length)
+                  switch (avg) {
+                           case 1:
+                                    return 'one';
+                           case 2:
+                                    return 'two'
+                           case 3:
+                                    return 'three'
+                           case 4:
+                                    return 'four'
+                           case 5:
+                                    return 'five'
+                           case 6:
+                                    return 'six'
+                           case 7:
+                                    return 'seven'
+                           case 8:
+                                    return 'eight'
+                           case 9:
+                                    return 'nine'
+                           default:
+                                    return "n/a"
+                  }
+         }
+
+}
+
+console.log(averageString("zero zero zero zero zero"))
+
+function validPass(password) {
+         let check = password.replace(/\d+/g, "*").replace(/[a-zA-Z]/g, '+')
+         return check.length < 3 || check.length >= 20 || check.match(/[*]/g) === null || check.match(/[+]/g) === null || check.match(/[^*+]/) !== null ? "INVALID" : "VALID"
+}
+
+console.log(validPass('passw0rd1CharTooLong'))
+
+function findChildren(dancingBrigade) {
+         let index = 0
+         let arr = dancingBrigade.toLowerCase().split('').sort()
+         let arr1 = [];
+         for (let i = 0; i < arr.length; i++) {
+                  if (arr[i] !== arr[i + 1]) {
+                           arr1.push(arr.slice(index, i + 1))
+                           index = i + 1
+                  } else {
+                           continue
+                  }
+         }
+         return arr1.map((item) => { return item.map((char, index) => { return index === 0 ? char.toUpperCase() : char }).join('') }).join('')
+}
+console.log(findChildren("beeeEBb"))
+
+function alphabetized(s) {
+         return s.replace(/[^a-zA-Z]/gi, "").replace(/\s+/g, "").split('').sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).join('')
+
+}
+
+console.log(alphabetized("!@#$%^&*()_+=-`,"))
+
+
+var validWord = function (dictionary, word) {
+         if (dictionary.length === 0) return false
+         let Sum = ""
+         for (let i = 0; i < dictionary.length; i++) {
+                  for (let k = 0; k < dictionary.length; k++) {
+                           if (k === i) {
+                                    continue
+                           } else {
+                                    Sum += dictionary[k]
+                           }
+                  }
+                  for (let j = 0; j < dictionary.length; j++) {
+                           if (word === dictionary[i] + dictionary[j]) {
+                                    return true
+                           }
+                  }
+         }
+         return false
+};
+
+
+console.log(validWord(['Star', 'Code', 'Wars'], 'WarsStarCode'))
+
+let worddd = "1231231223123131_FILE_NAME.EXTENSION.OTHEREXTENSION"
+regex = /^[0-9].*[a-zA-Z]$/
+function extractFileName(dirtyFileName) {
+         let newWord = dirtyFileName.replace(/^\d+/, "").replace(/^_/, "")
+         return newWord.slice(0, newWord.lastIndexOf('.') - 2)
+}
+let arr = [NaN, 5, 7]
+
+function addArrays(array1, array2) {
+         console.log(array1, array2)
+         if (array1.length === 0) return array2
+         if (array2.length === 0) return array1
+         let arr1 = Number(array1.filter((item) => !isNaN(item)).join(''))
+         let arr2 = Number(array2.filter((item) => !isNaN(item)).join(''))
+         if (arr1 + arr2 < 0) {
+                  return String(arr1 + arr2).replace('-', '').split('').map((item, index) => {
+                           if (index === 0) {
+                                    return Number("-" + item)
+                           } else {
+                                    return Number(item)
+                           }
+                  })
+         } else {
+                  return String(arr1 + arr2).split('').map((item) => { return Number(item) })
+         }
+
+}
+console.log(addArrays([3, 2, 6, 6], [-7, 2, 2, 8]))
