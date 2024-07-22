@@ -2985,4 +2985,151 @@ function addArrays(array1, array2) {
          }
 
 }
-console.log(addArrays([3, 2, 6, 6], [-7, 2, 2, 8]))
+
+let stttrr1 = "-23, 25"
+
+function isValidCoordinates(coordinates) {
+         let checkArr = coordinates.split(',').map((e, arr) => {
+                  let check0 = e.replace(/[^-.0-9]/gi, "*").replace(/ /g, "*").includes('*') ? false : true
+                  if (parseFloat(arr[0]) > 90 || (parseFloat(arr[1]) > 180) || check0 === false) {
+                           return false
+                  } else {
+                           return true
+                  }
+         })
+         return checkArr.some((e) => e === false) ? false : true
+
+}
+console.log(isValidCoordinates(stttrr1))
+
+function moreZeros(s) {
+         let Zcount = 0;
+         let Ocount = 0;
+         let set = new Set();
+         let final = []
+         let arr = s.split('').map(char => {
+                  return char.charCodeAt(0).toString(2).padStart(7, '0')
+         })
+         let filterArr = arr.map((item) => {
+                  Zcount = 0;
+                  Ocount = 0;
+                  for (let i = 0; i < item.length; i++) {
+                           if (item[i] === '0') {
+                                    Zcount += 1
+                           } else {
+                                    Ocount += 1
+                           }
+                  }
+                  return Zcount > Ocount ? item : 0
+         }).filter(e => e !== 0).map(char => {
+                  let ascii = parseInt(char, 2);
+                  return String.fromCharCode(ascii)
+         }).forEach((filterLetter) => {
+                  set.add(filterLetter);
+         })
+         for (let item of set) {
+                  final.push(item)
+         }
+         return final
+
+}
+
+let abccc = 'Look mom, no hands'
+console.log(abccc.split("").map((item) => {
+         return item.charCodeAt(0).toString(16)
+}).join(''))
+
+function isAvalidMessage(message) {
+         let MesArrStr = message.replace(/[^0-9]/g, "-").split(/[0-9]/g).filter(e => e !== "")
+         let MesArrNum = message.split(/[^\d+]/g).filter((e) => e !== "")
+         let obj = {}
+         let final = [];
+         for (let i = 0; i < MesArrNum.length; i++) {
+                  obj = {}
+                  obj['num'] = parseInt(MesArrNum[i]);
+                  obj['str'] = MesArrStr[i];
+
+                  final.push(obj)
+         }
+         console.log(final)
+         return final.every((e) => typeof e.str !== 'undefined' || e.num === e.str.length)
+
+
+
+}
+
+
+
+function binaryToString(binary) {
+         let arr1 = []
+         for (let i = 0; i < binary.length; i += 8) {
+                  arr1.push(parseInt(binary.slice(i, i + 8), 2))
+         }
+         return arr1.map((item) => { return String.fromCharCode(item) }).join('')
+}
+console.log(binaryToString('01100001'))
+
+
+function firstDup(s) {
+         let obj = {};
+         let arr = [];
+         let count = 0;
+         let set = new Set()
+         s.split('').forEach((item) => set.add(item))
+         if (set.size === s.length) return undefined
+         for (let item of set) {
+                  count = 0
+                  obj = {}
+                  for (let j = 0; j < s.length; j++) {
+                           if (item === s[j]) {
+                                    count += 1
+                           }
+                  }
+                  obj['count'] = count
+                  obj['str'] = item
+                  arr.push(obj)
+         }
+         let max = Math.max(...arr.map((item) => { return item.count }))
+         return arr.filter((item) => item.count >= max)[0].str
+}
+
+console.log(firstDup('like'))
+
+
+function SubstitutionCipher(abc1, abc2) {
+         this.encode = function (str) {
+                  let word = "";
+                  for (let i = 0; i < str.length; i++) {
+                           let index = abc1.indexOf(str[i]);
+                           if (index === -1) {
+                                    word += str[i]; // If the character is not in abc1, keep it as is
+                           } else {
+                                    word += abc2[index]; // Substitute the character
+                           }
+                  }
+                  return word;
+         }
+
+         this.decode = function (str) {
+                  let word = "";
+                  for (let i = 0; i < str.length; i++) {
+                           let index = abc2.indexOf(str[i]);
+                           if (index === -1) {
+                                    word += str[i]; // If the character is not in abc2, keep it as is
+                           } else {
+                                    word += abc1[index]; // Substitute the character
+                           }
+                  }
+                  return word;
+         }
+}
+function bingo(ticket, win) {
+         let arr = ticket.map((item) => {
+                  return [item[0].split('').map((char) => { return char.charCodeAt() }), item[1]]
+         })
+         console.log(arr)
+         let filter = arr.filter((item) => item[0].indexOf(item[1]) !== -1)
+         return filter.length >= win ? "Winner!" : "Loser!"
+}
+
+console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 2))
