@@ -3133,3 +3133,198 @@ function bingo(ticket, win) {
 }
 
 console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 2))
+
+
+function stringTransformer(str) {
+         return str.split(' ').reverse().map((char) => {
+                  return char.split('').map((item) => {
+                           if (item >= 'a' && item <= 'z') {
+                                    return item.toUpperCase()
+                           } else {
+                                    return item.toLowerCase()
+                           }
+                  }).join("")
+         }).join(' ');
+}
+
+console.log(stringTransformer('Example string'))
+String.prototype.ipv4Address = function () {
+
+         let rgx = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
+         if (!rgx.test(this)) {
+                  return false;
+         }
+
+         return this.split('.').every((item) => Number(item) >= 0 && Number(item) <= 255);
+}
+
+
+function findHack(arr) {
+         let Goodcount = 0;
+         let Failcount = 0
+         let newArr = arr.map((item) => {
+                  Goodcount = 0
+                  Failcount = 0
+                  let final = item[2].map((char) => {
+                           if (char === 'A') {
+                                    Goodcount += 1
+                                    return 30
+                           } else if (char === 'B') {
+                                    Goodcount += 1
+                                    return 20
+                           } else if (char === 'C') {
+                                    Failcount += 1
+                                    return 10
+                           } else if (char === 'D') {
+                                    Failcount += 1
+                                    return 5
+                           } else {
+                                    Failcount += 1
+                                    return 0
+                           }
+
+                  }).reduce((a, b) => a + b)
+                  if (Goodcount >= 5 && Failcount === 0) final += 20
+                  if (final > 200) final = 200
+                  return [item[0], item[1], final]
+         })
+         console.log(newArr)
+         return newArr.map((item) => {
+                  if (item[1] !== item[2]) {
+                           return item[0]
+                  } else {
+                           return 0
+                  }
+         }).filter((hack) => hack !== 0)
+}
+
+
+
+function maxSum(arr, range) {
+         //coding and coding..
+         let Sum = 0;
+
+         return Math.max(...range.map((item) => {
+                  Sum = 0
+                  for (let i = item[0]; i <= item[1]; i++) {
+                           Sum += arr[i]
+                  }
+                  return Sum
+         }))
+
+}
+let word111 = 102
+let char = String.fromCharCode(word111)
+console.log(char)
+
+function decode(str) {
+         let num = parseInt(str.match(/\d+/)[0])
+
+}
+console.log(decode("1273409kuqhkoynvvknsdwljantzkpnmfgf"))
+
+
+function lowestProduct(input) {
+         if (input.length < 4) return "Number is too small"
+         let arr = [];
+         for (let i = 0; i < input.length; i++) {
+                  console.log(input.slice(i, i + 4))
+                  arr.push(input.slice(i, i + 4).split('').map((item) => { return Number(item) }))
+         }
+         return Math.min(...arr.filter((item) => item.length >= 4).map((item) => { return item.reduce((a, b) => a * b) }))
+
+}
+
+
+function money_value(s) {
+         let newStr = s.replace('$', "0")
+         return newStr
+}
+
+
+function isOddHeavy(n) {
+         console.log(n)
+         let odd = [];
+         let even = []
+         n.forEach((item) => item % 2 === 0 ? even.push(item) : odd.push(item))
+         return Math.min(...odd) > Math.max(...even)
+}
+
+let regx = /\w\s\w$/
+
+String.prototype.trim = function () {
+         return str.replace(/^[ ]+|[ ]+$/g, '');
+}
+console.log('baz\t'.trim())
+
+
+function isPrime(num) {
+         if (num <= 1) return false; // 0 and 1 are not primes
+         if (num <= 3) return true; // 2 and 3 are primes
+         if (num % 2 === 0 || num % 3 === 0) return false; // multiples of 2 or 3 are not primes
+         for (let i = 5; i * i <= num; i += 6) {
+                  if (num % i === 0 || num % (i + 2) === 0) return false;
+         }
+         return true;
+}
+
+function filterPrimeIndices(arr) {
+         let newArr = [];
+         for (let i = 0; i < arr.length; i++) {
+                  if (isPrime(i)) {
+                           newArr.push(arr[i]);
+                  }
+         }
+         return newArr.reduce((a, b) => a + b);
+}
+function minPermutation(n) {
+         if (String(Math.abs(n)).length === 1) return n
+         if (n % 10 === 0 && String(Math.abs(n)).length === 2 && n < 0) return n
+         if (Math.abs(n) < 100 && n < 0) return -Number(String(n).split('').map((item) => Number(item)).sort((a, b) => a - b).filter((e) => !isNaN(e)).join(''))
+         if (Math.abs(n) > 100 && n < 0) {
+                  let arr = String(n).split('').map((item) => Number(item)).sort((a, b) => a - b).filter((e) => !isNaN(e))
+                  let newArr = []
+                  if (arr[0] === 0) {
+                           for (let i = 0; i < arr.length; i++) {
+                                    if (i === 0) {
+                                             let temp = arr[0];
+                                             arr[0] = arr[1];
+                                             arr[1] = temp
+                                    }
+                           }
+                  }
+                  return -Number(arr.join(''))
+
+         }
+         if (Math.abs(n) > 100 && n > 0) {
+                  let arr = String(n).split('').map((item) => Number(item)).sort((a, b) => a - b).filter((e) => !isNaN(e)).join('')
+                  let newArr = []
+                  let index = 0
+
+                  for (let i = 0; i < arr.length; i++) {
+                           if (arr[i] === "0") {
+                                    index += 1
+                                    continue
+                           } else {
+
+                                    newArr.push(arr[i])
+                                    newArr.push(arr.slice(index, i))
+                           }
+                  }
+
+                  return newArr
+
+         }
+}
+
+console.log(minPermutation(344000))
+
+function proofread(str) {
+         let newArr = str.toLowerCase().replace('ie', 'ei').split('.').filter((e) => e !== "").map((item) => { return item.split(' ') })
+
+         return newArr.map((item, index) => { return item.map((char, index) => { return index === 0 ? char.split('').map((letter, index) => { return index === 0 ? letter.toUpperCase() : letter }).join('') : char }).join(' ') }).join('. ') + "."
+
+}
+
+
+console.log(proofread("ThiEr DEcIEt wAs INconcIEVablE.sHe SIeZeD thE moMENT."));
