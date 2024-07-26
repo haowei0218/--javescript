@@ -3328,3 +3328,234 @@ function proofread(str) {
 
 
 console.log(proofread("ThiEr DEcIEt wAs INconcIEVablE.sHe SIeZeD thE moMENT."));
+
+function evenOrOdd(n) {
+         console.log(n)
+         return n % 2 !== 0 ? "Odd" : "Even"
+}
+
+console.log(evenOrOdd[4])
+
+var resultArray = function (nums) {
+         console.log(nums)
+         let arr1 = [];
+         let arr2 = [];
+
+         nums.forEach((item, index) => {
+                  if (index % 2 === 0) {
+                           arr1.push(item)
+                  } else {
+                           arr2.push(item)
+                  }
+         })
+         return [...arr1, ...arr2]
+};
+
+console.log(resultArray([1, 2, 4]))
+
+function calculateString(st) {
+         let filterStr = st.replace(/[^*+-/0-9]/g, "")
+         if (filterStr.includes('+')) {
+                  return String(Math.ceil(filterStr.split('+').map((item) => { return parseInt(item) }).reduce((a, b) => a + b)))
+         } else if (filterStr.includes('-')) {
+                  return String(Math.ceil(filterStr.split('-').map((item) => { return parseInt(item) }).reduce((a, b) => a - b)))
+         } else if (filterStr.includes('*')) {
+                  return String(Math.ceil(filterStr.split('*').map((item) => { return parseInt(item) }).reduce((a, b) => a * b)))
+         } else if (filterStr.includes('/')) {
+                  return String(Math.ceil(filterStr.split('/').map((item) => { return parseInt(item) }).reduce((a, b) => a / b)))
+         }
+
+}
+
+console.log(calculateString("77b8y8o.094e067-5fgkc6p0.9i32a0"))
+function maxSumPath(l1, l2) {
+         // Your code here
+         if (l1.length === 0 && l2.length === 0) return 0;
+
+         // 如果其中一個數組為空，返回另一個數組的元素之和
+
+
+         if (l1.length === 0) return l2.reduce((a, b) => a + b, 0);
+         if (l2.length === 0) return l1.reduce((a, b) => a + b, 0);
+         let arr1 = [];
+         let maxLength = Math.max(l1.length, l2.length);
+         for (let i = 0; i < maxLength; i++) {
+                  let val1 = l1[i] || 0;
+                  let val2 = l2[i] || 0;
+                  arr1.push(Math.max(val1, val2));
+         }
+         return arr1.reduce((a, b) => a + b, 0);
+}
+
+console.log(maxSumPath([1, 2, 3], [4, 5, 6]))
+
+function orderBreaker(input) {
+         //your code
+         let Breaker = 0
+         for (let i = 0; i < input.length; i++) {
+                  if (input[i] > input[i + 1]) {
+                           Breaker = input[i]
+                           break
+                  }
+         }
+         return Breaker
+}
+console.log(orderBreaker([201808, 268661, 492474, 201807, 826277]))
+
+let arr111 = [1, 2, 3];
+let arr222 = ['a', 'b', 'c']
+arr111 = arr222
+console.log(arr111)
+
+function isPalindrome(num) {
+         let str = num.toString();
+         return str === str.split('').reverse().join('');
+}
+
+function palindrome(num) {
+         console.log(num)
+         if (typeof num !== 'number' || num < 0) return "Not valid"
+         let minCount = 0
+         let maxCount = 0
+         let maxObj = {}
+         let minObj = {}
+         while (!isPalindrome(num)) {
+                  num++;
+                  maxCount += 1
+         }
+         maxObj['count'] = maxCount
+         maxObj['num'] = num
+         while (!isPalindrome(num)) {
+                  num--
+                  minCount += 1
+         }
+         minObj['count'] = maxCount
+         minObj['num'] = num
+
+         return [maxObj, minObj]
+
+}
+console.log(palindrome(281))
+
+let g = [1, 2, [3, 4, [5]]];
+let h = g.flat();
+let i = g.flat(2);
+let j = g.flat(Infinity)
+
+console.log(j)
+
+function countElements(a) {
+         let count = 0;
+
+         function countNestedElements(arr) {
+                  arr.forEach(element => {
+                           if (Array.isArray(element)) {
+                                    countNestedElements(element);
+                           } else {
+                                    count += 2;
+                           }
+                  });
+         }
+
+         countNestedElements(a);
+         return count;
+}
+
+console.log(countElements([[[20, 8, [[]]]], [[[[]], 5, [[]]]], [[[[]], [[]], 25]]]))
+
+function group(arr) {
+         let arr1 = [];
+         let final = []
+         let newSet = new Set();
+         arr.forEach((item) => newSet.add(item));
+         for (let item of newSet) {
+                  arr1 = []
+                  for (let j = 0; j < arr.length; j++) {
+                           if (item === arr[j]) {
+                                    arr1.push(arr[j])
+                           } else {
+                                    continue
+                           }
+                  }
+                  final.push(arr1)
+         }
+         return final
+}
+console.log(group([3, 2, 6, 2]))
+
+
+function sumConsecutives(s) {
+         return arr.reduce((acc, curr, i, array) => {
+                  if (i === 0 || curr !== array[i - 1]) {
+                           acc.push(curr);
+                  } else {
+                           acc[acc.length - 1] += curr;
+                  }
+                  return acc;
+         }, []);
+}
+console.log(sumConsecutives([1, 4, 4, 4, 0, 4, 3, 3, 1]))
+
+let word0000 = 'A'
+let word0001 = 'Z'
+let word0002 = 'a'
+let word0003 = 'z'
+let newword = word0000.charCodeAt()
+let newword1 = word0001.charCodeAt()
+let newword2 = word0002.charCodeAt()
+let newword3 = word0003.charCodeAt()
+console.log([newword, newword1, newword2, newword3])
+console.log(String.fromCharCode(92))
+
+
+/**
+ * 
+ * if(item.charCodeAt > 65 &&  item.charCodeAt< 90)
+ */
+function evcryptor(key, message) {
+         let charCode = message.split(' ').map((item) => { return item.split('').map((item) => { return item.charCodeAt() }) })
+         return charCode.map((item) => {
+                  return item.map((char) => {
+                           if ((char >= 65 && char <= 90) && char + key > 90) {
+                                    let code = ((char + key) - 90) + 65
+                                    return String.fromCharCode(code)
+                           } else if ((char >= 65 && char <= 90) && char + key < 65) {
+                                    let code = 90 - (65 - (char + key))
+                                    return String.fromCharCode(code)
+                           } else if ((char >= 97 && char <= 122) && char + key > 122) {
+                                    let code = ((char + key) - 122) + 97
+                                    return String.fromCharCode(code)
+                           } else if ((char >= 97 && char <= 122) && char + key < 97) {
+                                    let code = 122 - (97 - (char + key))
+                                    return String.fromCharCode(code)
+                           } else if (char < 65 && char > 122 && char > 90 && char < 97) {
+                                    return String.fromCharCode(char)
+                           } else if ((char >= 65 && char <= 90) && (char + key >= 65) && (char + key <= 90)) {
+                                    let code = char + key
+                                    return String.fromCharCode(code)
+                           } else if ((char >= 97 && char <= 122) && (char + key >= 97) && (char + key <= 122)) {
+                                    let code = char + key
+                                    return String.fromCharCode(code)
+                           }
+                  }).join('')
+         }).join(' ')
+
+}
+
+console.log(evcryptor(13, 'Caesar Cipher'))
+
+
+function longer(s) {
+         return s.split(' ').sort((a, b) => {
+                  if (a.length === b.length) {
+                           return a.charCodeAt(0) - b.charCodeAt(0)
+                  } else {
+                           return a.length - b.length
+                  }
+         })
+}
+
+console.log(longer("Another Green World"))
+let ss = 'on of'
+
+console.log(ss.charCodeAt())
