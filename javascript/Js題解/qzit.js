@@ -1,3 +1,5 @@
+
+
 const string1 = "hello world";
 string1.indexOf(" ");
 
@@ -3559,3 +3561,171 @@ console.log(longer("Another Green World"))
 let ss = 'on of'
 
 console.log(ss.charCodeAt())
+
+function metting(s) {
+         let arr = s.split(';');
+         return arr.map((item) => { return `(${item.split(':').reverse().join(':').replace(":", ", ").toUpperCase()})` }).sort((a, b) => {
+                  return a.localeCompare(b)
+         }).join('')
+}
+
+console.log(metting("Fred:Corwill;Wilfred:Corwill;Barney:Tornbull;Betty:Tornbull;Bjon:Tornbull;Raphael:Corwill;Alfred:Corwill"))
+
+function autocomplete(input, dictionary) {
+         console.log(input, dictionary)
+         let Input = input.replace(/[^a-zA-Z]/g, "").toUpperCase()
+         let Index = Input.length
+         let filterArr = dictionary.filter(e => e.slice(0, Index).toUpperCase() === Input)
+         if (filterArr.length > 5) return filterArr.slice(0, 6)
+         if (filterArr.length === 0) return []
+         return filterArr
+}
+console.log(autocomplete('a$$#$@i', ['airplane', 'cirport', 'apple', 'ball']))
+
+function sortAnimal(animals) {
+         // Return sorted animals
+         let filter = [...animals]
+         return filter.sort((a, b) => {
+                  if (a.numberOfLegs === b.numberOfLegs) {
+                           return a.name.localeCompare(b.name)
+                  } else {
+                           return a.numberOfLegs - b.numberOfLegs
+                  }
+         })
+}
+console.log(sortAnimal([
+         { name: "Cat", numberOfLegs: 4 },
+         { name: "Snake", numberOfLegs: 0 },
+         { name: "Dog", numberOfLegs: 4 },
+         { name: "Pig", numberOfLegs: 4 },
+         { name: "Human", numberOfLegs: 2 },
+         { name: "Bird", numberOfLegs: 2 }
+]))
+
+Number.prototype.add = function (Num1) {
+         return this + Num1
+}
+Number.prototype.subtract = function (Num1) {
+         return this - Num1
+}
+Number.prototype.multiply = function (Num1) {
+         return this * Num1
+}
+Number.prototype.divide = function (Num1) {
+         return this / Num1
+}
+
+function stringExpansion(s) {
+         let num = s.match(/[0-9]/g)
+         let str = s.match(/[a-z]/gi)
+         let obj = {}
+         let final = [];
+         let word = ""
+         for (let i = 0; i < num.length; i++) {
+                  obj = {}
+                  obj['str'] = str[i];
+                  obj['count'] = num[i];
+                  final.push(obj)
+         }
+         return final.map((item) => {
+                  word = ""
+                  for (let i = 0; i < item.count; i++) {
+                           word += item.str
+                  }
+                  return word
+         }).join('')
+}
+console.log(stringExpansion('3D2a5d2f'))
+
+function countAdjacentPairs(searchString) {
+         let arr = searchString.split(' ');
+         let count = 0;
+         let index = 0;
+         let final = []
+         for (let i = 0; i < arr.length - 1; i++) {
+                  for (let j = 0; j < arr.length - 1; j++) {
+                           if (arr[i].toUpperCase() === arr[j].toUpperCase()) {
+                                    continue
+                           } else {
+                                    final.push(arr.slice(index, j))
+                                    index = j
+                                    break
+                           }
+                  }
+         }
+         return final
+
+}
+console.log(countAdjacentPairs('banana banana banana'))
+
+//[68, 84, 68, 40,124]
+//[ ':D', ':D', ':(', 'T_T' ]
+let arr1234 = [':D', 'T_T', ':D', ':(', ':|']
+let arr12345 = arr1234.map((item) => { return item.charCodeAt(item.length - 1) })
+
+function sortEmotions(arr, order) {
+         let obj = {}
+         let final = []
+         if (order) {
+                  arr.forEach((item) => {
+                           obj = {}
+                           if (item === ":D") {
+                                    obj['emo'] = item
+                                    obj['lev'] = "A"
+                                    final.push(obj)
+                           } else if (item === ':)') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "B"
+                                    final.push(obj)
+                           }
+                           else if (item === ':|') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "C"
+                                    final.push(obj)
+                           } else if (item === ':(') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "E"
+                                    final.push(obj)
+                           } else if (item === 'T_T') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "F"
+                                    final.push(obj)
+                           }
+                  })
+                  return final.sort((a, b) => {
+                           return a.lev.localeCompare(b.lev)
+                  }).map((item) => { return Object.values(item).join('').replace(/[ABCEF]/g, "") })
+         } else {
+                  arr.forEach((item) => {
+                           obj = {}
+                           if (item === ":D") {
+                                    obj['emo'] = item
+                                    obj['lev'] = "A"
+                                    final.push(obj)
+                           } else if (item === ':)') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "B"
+                                    final.push(obj)
+                           }
+                           else if (item === ':|') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "C"
+                                    final.push(obj)
+                           } else if (item === ':(') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "E"
+                                    final.push(obj)
+                           } else if (item === 'T_T') {
+                                    obj['emo'] = item
+                                    obj['lev'] = "F"
+                                    final.push(obj)
+                           }
+                  })
+                  return final.sort((a, b) => {
+                           return b.lev.localeCompare(a.lev)
+                  }).map((item) => { return Object.values(item).join('').replace(/[ABCEF]/g, "") })
+         }
+
+}
+
+console.log(sortEmotions([':D', 'T_T', ':D', ':(']))
