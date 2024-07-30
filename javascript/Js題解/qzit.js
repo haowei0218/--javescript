@@ -3729,3 +3729,196 @@ function sortEmotions(arr, order) {
 }
 
 console.log(sortEmotions([':D', 'T_T', ':D', ':(']))
+
+
+function hasSubpattern(string) {
+         if (string.length === 1) return false
+         let newSet = new Set(string);
+         let word = ""
+         newSet.forEach((char) => word += char)
+         let count = string.length / word.length
+         if (string.length % word.length !== 0) return false
+         return word.repeat(count) === string
+
+}
+console.log(hasSubpattern('abcd'))
+
+
+function palindrome(num, s) {
+         let palindNum = num
+         let final = []
+         while (final.length < s) {
+                  if (isPalindormeNum(palindNum)) {
+                           final.push(palindNum)
+                           palindNum += 1
+                  } else {
+                           palindNum += 1
+                  }
+         }
+         return final
+
+}
+
+function isPalindormeNum(num) {
+         return String(num).split('').reverse().join('') === String(num) && num > 10 ? true : false
+}
+console.log(isPalindormeNum(1221))
+console.log(palindrome(6, 4))
+
+
+
+function rankings(arr) {
+         let count = 0
+         let final = []
+         for (let i = 0; i < arr.length; i++) {
+                  count = 0
+                  for (let j = 0; j < arr.length; j++) {
+                           if (i === j) {
+                                    continue
+                           } else if (arr[i] > arr[j]) {
+                                    count += 1
+                           }
+                  }
+                  final.push(arr.length - count)
+
+         }
+         return final
+}
+
+console.log(rankings([22, 33, 18, 9, 110, 4, 1, 88, 6, 50]))
+
+function zeroPlentiful(arr) {
+         let count = 0
+         let final = 0;
+         for (let i = 0; i < arr.length; i++) {
+                  if (arr[i] === 0) {
+                           count += 1
+                  } else {
+                           if (count >= 4) {
+                                    final += 1
+                                    count = 0
+                           }
+                           count = 0
+                  }
+         }
+         return final
+}
+console.log()
+console.log(zeroPlentiful([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, -2, -1]))
+
+let testWord = "abbbbbc"
+let adddd = testWord.replace(/([a-zA-Z])\1+/g, match => match[0])
+
+console.log(adddd)
+
+function rotate(str) {
+         let final = [];
+         let word = str
+         for (let i = 0; i < str.length; i++) {
+                  let arr = word.split('');
+                  let firstStr = arr.shift();
+                  let second = arr.push(firstStr)
+                  word = arr.join('')
+                  final.push(arr.join(''))
+         }
+         return final
+}
+console.log(rotate('hello'))
+
+/**
+ 使用 || [] 来确保 matingPairs 始终是一个数组，即使没有匹配的配对。
+将配对字符串拼接为一个字符串 matingPairsStr。
+直接判断配对数组的长度是否大于等于 x 来确定布尔值 isEnoughPairs。
+返回拼接后的配对字符串和布尔值
+ */
+
+function bears(x, s) {
+         let matingPairs = s.match(/(B8|8B)/g) || [];
+         let matingPairsStr = matingPairs.join('');
+         let isEnoughPairs = matingPairs.length >= x;
+         return [matingPairsStr, isEnoughPairs];
+}
+
+console.log(bears(0, "888e8kBBlglj888cj8"))
+
+function uncollapse(digits) {
+         return digits
+                  .replace(/zero|one|two|three|four|five|six|seven|eight|nine/g, match => match + ' ')
+                  .trim();
+}
+
+console.log(uncollapse('zeroonetwo'))
+
+function numbersOfLetters(integer) {
+         let obj = {
+                  "0": "zero",
+                  "1": "one",
+                  "2": "two",
+                  "3": "three",
+                  "4": "four",
+                  "5": "five",
+                  "6": "six",
+                  "7": "seven",
+                  "8": "eight",
+                  "9": "nine"
+         }
+         let str = String(integer)
+         let final = []
+         let word = ""
+         if (integer < 10) {
+                  final.push(String(str))
+                  while (str.length !== 4) {
+                           final.push(obj[String(str.length)])
+                  }
+         } else {
+                  str = String(integer).split('').map((item) => { return obj[item] }).join('')
+                  final.push(str)
+                  word = str
+                  while (word.length !== 4) {
+                           final.push(obj[String(word.length)])
+                  }
+         }
+         return final
+
+}
+
+function findUnique(numbers) {
+         let final = 0;
+         let count = 0
+         let newSet = new Set(numbers)
+         for (let item of newSet) {
+                  count = 0
+                  for (let j = 0; j < numbers.length; j++) {
+                           if (item === numbers[j]) {
+                                    count += 1
+
+                           }
+
+                  }
+                  if (count > 1) {
+                           continue
+                  } else {
+                           final = item
+                           break
+                  }
+         }
+         return final
+}
+console.log(findUnique([1234567]))
+
+function findUnique(numbers) {
+         return numbers.reduce((a, b) => a ^ b); //用^這個符號可以找到陣列中唯一不重複的元素
+}
+
+
+function countRepeats(str) {
+         return str.replace(/([a-zA-Z])\1+/g, match => match[0])
+}
+
+function getConsectiveItems(items, key) {
+
+         return items.match(!`${key}`)
+}
+
+console.log(getConsectiveItems('ascasdaiiiasdacasdiiiiicasdasdiiiiiiiiiiisdasdasdiii', 'i'))
+
