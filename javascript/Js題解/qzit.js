@@ -3904,7 +3904,7 @@ function findUnique(numbers) {
          }
          return final
 }
-console.log(findUnique([1234567]))
+
 
 function findUnique(numbers) {
          return numbers.reduce((a, b) => a ^ b); //用^這個符號可以找到陣列中唯一不重複的元素
@@ -3915,10 +3915,189 @@ function countRepeats(str) {
          return str.replace(/([a-zA-Z])\1+/g, match => match[0])
 }
 
-function getConsectiveItems(items, key) {
 
-         return items.match(!`${key}`)
+function sortArray(array) {
+         return array.sort((a, b) => {
+                  if (a % 2 !== 0 && b % 2 !== 0) {
+                           return a - b
+                  } else {
+                           return b - a
+                  }
+         })
 }
 
-console.log(getConsectiveItems('ascasdaiiiasdacasdiiiiicasdasdiiiiiiiiiiisdasdasdiii', 'i'))
+console.log(sortArray([5, 3, 2, 8, 1, 4]))
 
+function wordMash(arr) {
+         let arr1 = []
+         for (let i = 0; i < arr.length - 1; i++) {
+                  arr1.push(arr.slice(i, i + 2))
+         }
+         return arr1.map((item) => {
+                  let spStr = SplitStr1(item[0])
+                  let spStr1 = SplitStr2(item[1])
+                  return spStr.map((char) => {
+                           if (spStr1.includes(char)) {
+                                    return char
+                           }
+                  }).filter(e => typeof e !== 'undefined').join('')
+
+         }).join('')
+
+}
+
+function SplitStr1(str) {
+         let str1 = str.split("").reverse().join('')
+         let arr = []
+         for (let i = 0; i < str1.length; i++) {
+                  let char = str1.slice(0, i + 1).split('').reverse().join('')
+                  arr.push(char)
+         }
+         return arr
+}
+function SplitStr2(str) {
+         let arr = []
+         for (let i = 0; i < str.length; i++) {
+                  let char = str.slice(0, i + 1)
+                  arr.push(char)
+         }
+         return arr
+}
+
+function notPrimes(a, b) {
+         let arr = [];
+         for (let i = a; i < b; i++) {
+                  if (!isPrime(i) && TestPrimes(i)) {
+                           arr.push(i)
+                  }
+         }
+         return arr
+}
+
+function TestPrimes(num) {
+         return String(num).replace(/[2357]/g, "") === ""
+}
+
+
+
+
+function digitSum(num) {
+         return String(num).split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+}
+
+function solve(n) {
+         let maxSum = 0;
+         let final = []
+         let word = ""
+         let newSet = new Set();
+         for (let i = Math.round(n / 2); i <= n; i++) {
+                  word = ""
+                  let a = i;
+                  let b = n - i;
+                  word += a
+                  word += b
+                  final.push(word)
+
+         }
+         final.forEach((item) => {
+                  let sum = digitSum(item)
+                  newSet.add(sum)
+         })
+         return Math.max(...newSet)
+
+}
+console.log(solve(7019))
+
+
+function pointsNumber(radius) {
+         let arr = [];
+         let arr1 = [];
+         for (let i = 1; i < radius * 2 + 1; i += 2) {
+                  arr.push(i)
+         }
+         for (let i = radius * 2 + 1; i >= 0; i -= 2) {
+                  arr1.push(i)
+         }
+         console.log([...arr, ...arr1])
+         return [...arr, ...arr1].reduce((a, b) => a + b)
+}
+
+console.log(pointsNumber(2))
+
+let range = function (start = 1, step = 1, end) {
+         let arr = []
+         if (end === undefined) {
+                  end = start;
+                  start = 1;
+         }
+         for (let i = start; i <= end; i += step) {
+                  arr.push(i)
+         }
+         return arr
+}
+
+
+function palindrome345(num) {
+         console.log(num)
+         if (typeof num !== 'number' || isNaN(num) || num < 0 || Math.floor(num) !== num) return "Not valid"
+         if (num < 10) return false
+         let arr = []
+         let newArr = String(num).split('');
+         for (let i = 0; i <= newArr.length; i++) {
+                  for (let j = i; j <= newArr.length; j++) {
+                           let SliceStr = newArr.slice(i, j).join('')
+                           if (SliceStr === "" || SliceStr.length <= 1) {
+                                    continue
+                           } else {
+                                    arr.push(SliceStr)
+                           }
+
+                  }
+         }
+         function Judgment(str) {
+                  return str.split('').reverse().join('') === str
+         }
+         return arr.filter(e => Judgment(e) === true).length > 0
+}
+console.log(palindrome345(1551))
+
+
+function eqAll(iterable) {
+         if (iterable === "" || iterable.length === 0) return true
+         if (Array.isArray(iterable)) {
+                  return iterable.every((val, _, arr) => val === arr[0])
+         } else if (typeof iterable === 'string') {
+                  return iterable.split('').every((val, _, arr) => val === arr[0])
+         }
+}
+console.log()
+
+function max(...args) {
+         return Math.max(...parseInt(args))
+}
+
+console.log(max(1, 2, 3, 4, [5, [6, [7]]]))
+
+console.log(num)
+let Num1 = num
+let Num2 = num
+if (typeof num !== 'number' || num < 0) return "Not valid"
+while (!isPalindrome(Num1) || !isPalindrome(Num2)) {
+         Num1 += 1;
+         Num2 -= 1;
+
+}
+function simplify(number) {
+         //You can do this!
+         let arr = []
+         let word = ""
+         let str = String(number)
+         for (let i = 0; i < str.length; i++) {
+                  word = ""
+                  arr.push(word += `${str[i]}*${Math.pow(10, str.length - i - 1)}`)
+         }
+         return arr
+
+}
+
+String.fromCharCode()
