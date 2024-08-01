@@ -1,5 +1,7 @@
 
 
+
+
 const string1 = "hello world";
 string1.indexOf(" ");
 
@@ -4070,23 +4072,7 @@ function eqAll(iterable) {
                   return iterable.split('').every((val, _, arr) => val === arr[0])
          }
 }
-console.log()
 
-function max(...args) {
-         return Math.max(...parseInt(args))
-}
-
-console.log(max(1, 2, 3, 4, [5, [6, [7]]]))
-
-console.log(num)
-let Num1 = num
-let Num2 = num
-if (typeof num !== 'number' || num < 0) return "Not valid"
-while (!isPalindrome(Num1) || !isPalindrome(Num2)) {
-         Num1 += 1;
-         Num2 -= 1;
-
-}
 function simplify(number) {
          //You can do this!
          let arr = []
@@ -4100,4 +4086,183 @@ function simplify(number) {
 
 }
 
-String.fromCharCode()
+
+class Person {
+         constructor(firstName, LastName) {
+                  this.first = firstName;
+                  this.last = LastName
+         }
+         firstName() {
+                  return this.first
+         }
+         lastName() {
+                  return this.last
+         }
+         getName() {
+                  return this.first + " " + this.last
+         }
+         get name() {
+                  return this.first + " " + this.last
+         }
+         set name(full) {
+                  let newName = full.split(' ');
+                  this.first = newName[0];
+                  this.last = newName[1]
+         }
+
+}
+
+function midpointSum(arr) {
+         let left = 0;
+         let right = 0
+         for (let index = 1; index < arr.length; index++) {
+                  left = arr.slice(0, index).reduce((a, b) => a + b)
+                  right = arr.slice(index + 1, arr.length).reduce((a, b) => a + b)
+                  if (left === right) {
+                           return index
+                  }
+         }
+}
+console.log(midpointSum([4, 1, 7, 9, 3, 9]))
+
+let grex = /^[1-9]{2}:[1-5]{2}:[1-5]{2}/
+
+String.prototype.toSeconds = function () {
+         //your code here
+         console.log(this)
+         let testStr = /^\d{2}:[0-5]\d:[0-5]\d$/
+         let test2 = /[^:0-9]/g
+         if (testStr.test(this)) {
+                  return this.split(":").map((item, index) => {
+                           if (index === 0) {
+                                    return parseInt(item) * 3600
+                           } else if (index === 1) {
+                                    return parseInt(item) * 60
+                           } else {
+                                    return parseInt(item)
+                           }
+                  }).reduce((a, b) => a + b)
+         } else {
+                  return null
+         }
+}
+
+
+
+function sepStr(str) {
+         let arrStr = str.split(' ');
+         let word = []
+         let final = []
+         for (let i = 0; i < arrStr.length; i++) {
+                  word = []
+                  for (let j = 0; j < arrStr.length; j++) {
+                           if (arrStr[j][i] === undefined) {
+                                    word.push("")
+                           } else {
+                                    word.push(arrStr[j][i])
+                           }
+                  }
+                  final.push(word)
+         }
+         return final
+}
+
+console.log(sepStr("The Mitochondria is the powerhouse of the cell"))
+
+function smile(text) {
+         return text.replace(":(", ":)").replace(":[", ":]")
+}
+console.log(smile(':(:[:(:[:(:['))
+
+function wordCount(s) {
+         let str = s.match(/[a-zA-Z]+/g)
+         console.log(str)
+         let arr = ["a", "the", "on", "at", "of", "upon", "in", "as"]
+
+         return str.filter((e) => !arr.includes(e.toLowerCase())).length
+}
+
+console.log(wordCount("I’d been using my sphere as a stool. I traced counterclockwise circles on it with my fingertips and it shrank until I could palm it. My bolt had shifted while I’d been sitting. I pulled it up and yanked the pleats straight as I careered around tables, chairs, globes, and slow-moving fraas. I passed under a stone arch into the Scriptorium. The place smelled richly of ink. Maybe it was because an ancient fraa and his two fids were copying out books there. But I wondered how long it would take to stop smelling that way if no one ever used it at all; a lot of ink had been spent there, and the wet smell of it must be deep into everything."))
+
+function scramble(str1, str2) {
+         let maxLength = Math.max(str1.length, str2.length)
+         if (maxLength === str1.length) {
+                  let count = 0
+                  let str_a = str1.toLowerCase().split('').sort().join('');
+                  let str_b = str2.toLowerCase().split('').sort().join('');
+                  for (let i = 0; i < str_b.length; i++) {
+                           if (str_a.includes(str_b[i])) {
+                                    count += 1
+                           } else {
+                                    continue
+                           }
+                  }
+                  return count === str_b.length
+         } else if (maxLength === str2.length) {
+                  let count = 0
+                  let str_a = str1.toLowerCase().split('').sort().join('');
+                  let str_b = str2.toLowerCase().split('').sort().join('');
+                  for (let i = 0; i < str_a.length; i++) {
+                           if (str_b.includes(str_a[i])) {
+                                    count += 1
+                           } else {
+                                    continue
+                           }
+                  }
+                  return count === str_a.length
+         } else if (str1.length === str2.length) {
+                  let str_a = str1.split('').sort().join('');
+                  let str_b = str2.split('').sort().join('');
+                  return str_a === str_b
+         }
+}
+
+console.log(scramble('scriptjavx', 'javascript'))
+
+
+function transformString(string) {
+         return string.replace(/([a-zA-Z])\1+/g, v => v.toLowerCase() === v ? v.toUpperCase() : v.toLowerCase());
+
+
+}
+function evaluate(arr) {
+         //TODO
+         let str = arr.join('')
+         console.log(str)
+         let result = eval(str)
+         for (let i = 0; i < str.length; i++) {
+                  if (i % 2 !== 0 && typeof Number(str[i]) === 'number') {
+                           return undefined
+                  } else if (i % 2 == 0 && typeof Number(str[i]) !== 'number') {
+                           return undefined
+                  }
+         }
+         return result
+}
+console.log(evaluate(['+', '10', '+', '20', '*', '3']))
+
+function toInteger(n) {
+         console.log(n)
+         if (typeof n === 'boolean') return 0
+         if (typeof n === 'object') return 0
+         if (typeof n === 'function') return 0
+         if (typeof n === 'number') return Number(String(n).replace(/\.\d+/g, ""))
+         return Number(n.replace(/\.\d+/g, ""))
+}
+//最佳解答
+function toInteger(n) {
+         return 0 | n;
+         //使用 0 | n 是一種簡潔的方法來將值轉換為整數，
+         //這是利用了 JavaScript 中的位運算特性。
+         //這個技巧利用了位運算中的位或（bitwise OR）操作
+         //它會將 n 轉換為 32 位整數。這樣可以丟棄小數部分，並將非數字值轉換為 0
+}
+
+console.log(typeof true)
+
+
+const largestArrangement = array => {
+         return parseInt(array.sort((a, b) => String(b)[0] - String(a)[0]).join(''))
+}
+
+
