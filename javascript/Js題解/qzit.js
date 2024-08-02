@@ -4266,3 +4266,76 @@ const largestArrangement = array => {
 }
 
 
+function sortStringsByVowels(strings) {
+         let obj = {}
+         let final = []
+         strings.forEach((item, index) => {
+                  obj = {}
+                  let itemCount = item.match(/[aeiouAEIOU]{1,}/g)
+                  if (itemCount === null) {
+                           obj['word'] = item
+                           obj['count'] = 0
+                           obj['sort'] = index
+                           final.push(obj)
+                  } else {
+
+                           let arr = itemCount.map((item) => { return item.length })
+                           obj['word'] = item
+                           obj['count'] = Math.max(...arr)
+                           obj['sort'] = index
+                           final.push(obj)
+                  }
+
+         })
+         return final.sort((a, b) => {
+                  if (a.count === b.count) {
+                           return a.sort - b.sort
+                  } else {
+                           return b.count - a.count
+                  }
+         }).map((item) => { return item.word })
+}
+
+console.log(sortStringsByVowels(["jyn", "joan", "jimmy", "joey"]))
+
+
+function palindrome(num) {
+         //Code goes here 
+         console.log(num)
+         if (typeof num !== 'number' || isNaN(num) || num < 0 || Math.floor(num) !== num) return "Not valid"
+         if (num < 10) return "No palindromes found"
+         let arr = []
+         let newArr = String(num).split('');
+         for (let i = 0; i <= newArr.length; i++) {
+                  for (let j = i; j <= newArr.length; j++) {
+                           let SliceStr = newArr.slice(i, j).join('')
+                           if (SliceStr === "" || SliceStr.length <= 1 || SliceStr[0] === "0") {
+                                    continue
+                           } else if (arr.includes(SliceStr)) {
+                                    continue
+                           } else {
+                                    arr.push(SliceStr)
+                           }
+
+                  }
+         }
+         function Judgment(str) {
+                  return str.split('').reverse().join('') === str
+         }
+
+         let final = arr.filter(e => Judgment(e) === true && e > 10).map((item) => { return parseInt(item) })
+         return final.length > 0 ? final.sort((a, b) => a - b) : "No palindromes found"
+}
+
+console.log(palindrome(1002001))
+
+var isSquare = function (arr) {
+         //Are they square?
+         function judgmentNum(num) {
+                  return Math.floor(Math.sqrt(num)) === Math.sqrt(num)
+         }
+         console.log(arr.flat(Infinity))
+         return arr.flat(Infinity).every((e) => judgmentNum(e))
+}
+
+console.log(isSquare([1, 4, 9, [16, 81, [85]], 54, 85]))
