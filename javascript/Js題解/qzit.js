@@ -4339,3 +4339,69 @@ var isSquare = function (arr) {
 }
 
 console.log(isSquare([1, 4, 9, [16, 81, [85]], 54, 85]))
+
+function balance(arr1, arr2) {
+         //CODE HERE!
+         let newSet = new Set(arr1);
+         let newSet1 = new Set(arr2);
+         let count_1 = 0;
+         let obj_1 = {}
+         let final_1 = []
+         let count_2 = 0;
+         let obj_2 = {}
+         let final_2 = []
+
+         newSet.forEach((item) => {
+                  obj_1 = {}
+                  count_1 = 0
+                  for (let i = 0; i < arr1.length; i++) {
+                           if (item === arr1[i]) {
+                                    count_1 += 1
+                           }
+                  }
+                  obj_1['letter'] = item
+                  obj_1['count'] = count_1
+                  final_1.push(obj_1)
+         })
+         newSet1.forEach((item) => {
+                  obj_2 = {}
+                  count_2 = 0
+                  for (let i = 0; i < arr2.length; i++) {
+                           if (item === arr2[i]) {
+                                    count_2 += 1
+                           }
+                  }
+                  obj_2['letter'] = item
+                  obj_2['count'] = count_2
+                  final_2.push(obj_2)
+         })
+
+         console.log(final_1, final_2)
+         if (final_1.length !== final_2.length) {
+                  return false
+         } else {
+                  final_1.sort((a, b) => {
+                           return a.count - b.count
+                  })
+                  final_2.sort((a, b) => {
+                           return a.count - b.count
+                  })
+
+                  for (let i = 0; i < final_1.length; i++) {
+                           if (final_1[i].count !== final_2[i].count) {
+                                    return false
+                           }
+                  }
+                  return true
+         }
+
+}
+
+console.log(balance(["a", "a", "a", "a", "a", "b", "b", "b"], ["c", "c", "c", "c", "c", "d", "d", "d"]))
+
+function commas(num) {
+         //Add some commas!
+         return String(num.toLocaleString())
+}
+
+console.log(commas(-1000))
