@@ -4327,7 +4327,6 @@ function palindrome(num) {
          return final.length > 0 ? final.sort((a, b) => a - b) : "No palindromes found"
 }
 
-console.log(palindrome(1002001))
 
 var isSquare = function (arr) {
          //Are they square?
@@ -4338,7 +4337,6 @@ var isSquare = function (arr) {
          return arr.flat(Infinity).every((e) => judgmentNum(e))
 }
 
-console.log(isSquare([1, 4, 9, [16, 81, [85]], 54, 85]))
 
 function balance(arr1, arr2) {
          //CODE HERE!
@@ -4397,11 +4395,62 @@ function balance(arr1, arr2) {
 
 }
 
-console.log(balance(["a", "a", "a", "a", "a", "b", "b", "b"], ["c", "c", "c", "c", "c", "d", "d", "d"]))
-
 function commas(num) {
          //Add some commas!
          return String(num.toLocaleString())
 }
 
-console.log(commas(-1000))
+
+function solve1(a, b) {
+         let count = 0
+         let count1 = 0
+         let arr1 = [...a.split('')]
+         let arr2 = [...b.split('')]
+         let newSet = new Set(arr1);
+         let newSet1 = new Set(arr2);
+         let obj = {};
+         let obj1 = {};
+         let final = [];
+         let final2 = []
+         let result = [];
+         let result1 = []
+         newSet.forEach((item) => {
+                  obj = {}
+                  count = 0
+                  for (let i = 0; i < arr1.length; i++) {
+                           if (item === arr1[i]) {
+                                    count += 1
+                           }
+
+                  }
+                  obj['letter'] = item;
+                  obj['count'] = count
+                  final.push(obj)
+         })
+         newSet1.forEach((item) => {
+                  obj1 = {}
+                  count1 = 0
+                  for (let i = 0; i < arr2.length; i++) {
+                           if (item === arr2[i]) {
+                                    count1 += 1
+                           }
+
+                  }
+                  obj1['letter'] = item;
+                  obj1['count'] = count1
+                  final2.push(obj1)
+         })
+         for (let i = 0; i < final.length; i++) {
+                  for (let j = 0; j < final2.length; j++) {
+                           if (final[i].letter === final2[j].letter && final[i].count === final2[j].count) {
+                                    result.push(final2[j])
+                                    continue
+                           }
+                  }
+         }
+         return result.length === arr1.length ? arr1.length - arr2.length : 0
+
+
+}
+
+console.log(solve1("axyz", "yxz"))
