@@ -3254,7 +3254,6 @@ function isOddHeavy(n) {
          return Math.min(...odd) > Math.max(...even)
 }
 
-let regx = /\w\s\w$/
 
 String.prototype.trim = function () {
          return str.replace(/^[ ]+|[ ]+$/g, '');
@@ -4454,3 +4453,514 @@ function solve1(a, b) {
 }
 
 console.log(solve1("axyz", "yxz"))
+
+
+function combineStrings(...args) {
+         let word = ""
+         args.forEach((item, index) => {
+                  for (let i = 0; i < item.length; i++) {
+                           word += item[i][index]
+                  }
+         })
+         return word
+
+}
+
+
+console.log(combineStrings('abc', '123', '@#$%@$'))
+
+function decrypt(encryption) {
+         let str = 'abcdefghijklmnopqrstuvwxyz'
+         let final_word = encryption.replace(/([^a-zA-Z])/g, "").split('').sort().join("")
+         let count = 0;
+         let arr = ""
+         for (let i = 0; i < str.length; i++) {
+                  count = 0
+                  for (let j = 0; j < final_word.length; j++) {
+                           if (str[i] === final_word[j]) {
+                                    count += 1
+                           }
+                  }
+                  arr += String(count)
+
+         }
+         return arr
+
+}
+
+console.log(decrypt('$aaaa#bbb*cc^fff!z'))
+
+function checkThreeAndTwo(array) {
+         let newSet = new Set(array)
+         if (newSet.size !== 2) return false
+         let count1 = 0;
+         let count2 = 0
+         let final = []
+         for (let item of newSet) {
+                  count1 = 0
+                  for (let i = 0; i < array.length; i++) {
+                           if (item === array[i]) {
+                                    count1 += 1
+                           }
+                  }
+                  final.push(String(count1))
+         }
+
+         let finalword = final.join('')
+         return finalword !== "23" && finalword !== "32" ? false : true
+}
+
+function getLargerNumbers(a, b) {
+         let max = 0
+         let final = []
+
+         for (let i = 0; i < b; i++) {
+
+                  final.push(Math.max(a[i], b[i]))
+         }
+         return final
+}
+
+function sumNoDuplicates(numList) {
+         // ...
+         let newSet = new Set(numList)
+         let obj = {}
+         let count = 0
+         let final = []
+         console.log(newSet)
+         for (let item of newSet) {
+                  obj = {}
+                  count = 0
+                  for (let i = 0; i < numList.length; i++) {
+                           if (item === numList[i]) {
+                                    count += 1
+                           }
+
+                  }
+                  obj['letter'] = item;
+                  obj['count'] = count
+                  final.push(obj)
+         }
+         return final.filter((item) => item.count === 1).map((item) => { return item.letter }).reduce((a, b) => a + b)
+}
+console.log(sumNoDuplicates([1, 1, 1, 2, 3]))
+
+const sequenceSum = (begin, end, step) => {
+         // May the Force be with you
+         let sum = 0;
+         for (let i = 0; i <= end * step; i += step) {
+                  sum += i
+         }
+         return sum
+};
+
+function nothingSpecial(str) {
+         //your code here
+         if (typeof str !== 'string') return "Not a string!"
+         return str.replace(/[^ a-zA-Z0-9]/g, "")
+}
+console.log(nothingSpecial("' S]r(2	(y%nF=<"))
+
+function tailSwap(arr) {
+         // your code here
+         return arr.match(/:\+/g)
+}
+
+console.log(tailSwap('abc:123'))
+
+function showMe(yourID) {
+         let strFormat = /^[a-zA-Z]+\-[a-zA-Z]+$/
+         let strFormat1 = yourID.split(" ")
+         return strFormat.test(yourID) || strFormat1.length === 1
+}
+
+console.log(showMe('Bernard'))
+
+function squeakyClean(arr) {
+         // so clever
+         // such best practice
+         console.log(arr)
+         return arr.filter((item) => parseInt(item) !== 0 && item !== null && item !== undefined && item !== "")
+}
+let num111 = 529;
+console.log(num111.toString(2).match(/^10+1$/g))
+console.log(squeakyClean(['click1', 'click2', null, '', '', 'submitForm', 0]))
+
+function add(arr) {
+         let final = []
+         let sum = 0;
+         if (arr.length < 2) return arr
+         for (let i = 0; i < arr.length; i++) {
+
+                  sum = arr.slice(0, i + 1).reduce((a, b) => a + b)
+                  final.push(sum)
+                  console.log(sum)
+         }
+         return final
+}
+
+console.log(add([1, 2, 3, 4, 5]))
+
+String.prototype.reverse = function () {
+         this.split('').reverse().join('')
+}
+
+
+
+function getNumberOfSquares(n) {
+         // your code here
+         let count = 0
+         let final = 0
+         for (let i = 1; i <= n; i++) {
+                  if (count >= n) {
+                           final = i
+                           break;
+                  } else {
+                           count += Math.pow(i, 2)
+                  }
+         }
+         return final
+}
+
+console.log(getNumberOfSquares(2))
+
+
+function TrimStr(str) {
+         return str.trim();
+}
+console.log(TrimStr(" 123 "))
+
+function whatday(num) {
+
+         // put your code here
+         switch (num) {
+                  case 1:
+                           return "Sunday"
+                  case 2:
+                           return "Monday"
+                  case 3:
+                           return "Tuesday"
+                  case 4:
+                           return "Wednesday"
+                  case 5:
+                           return "Thursday"
+                  case 6:
+                           return "Friday"
+                  case 7:
+                           return 'Saturday'
+                  default:
+                           return "Wrong, please enter a number between 1 and 7"
+         }
+
+
+
+}
+
+function translate(speech, vocabulary) {
+         let word = speech.split(' ');
+
+}
+
+
+let arr1 = [
+         [' ', ' ', ' ', ' ', ' '],
+         [' ', ' ', ' ', ' ', ' '],
+         [' ', 'x', ' ', ' ', ' '],
+         [' ', ' ', ' ', '>', ' '],
+         [' ', ' ', ' ', ' ', ' ']
+]
+
+console.log(arr1.flat(Infinity))
+
+function generateChatRoomNames(users) {
+         if (users.length === 0) return []
+         if (users.length === 1) return [users[0].split(' ').slice(0, 1).join('').split('').map((item, index) => {
+                  return index === 0 ? item.toUpperCase() : item.toLowerCase()
+         }).join('')]
+         if (users.length >= 2) {
+                  let first = new Set();
+                  let last = new Set();
+                  users.forEach((item) => { first.add(item.split(' ')[0]) })
+                  users.forEach((item) => { last.add(item.split(' ')[1]) })
+                  let final = []
+                  let result = []
+                  for (let item in first) {
+                           users.forEach((letter) => {
+                                    if (letter.includes(item)) {
+                                             final.push(LetterToUpper(item))
+                                    } else {
+                                             final.push(letter)
+                                    }
+                           })
+                  }
+                  for (let item in last) {
+                           result = final.map((letter) => {
+                                    if (letter.includes(item)) {
+                                             return item.split(' ')[0] + item.split(' ')[1][0].toUpperCase()
+                                    } else {
+                                             return letter
+                                    }
+                           })
+                  }
+                  return result
+         }
+}
+
+function LetterToUpper(letter) {
+         return letter.split('').map((item, index) => {
+                  return index === 0 ? item.toUpperCase() : item.toLowerCase()
+         }).join('')
+
+}
+
+console.log(generateChatRoomNames(["Joe Bloggs", "John Smith", "Jane Doe"]))
+
+
+
+
+
+function findGlasses(arr) {
+
+         return arr.filter((e) => e.match(/^O\-+O$/g) !== null)
+}
+console.log(findGlasses(['phone', 'O-O', 'coins', 'keys']))
+
+function solution(a, b) {
+
+         let num1 = parseInt(a)
+         let num2 = parseInt(b)
+         let max = Math.max(num1, num2);
+         let min = Math.min(num1, num2);
+         return `${min}${max}${min}`
+}
+
+
+
+
+function mergeArrays(arr1, arr2) {
+         return arr1.concat(arr2).sort((a, b) => a - b)
+}
+
+let judgment = (num) => String(num) - num.toString(2).split("1").join('')
+
+function nextHigher(n) {
+         let count = String(n) - n.toString(2).split("1").join('')
+         let num = n + 1
+
+         while (judgment(num) !== count) {
+                  num += 1
+         }
+         return num
+}
+
+
+
+function repeatAdjacent(s) {
+         //coding and coding..
+         return s.match(/([a-z])\1*/gi).filter((item) => item.length > 1).length / 2
+}
+
+console.log(repeatAdjacent("ccccoodeffffiiighhhhhhhhhhttttttts"))
+
+
+function cuckooClock(inputTime, chimes) {
+         // Write code
+         let hour = parseInt(inputTime.split(':')[0])
+         let minute = parseInt(inputTime.split(':')[1])
+         let count = 0;
+
+         console.log(hour, minute)
+         for (let i = 0; i < chimes; i++) {
+                  if (i === 0) {
+                           if (minute < 15) {
+                                    minute = 15
+                                    count += 1
+                           } else if (minute > 15 && minute < 30) {
+                                    minute = 30
+                                    count += 1
+                           } else if (minute > 30 && minute < 45) {
+                                    minute = 45
+                                    count += 1
+                           } else {
+                                    minute = 60
+                           }
+
+                  } else if (minute === 60) {
+                           minute = 0
+                           hour += 1
+                  } else {
+                           minute += 15
+                  }
+         }
+         return hour >= 10 ? `${hour}:${minute}` : `0${hour}:${minute}`
+
+}
+
+
+
+console.log(cuckooClock("07:22", 1))
+
+
+function maxRot(n) {
+         // your code
+         let str = String(n)
+         let Str_length = str.length
+         let word = str
+         let arr = []
+         for (let i = 0; i < Str_length; i++) {
+                  let left = word.slice(0, i + 1)
+                  let right = word.slice(i + 1, Str_length)
+                  let right_left = right[0]
+                  let right_right = right.slice(1)
+                  word = left + right_left + right_right
+                  if (i === Str_length - 2) {
+                           break
+                  }
+                  arr.push(word)
+         }
+         return arr
+}
+
+function solve4(s) {
+         //..
+         let newSet = new Set(s.split('').map((item) => {
+                  if (item === 'a') {
+                           let code = item.charCodeAt() + 1
+                           return String.fromCharCode(code)
+                  } else {
+
+                  }
+         }))
+         return newSet.size === s.length ? false : true
+}
+
+console.log(maxRot(56789))
+
+function drawStairs(n) {
+         // your code here
+         let word = ""
+         for (let i = 0; i < n; i++) {
+                  for (let j = 0; j < i; j++) {
+                           word += " "
+                  }
+                  if (i === n - 1) {
+                           continue
+                  } else {
+                           word += "I\n"
+                  }
+
+         }
+         return word
+}
+
+
+console.log(drawStairs(3))
+
+function mergeStrings(first, second) {
+         // Your solution
+         let word = ""
+         let min = Math.min(first.length, second.length)
+         for (let i = 0; i <= min; i++) {
+                  let fir = first.slice(i, first.length + 1)
+                  let sec = second.slice(0, second.length - i - 1)
+                  console.log(fir)
+                  console.log(sec)
+                  if (fir === sec) {
+                           word = first.slice(0, i) + fir + second.slice(i + 1, second.length)
+                           break
+                  }
+         }
+         return word
+}
+
+
+console.log(mergeStrings('abcde', 'cdefgh'))
+
+
+let rgx1 = 'zero'
+
+console.log(Number(rgx1))
+
+String.prototype.toAlternatingCase = function () {
+         // Define your method here :)
+         return this.split('').map((item) => { return item.charCodeAt() >= 65 && item.charCodeAt() <= 90 ? item.toLowerCase() : item.toUpperCase() }).join('')
+}
+
+console.log("hello world".toAlternatingCase())
+
+
+function findCombos(array) {
+         let arr = array.flat(Infinity)
+         console.log(arr)
+         let set1 = new Set(arr)
+         if (arr.length === 2) return 2
+         if (set1.size === 1) return 1
+         if (!sameElement(arr)) {
+                  let newSet = new Set(arr)
+                  let arr1 = array.flat(Infinity)
+                  let num = 1
+                  let num1 = 1
+                  for (let i = 1; i <= arr1.length; i++) {
+                           num *= i
+                  }
+                  for (let i = 1; i <= newSet.size; i++) {
+                           num1 *= i
+                  }
+
+                  return num / num1
+         } else {
+                  let arr1 = array.flat(Infinity)
+                  let num = 1
+                  for (let i = 1; i <= arr1.length; i++) {
+                           num *= i
+                  }
+
+                  return num
+         }
+}
+
+
+function sameElement(arr) {
+         let newSet = new Set(arr)
+         return newSet.size === arr.length
+}
+
+
+console.log(findCombos([[1, 2], [3, 3, 1]]))
+
+function fundNumber(start, stop, string) {
+         let num = ""
+         for (let i = start; i <= stop; i++) {
+                  num += String(i)
+         }
+         let arr = new Set(num.split('').sort((a, b) => parseInt(a) - parseInt(b)))
+         let arr1 = new Set(string.split('').sort((a, b) => parseInt(a) - parseInt(b)))
+         let str = num.split('').sort((a, b) => parseInt(a) - parseInt(b)).join('')
+         let str1 = string.split('').sort((a, b) => parseInt(a) - parseInt(b)).join('')
+         let final1 = []
+         console.log(arr, arr1)
+         console.log(str, str1)
+         let final2 = []
+
+         for (let char of arr) {
+                  final1.push(str.slice(str.indexOf(char), str.lastIndexOf(char) + 1))
+
+         }
+         for (let char of arr1) {
+                  final2.push(str1.slice(str1.indexOf(char), str1.lastIndexOf(char) + 1))
+
+         }
+         let result = final1.map((item) => { return { letter: item, leng: item.length } })
+         let result2 = final2.map((item) => { return { letter: item, leng: item.length } })
+
+         let f_arr = []
+         for (let i = 0; i < result.length; i++) {
+                  if (result[i].leng !== result2[i].leng) {
+                           let add = result[i].leng - result2[i].leng
+                           f_arr.push({ char: result[i].letter[0], leng: add })
+                  }
+
+         }
+         return f_arr.length === 0 ? [] : [f_arr.map((item) => { return item.char }).join(''), f_arr.map((item) => { return item.char }).reverse().join('')]
+}
+console.log(fundNumber(1, 21, "2198765123416171890101112131415"))
