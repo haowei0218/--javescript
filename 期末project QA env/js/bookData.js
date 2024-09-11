@@ -15,7 +15,9 @@ const BorrowWindows = document.querySelector(".borrowData_bookPage");
 const Borrow_container = document.querySelector(".borrow_table");
 const close_btn = document.querySelector(".close");
 let itempage = 0;
+
 /**-----------------------------------------------------------
+
 
 /**
  * @async
@@ -240,8 +242,7 @@ async function CreateInfo(title, data) {
         result_Class.style.border = "1px solid red";
       }
       const response = await fetch(
-        `http://localhost:3000/api/${result_Id.value}/${result_Name.value}/${
-          result_Author.value
+        `http://localhost:3000/api/${result_Id.value}/${result_Name.value}/${result_Author.value
         }/${encodeURI(result_Class.value)}`,
         { method: "POST" }
       );
@@ -510,8 +511,7 @@ async function UpdateApi(filterdata, UpdateArray = Array) {
     create_container.classList.add("hidden");
     overlay.classList.add("hidden");
     const book_response = await fetch(
-      `http://localhost:3000/api/update/${filterdata}/${UpdateArray[0]}/${
-        UpdateArray[1]
+      `http://localhost:3000/api/update/${filterdata}/${UpdateArray[0]}/${UpdateArray[1]
       }/${UpdateArray[2]}/${encodeURI(UpdateArray[3])}`,
       { method: "PUT" }
     );

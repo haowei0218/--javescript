@@ -4964,3 +4964,14 @@ function fundNumber(start, stop, string) {
          return f_arr.length === 0 ? [] : [f_arr.map((item) => { return item.char }).join(''), f_arr.map((item) => { return item.char }).reverse().join('')]
 }
 console.log(fundNumber(1, 21, "2198765123416171890101112131415"))
+
+
+
+function sort(initialArray, sortingArray) {
+         let arr = []
+         sortingArray.forEach((e) => arr.push(initialArray[e + 1]))
+         return arr
+}
+
+console.log(sort(['x', 'y', 'z'], [1, 2, 0]))
+

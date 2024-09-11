@@ -7,7 +7,7 @@ ReactDom.render(
          document.getElementById('root')
 )
 const word = 'React';
-ReactDom.render(<h1>Hello ,{wrod}</h1>,document.getElementById('root1'));
+ReactDom.render(<h1>Hello ,{word}</h1>,document.getElementById('root1'));
 
 const deviceName = 'Galaxy Note';
 const currentPrice = 41000;
