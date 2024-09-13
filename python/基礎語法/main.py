@@ -88,3 +88,159 @@ x = memoryview(bytes(5))
 x = None
 
 # str,int,float,complex,list,tuple,range,dict,set,frozenset,bool,bytes,bytearray,memoryview,NoneType
+
+# Number 類型轉換
+x = 1
+y = 2.9
+z = 2j
+
+a = float(x)
+b = int(y)
+c = complex(z)
+
+
+# String
+a = "hello world"
+
+# 使用index可以取出字串中的字元
+b = a[1]
+c = a[2]
+
+
+# 使用for迴圈循環字串
+for x in 'banana':
+        print(x)
+
+# 輸出:
+# b
+# a
+# n
+# a
+# n
+# a
+
+# 字串長度 len()
+a = 'hello world'
+print(len(a))
+
+# 檢查字串中是否存在某個字元 輸出True or False
+txt = "the best things in life are free"
+print("free" in txt)
+
+# 使用if
+text = 'the best things in life are free'
+if "free" in txt:
+        print("yes, 'free' is present")
+
+# 使用 not in 輸出True or False
+text1 = "the best things in life are free"
+print('expensice' not in text1)
+
+# 使用if
+if "expensive" not in text1:
+        print("No, 'expensive' is Not present")
+
+
+# 切割字串 可以指定開始與結束位置 以冒號分隔
+# 取開始位置到結束位置的字元 但不包括結束字元
+string = 'hello world'
+print(string[1:4])
+# 輸出 ell
+
+# 若省略起始位置 則範圍將從第一個字元開始
+string = 'good morning'
+print(string[:5])
+# 輸出good
+
+
+# 若省略結束位置 則範圍到最後一個字元
+string = 'good morning'
+print(string[3:])
+# 輸出d morning
+
+# 負索引 從字串末尾開始切割
+string = 'hello world'
+print(string[-5:-2])
+# 輸出 orl
+
+
+
+# 修改字串
+
+# 大寫 upper()
+a = 'hello world'
+print(a.upper())
+# 輸出 HELLO WORLD
+
+# 小寫 upper()
+a = 'HELLO WORLD'
+print(a.lower())
+# 輸出 hello world
+
+# strip() 刪除開頭與結尾的空格
+a = ' hello world '
+print(a.strip())
+# 輸出 "hello world"
+
+# replace() 替換字串
+a = 'hello world'
+print(a.replace('h','j'))
+# 輸出 jello world
+
+# split() 指定在字串中的某個字元做為分隔 並回傳一個陣列
+a = 'hello, world'
+print(a.split(',')) 
+# 輸出 ['hello' , 'world']
+
+# 用＋號可以連結字串
+a = 'hello'
+b = 'world'
+c = a + b
+print(c)
+# 輸出helloworld
+
+# python 轉義字符 
+# 若要在字串中插入非法字符，請使用轉義字符。
+# 轉義字元是一個反斜杠\，後面跟著要插入的字元。
+txt = "We are the so-called \"Vikings\" from the north"
+
+# 布林值: 評估值和變數 bool()
+# bool()函數允許評估任何值 並回傳True or False
+print(bool("hello "))
+print(bool(15))
+# return True True
+
+# 評估兩個變數
+x = 'hello'
+y = 15
+print(bool(x))
+print(bool(y))
+# return True True
+
+# 幾乎任何值都會被評估為Tru是否包含某種內容
+# 除空字串外 任何字串都是True
+# 除了0之外 任何數字都是True
+# 任何列表 元組 集合 字典都是True 除了空的
+# 以下將返回False
+bool(False)
+bool(None)
+bool(0)
+bool("")
+bool(())
+bool([])
+bool({})
+
+
+# 邏輯運算符
+# and : x < 5 and x < 10
+# or : x > 10 or x > 9
+# not : not(x < 5 and x < 10)
+
+# 身份運算符
+# is: x is y
+# is not : x is not y
+
+# 成員資格運算符
+# in : x in y
+#  not in : x not in y
+
