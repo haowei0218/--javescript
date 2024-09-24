@@ -4975,3 +4975,27 @@ function sort(initialArray, sortingArray) {
 
 console.log(sort(['x', 'y', 'z'], [1, 2, 0]))
 
+function scrabbleScore(str) {
+         // ...
+         let obj = {
+                  value1: /[aeioulnrst]/gi,
+                  value2: /[dg]/gi,
+                  value3: /[bcmp]/gi,
+                  value4: /[fhvwy]/gi,
+                  value5: /[k]/gi,
+                  value6: /[jx]/gi,
+                  value7: /[qz]/gi
+         }
+         return str.split('').map((letter) => {
+                  if (letter === "") return 0
+                  if (obj.value1.test(letter)) return 1
+                  if (obj.value2.test(letter)) return 2
+                  if (obj.value3.test(letter)) return 3
+                  if (obj.value4.test(letter)) return 4
+                  if (obj.value5.test(letter)) return 5
+                  if (obj.value6.test(letter)) return 8
+                  if (obj.value7.test(letter)) return 10
+
+
+         }).reduce((a, b) => a + b)
+}
