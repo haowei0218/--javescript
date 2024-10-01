@@ -313,3 +313,29 @@ del person1
 # 放入pass避免錯誤
 class Car:
         pass
+
+# 繼承:定義一個類別 該類別繼承另一個類別的所有方法以及屬性
+# 在子類別加入＿init__（)後 子類別將不再繼承父類的__init__
+# 若要保持父__init__函數的繼承 新增一個對父類__init__()函數的呼叫
+class Human:
+        def __init__(self,fname,lname):
+                self.fname = lname
+                self.lname = lname
+        def HelloMan(self):
+                return f"Hello ,{self.name}"
+
+class boy(Human):
+        def __init__(self,fname,lname):
+                Person.__init__(self.fname,self.lname)
+
+# 使用super()函數可以讓子類別繼承父類別的所有方法和屬性
+class girl(Human):
+        def __init__(self,fname,lname,year):
+                super().__init__(fname,lname)
+                # 新增一個名為graduationyear的屬性
+                self.graduationyear = year
+person1 = boy('john',"wall")
+person1.HelloMan()
+
+person2 = girl('amy',"lee")
+person2.HelloMan()
