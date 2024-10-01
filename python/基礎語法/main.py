@@ -244,3 +244,72 @@ bool({})
 # in : x in y
 #  not in : x not in y
 
+
+# lambda 是一個匿名函數 
+# 可以接受任意數量的參數 但只能有一個表達式
+# 語法: lambda argument : expression
+# argument = 任意數量的參數 , expression = 表達式 會return一個值
+
+
+ReNumber = lambda num : num * 10
+print(ReNumber(10))
+
+MutNumber = lambda num1,num2 : num1 * num2
+print(MutNumber(40,50))
+
+# 將lambda用作另一個函數的匿名函數
+# mydoubler = myFunc(2) === lambda a : a * 2
+# print(mydoubler(20)) === lambda 20 : 20 * 2 === 40
+def myFunc(n):
+        return lambda a:a*n
+
+mydoubler = myFunc(2) 
+print(mydoubler(20))
+
+# 在同一個程式中使用相同的函數定義建立兩個函數
+def myFunc1(n):
+        return lambda a : a * n
+
+mydoubler = myFunc1(2)
+mytripler = myFunc1(3)
+
+print(mydoubler(20)) 
+print(mytripler(20))
+
+
+
+# 類別/物件
+# 使用_init_()函數位年齡與姓名賦值
+# 使用_str_()函數控制當類別物件表示為字串時應傳回的內容
+# 物件內的函數稱為一個物件的方法
+# 自我參數:參數self是對類別的當前實例的引用 用於存取屬於該類別的變數
+# 可以用其他變數替代self
+# class定義不可為空 可以放入pass避免錯誤
+class Person:
+        def __init__(self,name,age):
+                self.name = name
+                self.age = age
+        def __str__(self):
+                return f"name:{self.name} age:{self.age}"
+        def helloName(self):
+                print(f"hello{self.name}")
+
+class Student:
+        def __init__(mystudent,name,number):
+                mystudent.name = name
+                mystudent.number = number
+                
+
+# 修改物件屬性
+person1 = Person("john",20)
+person1.age = 40
+
+# 刪除物件屬性
+del person1.age
+
+# 刪除對象
+del person1
+
+# 放入pass避免錯誤
+class Car:
+        pass
