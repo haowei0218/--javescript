@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Food </title>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+                  integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+                  crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <link rel="stylesheet" href="./css/style_28.css">
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+                  rel="stylesheet">
+</head>
+
+<body>
+         <div class="all_container">
+                  <nav class="nav-bar">
+                           <div class="title">
+                                    <h3>Search Food Api<i class="fa-solid fa-caret-right"></i></h3>
+                           </div>
+                           <div class="search_function">
+                                    <div class="SearchSelect">
+                                             <select name="select_food" id="select_food">
+                                                      <option disabled selected>請選擇餐點種類</option>
+                                                      <option value="漢堡">漢堡</option>
+                                                      <option value="義大利麵">義大利麵</option>
+                                                      <option value="披薩">披薩</option>
+                                                      <option value="沙拉">沙拉</option>
+                                                      <option value="三明治">三明治</option>
+                                             </select>
+                                             <div class="button_list">
+                                                      <button class="search_btn"><i
+                                                                        class="fa-solid fa-magnifying-glass"></i></button>
+                                                      <button class="favorite"><i
+                                                                        class="fa-regular fa-heart"></i></button>
+                                                      <a href="#"><i class="fa-solid fa-globe"></i></a>
+                                                      <div class="message_btn">
+                                                               <i class="fa-solid fa-message"></i>
+                                                      </div>
+                                             </div>
+
+                                    </div>
+                           </div>
+
+                  </nav>
+
+                  <div class="main_container">
+                           <div class="data_table">
+
+                           </div>
+
+                  </div>
+
+                  <div class="introd">
+                           <ul class="introd_title">
+                                    <li id="category_name" data-id="漢堡">漢堡</li>
+                                    <li id="category_name" data-id="披薩">披薩</li>
+                                    <li id="category_name" data-id="沙拉">沙拉</li>
+                                    <li id="category_name" data-id="三明治">三明治</li>
+                                    <li id="category_name" data-id="義大利麵">義大利麵</li>
+                           </ul>
+                           <div class="main_introd_content">
+                                    <div class="close_btn">
+                                             <span>X</span>
+                                    </div>
+
+                                    <div class="introd_content">
+
+                                    </div>
+                                
+                                
+
+                           </div>
+                  </div>
+
+         </div>
+         <div class="overlay"></div>
+
+
+         <script type="module" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+         <script type="module" src="./style_28.js"></script>
+</body>
+
+</html>
