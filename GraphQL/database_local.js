@@ -4,7 +4,7 @@ const { Pool } = require('pg')
 
 
 
-let pool = new Pool({
+const pool = new Pool({
          user: 'postgres',
          host: 'localhost',
          database: 'postgres',
@@ -12,8 +12,7 @@ let pool = new Pool({
          password: "Ha900218"
 })
 
-pool.connect().then(() => console.log('Connected to PostgreSQL')).catch(err => console.log("Connection error", err.stack))
+module.exports = pool
 
 
 
-module.exports = { pool }
