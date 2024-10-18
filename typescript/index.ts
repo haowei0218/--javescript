@@ -46,7 +46,7 @@ function isItSummer(month: Month) {
 }
 
 /**向函數傳遞一個數字參數 而不是用Month枚舉 可以正確執行 */
-var Month1;
+var Month;
 (function (Month) {
   Month[(Month["Jan"] = 0)] = "Jan";
   Month[(Month["Feb"] = 1)] = "Feb";
@@ -192,6 +192,7 @@ function signContract(partner: Business): string {
       ? "Sign a new contract the supplier"
       : "need to evaluate further";
   }
+  message = "Unknown business partner";
   return message;
 }
 
@@ -275,6 +276,7 @@ let netPrice2 = <number>getNetPrice(100, 0.05, false);
 /**泛型：編寫可重用和通用形式的函數, 類 ,接口 */
 /**
  * 優點：
+ * 建立一個可以在多種類型而不是單一類型上工作的元件
  * 利用编译时的类型检查。
    消除类型转换。
    允许你实现泛型算法。
