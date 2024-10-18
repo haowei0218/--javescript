@@ -4,7 +4,7 @@ const user = require('./type')
 const MutationTypeDefs = gql`
          ${user}
          type Mutation {
-                  createUser(username:String!,email:String!):User
+                  createUser(id:ID!,username:String!,email:String!):User
                   updateUser(id:ID!,username:String,email:String):User
                   deleteUser(id:ID!):User
          }
