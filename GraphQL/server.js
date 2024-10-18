@@ -1,22 +1,28 @@
-const { Pool } = require('pg')
-const { ApolloServer } = require('apollo-server')
-const typeDefs = require('./index')
-const resolvers = require('./graphql/learnTableResolvers');
+const db = require('./database_local')
+const express = require('express')
+const { ApolloServer } = require('apollo-server-express')
+const userTypeDefs = require('./schema/user')
+const resolvers = require('./resolvers/queryResolvers');
 
-const pool = new Pool({
-         user: 'postgres',
-         host: 'localhost',
-         database: 'postgres',
-         port: 5433,
-         password: 'Ha900218'
-})
+async function startServer() {
+         const server = new ApolloServer({
+                  typeDefs: [userTypeDefs],
+                  resolvers: resolvers,
+                  context: () => ({ db })
+         })
 
-const server = new ApolloServer({
-         typeDefs,
-         resolvers,
-         context: () => ({ pool })
-})
+         await server.start();
+         const app = express()
 
-server.listen().then(({ url }) => {
-         console.log(`Server ready at ${url}`)
-})
+         //將apollo server中間件應用到express
+         server.applyMiddleware({ app })
+
+         //啟動express服務器
+         app.listen({ port: 4000 }, () => {
+                  console.log(`Server ready at ${server.graphqlPath}`)
+         })
+
+}
+
+startServer()
+

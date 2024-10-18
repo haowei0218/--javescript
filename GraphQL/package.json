@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/merge": "^9.0.8",
     "apollo-server": "^3.13.0",
+    "apollo-server-express": "^3.13.0",
     "graphql": "^16.9.0",
     "pg": "^8.13.0"
   }

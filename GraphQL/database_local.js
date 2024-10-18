@@ -1,4 +1,3 @@
-const { ApolloServer, gql } = require('apollo-server')
 const { Pool } = require('pg')
 
 
