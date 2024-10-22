@@ -12,8 +12,8 @@ const resolvers = {
                   }
          },
          Mutation: {
-                  createUser: async (parent, { username, email }) => {
-                           const result = await db.query('INSERT INTO users (name,email) VALUES ($1,$2) RETURNING *', [username, email])
+                  createUser: async (parent, { id, username, email }) => {
+                           const result = await db.query('INSERT INTO users (id,name,email) VALUES ($1,$2,$3) RETURNING *', [id, username, email])
                            return result.rows[0] //返回新創建的用戶
                   },
                   updateUser: async (parent, { id, username, email }) => {
