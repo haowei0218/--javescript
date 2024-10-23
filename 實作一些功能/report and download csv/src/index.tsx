@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client'; // 注意這裡的改變
 import App from './App';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client'; //連接後端資料庫用的
 import client from './apollo client/client'
 
 
