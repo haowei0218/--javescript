@@ -1,6 +1,7 @@
-import GetAllUser from './graphql/getAllUser'
-import UserForm from './graphql/createUser'
+import GetAllUser from './components/getAllUser'
+import UserForm from './components/createUser'
 import './App.css'
+import AutoCreateUserBtn from './components/AutoAddUser'
 
 function App() {
   
@@ -11,6 +12,7 @@ function App() {
       <h2>All users</h2>
       <GetAllUser />
       <UserForm />
+      <AutoCreateUserBtn />
     </div>
   )
 }

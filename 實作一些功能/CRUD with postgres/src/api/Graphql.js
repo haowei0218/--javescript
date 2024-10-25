@@ -41,12 +41,21 @@ const DELETE_USER = gql`
       email
     }
   }
-
+`
+const UPDATE_USER = gql`
+  mutation UpdateUser($id:String!,$username:String!,$email:String!){
+    updateUser(id:$id,username:$username,email:$email){
+      id
+      username
+      email
+    }
+  }
 
 `
 export {
   GET_ALL_USERS,
   GET_USER,
   CREATE_USER,
-  DELETE_USER
+  DELETE_USER,
+  UPDATE_USER
 };

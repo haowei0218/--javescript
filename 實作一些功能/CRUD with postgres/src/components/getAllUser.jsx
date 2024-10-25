@@ -1,13 +1,12 @@
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line no-unused-vars
+
 import { useMutation, useQuery } from '@apollo/client'
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
-import { GET_ALL_USERS } from '../api/userQuery'
-import { DELETE_USER } from '../api/userQuery'
+import { GET_ALL_USERS,DELETE_USER} from '../api/Graphql'
+import DisplayData from './DisplayData'
 function GetAllUser() {
          const {loading,error,data} = useQuery(GET_ALL_USERS)
          const [deleteUser] = useMutation(DELETE_USER)
-         const [editUserId,setEditUserId] = useState(null)
          if(loading)return <p>Loading....</p>
          if(error)return <p>Error:{error}</p>
          const users = data?.users
@@ -22,14 +21,13 @@ function GetAllUser() {
             console.log(e)
           }
         }
+        
+        
   return (
     <div>
       { users.map( (user) =>{return (
-        <div key={user.id} style={{display:'flex',alignContent:'cetner',justifyContent:'center'}}>
-          <li style={{listStyle:'none'}}  key={ user.id }>{ user.username  } / {user.email}</li> 
-          <button id={`Update${user.id}_btn`}>update</button>
-          <button id={`Delete${user.id}_btn`} onClick={()=>RequestDeleteUserApi(user.id)}>delete</button>
-        </div>
+       //fn使用箭頭函數 意味著只有在發生事件時才會掉用 如果沒有加上箭頭 在每次渲染組件的時候 該函數就會被執行
+       <DisplayData key={user.id} id={user.id} username={user.username} email={user.email} deleteFn={()=>RequestDeleteUserApi(user.id)} />
         )}) }  
     </div>
   )

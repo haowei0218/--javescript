@@ -2,7 +2,7 @@
 import React from 'react'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
-import { CREATE_USER } from '../api/userQuery'
+import { CREATE_USER } from '../api/Graphql'
 function UserForm() {
 const [createUser] = useMutation(CREATE_USER)
 
@@ -38,7 +38,6 @@ async function RequestCreateUserApi(){
          <input type="text" onChange={handleUserName} name='username' placeholder='Enter your username'></input>
          <input type="text" onChange={handleEmail} name='email' placeholder='Enter your email'></input>
          <button onClick={RequestCreateUserApi}>Create user</button>
-      
     </div>
   )
 }
