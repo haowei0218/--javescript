@@ -86,6 +86,7 @@ function heapSort() {
     arr[i] = temp
 
     heapSize -= 1
+    //從0開始是因為要找到root的值 root在一個max heap裡面是最大值 每次都找到最大值 跟max heap的最小值交換 意味著由小到大
     maxHeapify(0)
   }
 
