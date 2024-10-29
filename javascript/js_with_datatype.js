@@ -52,3 +52,13 @@ for (const x of letter.values()) {
 
 letter.size();
 console.log(letter.size());
+
+//解構賦值：可以把陣列或物件中的資料解開擷取成為獨立變數
+let a1, b1, rest;
+[a1, b1, ...rest] = [1, 2, 3, 4, 5]
+
+//在指定敘述式的左側 要宣告來源變數接收解開值之變數
+const x111 = [1, 2, 3, 4, 5];
+const [y1, z1] = x111
+console.log(y1) //display 1
+console.log(z1) //display 2
