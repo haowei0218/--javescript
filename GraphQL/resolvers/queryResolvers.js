@@ -1,4 +1,5 @@
 const db = require('../database_local');
+const { ApolloError } = require('apollo-server-express')
 
 const resolvers = {
          Query: {
