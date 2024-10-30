@@ -4,6 +4,13 @@ const { ApolloServer } = require('apollo-server-express')
 const userTypeDefs = require('./schema/user')
 const resolvers = require('./resolvers/queryResolvers');
 
+db.connect().then(() => {
+         console.log('Connect to the database')
+}).catch(error => {
+         console.log('Connect error:', error.stack)
+         throw new Error('Database connect error')
+})
+
 const port = process.env.PORT || 4000
 async function startServer() {
          const server = new ApolloServer({
