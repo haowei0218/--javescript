@@ -47,13 +47,13 @@ async function startServer() {
                   },
                   context: () => {
                            if (process.env.POSTGRES_ENV === 'LOCAL') {
-                                    return { db }
+                                    return { LOCALHOST_POSTGRES_DB }
                            } else {
-                                    return { pool }
+                                    return { CLOUD_POSTGRES_DB }
                            }
                   },
                   cors: {
-                           origin: '*',
+                           origin: 'http://localhost:5173',
                            credential: true
                   },
                   introspection: process.env.POSTGRES_ENV !== 'CLOUD',
