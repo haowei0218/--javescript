@@ -4,7 +4,7 @@ const { ApolloServer } = require('apollo-server-express')
 const userTypeDefs = require('./schema/user')
 const resolvers = require('./resolvers/queryResolvers');
 
-const PORT = process.env.PORT || 4000
+const port = process.env.PORT || 4000
 async function startServer() {
          const server = new ApolloServer({
                   typeDefs: [userTypeDefs],
@@ -23,8 +23,8 @@ async function startServer() {
          server.applyMiddleware({ app })
 
          //啟動express服務器
-         app.listen(PORT, () => {
-                  console.log(`Server ready at ${server.graphqlPath}`)
+         app.listen(port, () => {
+                  console.log(`Server ready at ${port}`)
          })
 
 }
