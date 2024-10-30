@@ -53,16 +53,21 @@ async function startServer() {
                   cors: {
                            origin: '*',
                            credential: true
-                  }
+                  },
+                  introspection: process.env.POSTGRES_ENV === 'CLOUD',
+                  playground: process.env.POSTGRES_ENV === 'CLOUD'
 
          })
          await server.start();
          const app = express()
 
-         app.use(cors())
-
          //將apollo server中間件應用到express
-         server.applyMiddleware({ app })
+         app.use(
+                  '/graphql',
+                  cors(),
+                  express.json(),
+                  server.getMiddleware()
+         )
 
          //啟動express服務器
          app.listen(port, () => {
