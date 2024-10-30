@@ -9,6 +9,10 @@ async function startServer() {
          const server = new ApolloServer({
                   typeDefs: [userTypeDefs],
                   resolvers: resolvers,
+                  cache: 'bounded',
+                  persistedQueries: {
+                           ttl: 900
+                  },
                   context: () => ({ db })
          })
 
