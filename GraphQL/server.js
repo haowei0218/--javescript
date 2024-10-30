@@ -66,7 +66,7 @@ async function startServer() {
 
          //將apollo server中間件應用到express
 
-         server.applyMiddleware({ app, cors: false })
+         server.applyMiddleware({ app, path: '/graphql', cors: false })
 
          //啟動express服務器
          app.listen(port, () => {
