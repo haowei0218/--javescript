@@ -63,7 +63,6 @@ async function startServer() {
 
          //將apollo server中間件應用到express
          app.use(
-                  '/graphql',
                   cors(),
                   express.json(),
                   server.getMiddleware()
