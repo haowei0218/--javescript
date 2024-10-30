@@ -5,8 +5,12 @@ const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
 const userTypeDefs = require('./schema/user')
 const resolvers = require('./resolvers/queryResolvers');
-
+const app = express()
 const cors = require('cors')
+app.use(cors({
+         origin: 'http://localhost:5173',
+         credentials: true,
+}), express.json())
 
 
 function ConnectDatabase() {
@@ -61,14 +65,11 @@ async function startServer() {
 
          })
          await server.start();
-         const app = express()
+
 
          //將apollo server中間件應用到express
-         app.use(
-                  cors(),
-                  express.json(),
-                  server.getMiddleware()
-         )
+
+         server.applyMiddleware({ app, cors: false })
 
          //啟動express服務器
          app.listen(port, () => {
