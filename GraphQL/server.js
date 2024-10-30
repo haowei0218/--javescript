@@ -7,10 +7,12 @@ const userTypeDefs = require('./schema/user')
 const resolvers = require('./resolvers/queryResolvers');
 const app = express()
 const cors = require('cors')
-app.use(cors({
-         origin: 'http://localhost:5173',
-         credentials: true,
-}), express.json())
+app.use(
+         '/graphql',
+         cors({
+                  origin: 'http://localhost:5173',
+                  credentials: true,
+         }), express.json())
 
 
 function ConnectDatabase() {
