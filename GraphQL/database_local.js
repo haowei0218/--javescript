@@ -3,7 +3,7 @@ const { Pool } = require('pg')
 
 
 
-const pool = new Pool({
+const localhost_db = new Pool({
          host: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_HOST : process.env.LOCAL_POSTGRES_HOST,
          port: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_PORT : process.env.LOCAL_POSTGRES_PORT,
          user: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_USER : process.env.LOCAL_POSTGRES_USER,
@@ -11,8 +11,7 @@ const pool = new Pool({
          database: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_DATABASE : process.env.LOCAL_POSTGRES_DATABASE,
 });
 
-
-module.exports = pool
+module.exports = localhost_db
 
 
 
