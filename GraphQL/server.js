@@ -8,7 +8,7 @@ const pool = new Pool({
          connectionString: process.env.CLOUD_DATABASE_URL
          //連接render上的內部連結
 })
-const { cors } = require('cors')
+const cors = require('cors')
 
 
 function ConnectDatabase() {
