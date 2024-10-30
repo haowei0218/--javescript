@@ -55,7 +55,11 @@ async function startServer() {
                            credential: true
                   },
                   introspection: process.env.POSTGRES_ENV === 'CLOUD',
-                  playground: process.env.POSTGRES_ENV === 'CLOUD'
+                  playground: process.env.POSTGRES_ENV === 'CLOUD',
+                  formatError: (err) => {
+                           console.log(err);
+                           return err
+                  }
 
          })
          await server.start();
