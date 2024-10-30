@@ -14,14 +14,14 @@ function ConnectDatabase() {
                            console.log('Connect to the LocalHost database')
                   }).catch(error => {
                            console.log('Connect error:', error.stack)
-                           throw new Error('Database connect error')
+                           throw new Error('Database connect to the Localhost PostgreSQL connect error')
                   })
          } else {
                   pool.connect().then(() => {
                            console.log('Connect to the Cloud PostgreSQL database')
                   }).catch(error => {
                            console.log('Connect error:', error.stack)
-                           throw new Error('Database connect error')
+                           throw new Error('Database connect to the Cloud PostgreSQL error')
                   })
          }
 }
