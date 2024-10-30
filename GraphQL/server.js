@@ -59,7 +59,7 @@ async function startServer() {
          await server.start();
          const app = express()
 
-         app.use(cors)
+         app.use(cors())
 
          //將apollo server中間件應用到express
          server.applyMiddleware({ app })
