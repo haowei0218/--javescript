@@ -6,9 +6,11 @@ const userTypeDefs = require('./schema/user')
 const resolvers = require('./resolvers/queryResolvers');
 const pool = new Pool({
          connectionString: process.env.CLOUD_DATABASE_URL
+         //連接render上的內部連結
 })
 
 function ConnectDatabase() {
+         //檢查環境變數 確認現在是要用本機上的資料庫 還是用雲端的
          if (process.env.POSTGRES_ENV === 'LOCAL') {
                   db.connect().then(() => {
                            console.log('Connect to the LocalHost database')
@@ -45,21 +47,13 @@ async function startServer() {
                            } else {
                                     return { pool }
                            }
-                  }
-         })
-
-         server = new ApolloServer({
-                  typeDefs: [userTypeDefs],
-                  resolvers: resolvers,
-                  cache: 'bounded',
-                  persistedQueries: {
-                           ttl: 900
                   },
-                  context: () => ({ pool })
+                  cors: {
+                           origin: '*',
+                           credential: true
+                  }
+
          })
-
-
-
          await server.start();
          const app = express()
 
@@ -68,7 +62,7 @@ async function startServer() {
 
          //啟動express服務器
          app.listen(port, () => {
-                  console.log(`Server ready at ${port}`)
+                  console.log(`Server ready at http://localhost${port}${server.graphqlPath}`)
          })
 
 }
