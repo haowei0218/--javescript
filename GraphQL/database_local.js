@@ -9,7 +9,7 @@ const pool = new Pool({
          user: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_USER : process.env.LOCAL_POSTGRES_USER,
          password: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_PASSWORD : process.env.LOCAL_POSTGRES_PASSWORD,
          database: process.env.POSTGRES_ENV === 'CLOUD' ? process.env.CLOUD_POSTGRES_DATABASE : process.env.LOCAL_POSTGRES_DATABASE,
-         ssl: process.env.POSTGRES_ENV === 'CLOUD' ? { rejectUnauthorized: false } : false,
+         connectionString: process.env.CLOUD_DATABASE_URL
 });
 
 
