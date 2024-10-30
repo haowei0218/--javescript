@@ -1,6 +1,5 @@
 const { LOCALHOST_POSTGRES_DB } = require('./database_local')
 const { CLOUD_POSTGRES_DB } = require('./database_local')
-const { Pool } = require('pg')
 const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
 const userTypeDefs = require('./schema/user')
@@ -47,13 +46,9 @@ async function startServer() {
                   persistedQueries: {
                            ttl: 900
                   },
-                  context: () => {
-                           if (process.env.POSTGRES_ENV === 'LOCAL') {
-                                    return { LOCALHOST_POSTGRES_DB }
-                           } else {
-                                    return { CLOUD_POSTGRES_DB }
-                           }
-                  },
+                  context: ({ req }) => ({
+                           db: process.env.POSTGRES_ENV === 'LOCAL' ? LOCALHOST_POSTGRES_DB : CLOUD_POSTGRES_DB
+                  }),
                   cors: {
                            origin: 'http://localhost:5173',
                            credential: true
