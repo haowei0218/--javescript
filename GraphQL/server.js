@@ -46,6 +46,7 @@ async function startServer() {
                   persistedQueries: {
                            ttl: 900
                   },
+                  //動態判斷這個db是cloud＿postgreSQL還是localhost_postgreSQL
                   context: ({ req }) => ({
                            db: process.env.POSTGRES_ENV === 'LOCAL' ? LOCALHOST_POSTGRES_DB : CLOUD_POSTGRES_DB
                   }),
