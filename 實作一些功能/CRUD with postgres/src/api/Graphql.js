@@ -1,11 +1,13 @@
 import { gql } from "@apollo/client";
 
+//graphql api
 const GET_ALL_USERS = gql`
   query GetUsers {
     users {
       id
       username
       email
+      wallet
     }
   }
 `;
@@ -16,6 +18,7 @@ const GET_USER = gql`
       id
       username
       email
+      wallet
     }
   }
 
@@ -23,11 +26,12 @@ const GET_USER = gql`
 `
 
 const CREATE_USER = gql`
-  mutation CreateUser($id:String!,$username:String!,$email:String!){
-    createUser(id:$id,username:$username,email:$email){
+  mutation CreateUser($id:String!,$username:String!,$email:String!,$wallet:Int){
+    createUser(id:$id,username:$username,email:$email,wallet:$wallet){
       id
       username
       email
+      wallet
     }
   }
 
@@ -39,15 +43,17 @@ const DELETE_USER = gql`
       id
       username
       email
+      wallet
     }
   }
 `
 const UPDATE_USER = gql`
-  mutation UpdateUser($id:String!,$username:String!,$email:String!){
-    updateUser(id:$id,username:$username,email:$email){
+  mutation UpdateUser($id:String!,$username:String!,$email:String!,$wallet:Int){
+    updateUser(id:$id,username:$username,email:$email,wallet:$wallet){
       id
       username
       email
+      wallet
     }
   }
 

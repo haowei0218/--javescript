@@ -35,6 +35,10 @@ export default class RandomData {
                   return name
 
          }
+         Wallet() {
+                  let number = Math.floor(100 * Math.random())
+                  return number
+         }
          checkSame(database, result) {
                   return database.includes(result)
          }

@@ -2,11 +2,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 // eslint-disable-next-line react/prop-types
-function DisplayData({id,username,email,deleteFn}) {
+function DisplayData({id,username,email,deleteFn,total}) {
   const navigate = useNavigate()
   return (
-    <div key={id} style={{display:'flex',alignContent:'center',justifyContent:'center'}}>
-      <li style={{listStyle:'none'}} key={id}>{username} / {email}</li>
+    <div key={id} style={{display:'flex',alignContent:'center',justifyContent:'center',gap:'10px'}}>
+      <li style={{listStyle:'none'}} key={id}>{username} / {email} / {total === null ? 0: total}</li>
       
       <button id={`Update${id}_btn`} onClick={()=>navigate(`/update/${id}`)}>update</button>
       <button id={`Delete${id}_btn`} onClick={()=>deleteFn(id)}>delete</button>

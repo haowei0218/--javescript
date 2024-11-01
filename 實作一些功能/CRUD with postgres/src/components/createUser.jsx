@@ -3,12 +3,16 @@ import React from 'react'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { CREATE_USER } from '../api/Graphql'
+import RandomData from '../Random_data/random_data'
+let Wellet_Total = new RandomData();
+
 function UserForm() {
 const [createUser] = useMutation(CREATE_USER)
 
 const [username,setUserName] = useState('')
 const [id,setId] = useState('')
 const [email,setEmail] = useState('')
+const [total,setTotal] = useState(0)
 
 function handleUserName(event){
          setUserName(event.target.value)
@@ -19,13 +23,20 @@ function handleUserId(event){
 function handleEmail(event){
          setEmail(event.target.value)
 }
+function UserWallet(){
+          let number = Wellet_Total.Wallet()
+          setTotal(number)
+}
+
 
 async function RequestCreateUserApi(){
-         try{
+         try{     
+                  UserWallet()
                   const { data } = await createUser({variables:{
                            id:id,
                            username:username,
-                           email:email}})
+                           email:email,
+                           wallet:total}})
                   console.log('data',data)
          }catch(error){
                   console.log(error)
