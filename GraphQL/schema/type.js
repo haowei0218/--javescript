@@ -6,6 +6,7 @@ const user = gql`
                   id:ID!
                   username:String
                   email:String!
+                  wallet:Int
          }
 `
 
