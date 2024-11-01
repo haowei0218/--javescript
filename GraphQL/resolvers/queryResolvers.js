@@ -35,7 +35,7 @@ const resolvers = {
                   //更新功能不能動到userid , 這邊的id要輸入舊資料的id , username and email 才是要放入新值
                   updateUser: async (parent, { id, username, email, wallet }, { db }) => {
                            try {
-                                    const result = await db.query('UPDATE users SET username = $1, email = $2 wallet = $4 WHERE id = $3 RETURNING *',
+                                    const result = await db.query('UPDATE users SET username = $1, email = $2, wallet = $4 WHERE id = $3 RETURNING *',
                                              [username, email, id, wallet])
                                     return result.rows[0]
                            } catch (error) {
