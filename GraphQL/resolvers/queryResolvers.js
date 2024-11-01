@@ -22,6 +22,7 @@ const resolvers = {
                   }
          },
          Mutation: {
+                  //新增錢包
                   createUser: async (parent, { id, username, email, wallet }, { db }) => {
                            try {
                                     const result = await db.query('INSERT INTO users (id,username,email) VALUES ($1,$2,$3) RETURNING *', [id, username, email, wallet])
