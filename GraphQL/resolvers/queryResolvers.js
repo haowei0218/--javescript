@@ -25,7 +25,7 @@ const resolvers = {
                   //新增錢包
                   createUser: async (parent, { id, username, email, wallet }, { db }) => {
                            try {
-                                    const result = await db.query('INSERT INTO users (id,username,email) VALUES ($1,$2,$3,$4) RETURNING *', [id, username, email, wallet])
+                                    const result = await db.query('INSERT INTO users (id,username,email,wallet) VALUES ($1,$2,$3,$4) RETURNING *', [id, username, email, wallet])
                                     return result.rows[0] //返回新創建的用戶
                            } catch (error) {
                                     console.error('Database query error:', error)
