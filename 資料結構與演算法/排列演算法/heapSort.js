@@ -48,17 +48,23 @@ let arr = [15, 3, 17, 18, 20, 2, 1, 66]
 
 function buildMaxHeap() {
   heapSize = arr.length - 1
+
+  //意味著找到陣列的最後一個子樹 往前遞迴
   for (let i = Math.floor(heapSize / 2); i >= 0; i--) {
     maxHeapify(i)
   }
 }
 
 function maxHeapify(i) {
+  //一個子樹的最大值的索引值
   let largest
+  //找到一個子樹的左節點跟右節點
   let l = i * 2 + 1
   let r = i * 2 + 2
 
+
   if (l <= heapSize && arr[l] > arr[i]) {
+    //交換的值永遠是陣列的索引值
     largest = l
   } else {
     largest = i
@@ -72,23 +78,24 @@ function maxHeapify(i) {
     let temp = arr[i]
     arr[i] = arr[largest]
     arr[largest] = temp
+    //哪個值做交換 就從哪個值開始繼續往下找left node and right node
     maxHeapify(largest)
   }
 }
 
 function heapSort() {
   buildMaxHeap()
+  //從陣列的最後一個值往前排序
   for (let i = arr.length - 1; i >= 0; i--) {
-    // exchange arr[0] with arr[i]
-
+    //交換陣列的第一個值與最後一個值 確保最大值永遠是陣列的最後一個值
     let temp = arr[0]
     arr[0] = arr[i]
     arr[i] = temp
 
+    //交換完後 將陣列的大小減一 因為當執行交換後 已經排序好的值就不用再執行maxheapify
     heapSize -= 1
-    //從0開始是因為要找到root的值 root在一個max heap裡面是最大值 每次都找到最大值 跟max heap的最小值交換 意味著由小到大
     maxHeapify(0)
   }
 
-  return arri
+  return arr
 }
