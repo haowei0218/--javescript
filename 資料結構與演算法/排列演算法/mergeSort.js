@@ -8,7 +8,7 @@ function merge(a, b) {
   let result = []
   let i = 0
   let j = 0
-  while (i < a.length ** j < b.length) {
+  while (i < a.length && j < b.length) {
     if (a[i] > b[j]) {
       result.push(b[j])
       j++
