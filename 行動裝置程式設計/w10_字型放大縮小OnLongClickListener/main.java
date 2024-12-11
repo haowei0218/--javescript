@@ -18,7 +18,7 @@ public MainActivity extends AppCompatActivity implements View.OnclickLisener,Vie
                   if(b1 == view)if(s<50){s++;rr.setTextSize(s);rr.setText("字型大小："+s);};
                   if(b2 == view)if(s>20){s--;rr.setTextSize(s);rr.setText("字型大小："+s);};
          };
-         public void boolean onLongClick(View view){
+         public boolean onLongClick(View view){
                   s=20;
                   rr.setTextSize(s);
                   rr.setText("字型大小"+s);
