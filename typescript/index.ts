@@ -183,14 +183,14 @@ type Business = Customer1 | supplier;
 function signContract(partner: Business): string {
   let message: string;
   if (partner instanceof Customer1) {
-    message = partner.isCreditAllowed()
+    return (message = partner.isCreditAllowed()
       ? "Sign a new contract with the customer"
-      : "Credit issue";
+      : "Credit issue");
   }
   if (partner instanceof supplier) {
-    message = partner.isInShortList()
+    return (message = partner.isInShortList()
       ? "Sign a new contract the supplier"
-      : "need to evaluate further";
+      : "need to evaluate further");
   }
   return message;
 }
