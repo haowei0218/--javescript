@@ -31,7 +31,7 @@
  */
 
 /**
- * 鏈結串列是一種常見的資料節夠 與陣列具體的區別為連結串列不需使用連續的記憶體空間
+ * 鏈結串列是一種常見的資料結構 與陣列具體的區別為連結串列不需使用連續的記憶體空間
  * 也不須事先指定串列大小 且在新增或移除節點時 其他節點的索引並不會因此改變
  */
 
@@ -45,7 +45,7 @@ class Node {
   }
 }
 
-class LinkedList {
+class SingleLinkedList {
   constructor() {
     this.head = null
     this.length = 0
@@ -196,7 +196,7 @@ class LinkedList {
     return currentNode.value
   }
 }
-let myLinkedList = new LinkedList()
+let myLinkedList = new SingleLinkedList()
 myLinkedList.push('mike')
 myLinkedList.push('harry')
 myLinkedList.push('kevin')
@@ -212,7 +212,7 @@ class DoublyNode {
     this.prev = null
   }
 }
-class DoublyLinkedList extends SinglyLinkedList {
+class DoublyLinkedList extends SingleLinkedList {
   append(data) {
     const newNode = new DoublyNode(data)
     if (this.isEmpty()) {
