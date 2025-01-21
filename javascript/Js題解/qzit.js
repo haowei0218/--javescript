@@ -5149,3 +5149,17 @@ function deepCount(a) {
   return count + 1;
 }
 
+function sortArr(arr) {
+  let count = 0
+  let maxLength = 0
+  while (count < arr.length) {
+    if (arr[count + 1] > arr[count]) {
+      maxLength++
+      count++
+    } else {
+      break
+    }
+  }
+  return maxLength
+}
+console.log(sortArr([1, 2, 3, 2, 5]))
